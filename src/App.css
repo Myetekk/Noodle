@@ -3,9 +3,10 @@
 }
 
 .App-logo {
-  height: 40vmin;
+  height: 20vmin;
   pointer-events: none;
   border-radius: 50%;
+  padding: 5vh
 }
 
 @media (prefers-reduced-motion: no-preference) {
@@ -13,6 +14,17 @@
     animation: App-logo-spin infinite 20s linear;
   }
 }
+
+@keyframes App-logo-spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+
 
 .App-header {
   background-color: #282c34;
@@ -25,15 +37,28 @@
   color: white;
 }
 
-.App-link {
-  color: #61dafb;
+.Logging-element {
+  padding: 2vh;
+  font-size: 4vh;
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+.Logging-input {
+  height: 5vh;
+  width: 20vw
+}
+
+.Logging-button {
+  background-color: aqua;
+  height: 7vh;
+  width: 12vw;
+  font-size: 3vh;
+  padding-right: 1vh;
+  padding-bottom: 0.5svh;
+  border-radius: 5vw;
+}
+
+
+
+.data-temp {
+  visibility: hidden;
 }
