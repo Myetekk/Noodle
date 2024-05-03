@@ -53,12 +53,30 @@ sql.connect(config).then(() => {
 
 app.get('/api/users', (req, res) => {
   const request = new sql.Request();
-  request.query('SELECT email, password FROM users', (err, result) => {
+  request.query('SELECT email, password FROM Users', (err, result) => {
     if (err) {
-    console.error('Error querying database:', err);
-    res.status(500).send('Error querying database');
+      console.error('Error querying database:', err);
+      res.status(500).send('Error querying database');
     } else {
-    res.json(result.recordset);
+      res.json(result.recordset);
+    }
+  });
+});
+
+
+
+
+
+app.post('/api/user/info', (req, res) => {
+  const request = new sql.Request();
+  const email = req.body.email_;
+
+  request.query(`SELECT user_id, first_name, last_name, email, password, type FROM users where email='${email}'`, (err, result) => {
+    if (err) {
+      console.error('Error querying database:', err);
+      res.status(500).send('Error querying database');
+    } else {
+      res.json(result.recordset);
     }
   });
 });
@@ -69,9 +87,9 @@ app.get('/api/users', (req, res) => {
 
 app.post('/api/newUser', async (req, res) => {
   try {  
-    const { first_name, last_name, email, password, admin } = req.body;
+    const { first_name, last_name, email, password, type } = req.body;
     
-    const result = await sql.query`INSERT INTO users (first_name, last_name, email, password, admin) VALUES (${first_name}, ${last_name}, ${email}, ${password}, ${admin})`;
+    const result = await sql.query`INSERT INTO Users (first_name, last_name, email, password, type) VALUES (${first_name}, ${last_name}, ${email}, ${password}, ${type})`;
       res.json({ message: 'Row added successfully!' });
   } catch (error) {
     console.error('Error inserting data:', error.message);

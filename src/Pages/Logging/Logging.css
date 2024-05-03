@@ -2,7 +2,7 @@
   text-align: center;
 }
   
-.App-logo {
+.Logging-app-logo {
   height: 20vmin;
   pointer-events: none;
   border-radius: 50%;
@@ -10,7 +10,7 @@
 }
   
 @media (prefers-reduced-motion: no-preference) {
-  .App-logo {
+  .Logging-app-logo {
     animation: App-logo-spin infinite 20s linear;
   }
 }

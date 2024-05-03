@@ -4,39 +4,45 @@ import { Link } from 'react-router-dom';
 
 import './MainPage.css';
 import logo from '../../logo.svg';
+import { userInfo } from '../Logging/LogIn';
 
 
 
 
 
 function MainPage() {
+    
+    
+
+    return (
+        <div className='Top-bar-app'>
+            <div className='Top-bar'>
+                <img src={logo} className="Top-bar-app-logo" alt="logo" />
+                <text className='Top-bar-text'>Hello, {userInfo.first_name}</text>
+            </div>
 
 
-
-  return (
-    <div>
-
-        <div>
             <header className="App-header">
 
-            <img src={logo} className="App-logo" alt="logo" />
 
-            <div className="Logging-element" >
-                <text>Główna strona</text>
-            </div>
+                
 
-            <div className="Logging-element" >
-                <Link to="/login">
-                    <button className='Logging-button'>Sign in</button>
-                </Link>
-            </div>
+
+
+
+                <div className="Logging-element" >
+                    <text>Główna strona</text>
+                </div>
+
+                <div className="Logging-element" >
+                    
+                </div>
 
             </header>
+        
         </div>
-    
-    </div>
 
-  );
+    );
 }
 
 

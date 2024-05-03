@@ -108,7 +108,7 @@ function Register() {
     <div>
         <header className="App-header">
 
-            <img src={logo} className="App-logo" alt="logo" />
+            <img src={logo} className="Logging-app-logo" alt="logo" />
 
             <form onSubmit={handleSubmit}>
 

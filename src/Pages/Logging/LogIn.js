@@ -4,7 +4,12 @@ import { Link, Navigate, useNavigate } from 'react-router-dom';
 
 import './Logging.css';
 import logo from '../../logo.svg';
-// import ConditionalLink from '../../conditionalLink'
+
+
+
+
+
+export let userInfo = {user_id: 0, first_name: "", last_name: "", email: "", password: "", admin: 0} 
 
 
 
@@ -37,18 +42,17 @@ function LogIn() {
 
 
 
-    function checkCredentials()  {
-        
-        axios.get('http://localhost:3001/api/users')
+    async function checkCredentials()  {
+        await axios.get('http://localhost:3001/api/users')
         .then( response => {
             const credentials = response.data;
             
             // sprawdzanie czy email i hasło zgadzają się z którymś z bay danych
-            credentials.forEach(item => {
+            credentials.forEach( async item => {
                 if (item.email === email){
                     if (item.password === password){
-                        console.log("Logged in ")
-                        navigate("/")
+                        await getUsersInfo()
+                        navigate("/home")
                     }
                 }
             });
@@ -61,6 +65,24 @@ function LogIn() {
 
 
 
+    async function getUsersInfo() {
+        const userEmail = {
+            email_: email
+        };
+        
+        await axios.post('http://localhost:3001/api/user/info', userEmail)
+        .then( response => {
+            userInfo = response.data[0];
+
+        })
+        .catch(error => {
+            console.error('Error fetching data:', error);
+        });
+
+    }
+
+
+
 
 
 
@@ -68,7 +90,7 @@ function LogIn() {
         <div>
             <header className="App-header">
 
-                <img src={logo} className="App-logo" alt="logo" />
+                <img src={logo} className="Logging-app-logo" alt="logo" />
 
                 <form onSubmit={handleSubmit}>
 

@@ -1,0 +1,52 @@
+.Top-bar-app {
+    text-align: center;
+    height: 150vh;
+}
+
+
+
+.Top-bar {
+    height: 5vmin;
+    width: 100vw;
+    padding: 1vh;
+    background-color: aqua;
+    text-align: center;
+    position: fixed;
+    flex-direction: row;
+}
+
+
+
+.Top-bar-text {
+    color: black;
+    font-size: 4vh;
+    float: right;
+    margin-right: 3vw;
+}
+
+
+
+.Top-bar-app-logo {
+    width: 5vmin;
+    pointer-events: none;
+    border-radius: 50%;
+    float: left;
+}
+@media (prefers-reduced-motion: no-preference) {
+    .Top-bar-app-logo {
+        animation: App-logo-spin infinite 20s linear;
+    }
+}
+@keyframes App-logo-spin {
+    from {
+        transform: rotate(0deg);
+    }
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+
+
+
+
