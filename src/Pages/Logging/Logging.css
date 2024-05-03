@@ -1,0 +1,81 @@
+.App {
+  text-align: center;
+}
+  
+.App-logo {
+  height: 20vmin;
+  pointer-events: none;
+  border-radius: 50%;
+  padding: 5vh;
+}
+  
+@media (prefers-reduced-motion: no-preference) {
+  .App-logo {
+    animation: App-logo-spin infinite 20s linear;
+  }
+}
+
+@keyframes App-logo-spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+
+
+.App-header {
+  background-color: #282c34;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-size: calc(10px + 2vmin);
+  color: white;
+}
+
+.Logging-element {
+  padding: 1vh;
+  margin: 1vh;
+  font-size: 4vh;
+  text-align: center;
+}
+
+.Logging-label {
+  font-size: 3vh;
+}
+
+.Logging-input {
+  height: 5vh;
+  width: 20vw;
+  font-size: 2vh;
+  border-color: aqua;
+  border-width: 0.2vw;
+}
+
+.Logging-input-alert {
+  color: red;
+  font-size: 2vh;
+}
+
+.Logging-button {
+  background-color: transparent;
+  height: 7vh;
+  width: 12vw;
+  font-size: 3vh;
+  color: white;
+  padding-right: 1vh;
+  padding-bottom: 0.5vh;
+  margin-left: 1vw;
+  margin-right: 1vw;
+  border-radius: 5vw;
+  border-color: aqua;
+  border-width: 0.4vw;
+}
+
+
+
+
