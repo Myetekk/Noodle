@@ -53,7 +53,7 @@ sql.connect(config).then(() => {
 
 app.get('/api/users', (req, res) => {
   const request = new sql.Request();
-  request.query('SELECT email, password FROM Users', (err, result) => {
+  request.query('SELECT email, password FROM users', (err, result) => {
     if (err) {
       console.error('Error querying database:', err);
       res.status(500).send('Error querying database');
@@ -70,8 +70,9 @@ app.get('/api/users', (req, res) => {
 app.post('/api/user/info', (req, res) => {
   const request = new sql.Request();
   const email = req.body.email_;
+  console.log("backend: " + email)
 
-  request.query(`SELECT user_id, first_name, last_name, email, password, type FROM users where email='${email}'`, (err, result) => {
+  request.query(`SELECT user_id, first_name, last_name, email, password, type, courses FROM users where email='${email}'`, (err, result) => {
     if (err) {
       console.error('Error querying database:', err);
       res.status(500).send('Error querying database');
@@ -89,7 +90,7 @@ app.post('/api/newUser', async (req, res) => {
   try {  
     const { first_name, last_name, email, password, type } = req.body;
     
-    const result = await sql.query`INSERT INTO Users (first_name, last_name, email, password, type) VALUES (${first_name}, ${last_name}, ${email}, ${password}, ${type})`;
+    const result = await sql.query`INSERT INTO users (first_name, last_name, email, password, type) VALUES (${first_name}, ${last_name}, ${email}, ${password}, ${type})`;
       res.json({ message: 'Row added successfully!' });
   } catch (error) {
     console.error('Error inserting data:', error.message);
@@ -101,3 +102,23 @@ app.post('/api/newUser', async (req, res) => {
 
 
 
+
+
+
+
+
+app.post('/api/userscourses', (req, res) => {
+  const request = new sql.Request();
+  const course_id = req.body.course_id_;
+  // console.log("backend: " + course_id)
+
+  // request.query(`SELECT course_id, course_name, course_owner, course_users, course_elements FROM courses WHERE course_id='${course_id}'`, (err, result) => {
+  request.query(`SELECT course_id, course_name, course_owner, course_users, course_elements FROM courses`, (err, result) => {
+    if (err) {
+      console.error('Error querying database:', err);
+      res.status(500).send('Error querying database');
+    } else {
+      res.json(result.recordset);
+    }
+  });
+});

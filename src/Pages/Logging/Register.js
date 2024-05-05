@@ -53,13 +53,7 @@ function Register() {
 
 
     const handleSubmit = (event) => {
-        event.preventDefault();
-        console.log("firstName: ", firstName)
-        console.log("lastName: ", lastName)
-        console.log("email: ", email)
-        console.log("Password: ", password)
-        console.log("repeatPassword: ", repeatPassword)
-        
+        event.preventDefault();        
         validateData()
     }
 
@@ -77,17 +71,15 @@ function Register() {
             addNewUser()
             navigate("/")
         }
-
     }
 
     function addNewUser() {
-
         const userData = {
             first_name: firstName,
             last_name: lastName,
             email: email,
             password: password,
-            admin: 0
+            type: 0
         };
         
         axios.post( 'http://localhost:3001/api/newUser', userData )
@@ -97,7 +89,6 @@ function Register() {
             .catch(error => {
                 console.error(error);
             });
-            
     }
 
 

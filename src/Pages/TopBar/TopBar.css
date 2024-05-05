@@ -1,0 +1,48 @@
+.Top-bar {
+    height: 5vmin;
+    width: 100vw;
+    padding: 1vh;
+    background-color: #4f5564;
+    text-align: center;
+    position: fixed;
+    top: 0vh;
+    border-bottom: 0.3vh solid #00ffff;
+    border-left: 0.3vh solid #00ffff;
+    border-top: 0.1vh solid #009999;
+    border-right: 0.1vh solid #009999;
+}
+
+
+
+.Top-bar-text {
+    color: white;
+    font-size: 4vmin;
+    float: right;
+    margin-right: 3vw;
+}
+
+
+
+.Top-bar-app-logo {
+    width: 5vmin;
+    border-radius: 50%;
+    float: left;
+}
+@media (prefers-reduced-motion: no-preference) {
+    .Top-bar-app-logo {
+        animation: App-logo-spin infinite 50s linear;
+    }
+}
+@keyframes App-logo-spin {
+    from {
+        transform: rotate(0deg);
+    }
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+
+
+
+

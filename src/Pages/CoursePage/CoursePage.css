@@ -1,4 +1,4 @@
-.Main-page-app {
+.Course-page-app {
     background-color: #282c34;
     min-height: 100vh;
     display: flex;
@@ -8,17 +8,13 @@
     color: white;
 }
 
-
-
-.Courses-container {
+.Course-container {
     max-width: 80vw;
     background-color:#383c47;
-    margin-top: 10vmin;
+    margin-top: 10vh;
 }
 
-
-
-.Course {
+.Course-segment {
     min-width: 40vw;
     padding: 1vh;
     margin: 5vh;
@@ -29,17 +25,4 @@
     border-right: 0.1vh solid #009999;
     display: flex;
     flex-direction: column;
-}
-
-
-
-.Course-title {
-    font-size: 4vmin;
-}
-
-
-
-.Course-description {
-    font-size: 2vmin;
-    color: #cccccc
 }

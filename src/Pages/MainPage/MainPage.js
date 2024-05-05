@@ -1,10 +1,17 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import { Link } from 'react-router-dom';
+import { Link, Navigate, useNavigate } from 'react-router-dom';
 
+import '../TopBar/TopBar';
 import './MainPage.css';
-import logo from '../../logo.svg';
-import { userInfo } from '../Logging/LogIn';
+import TopBar from '../TopBar/TopBar';
+import { userCourses } from '../Logging/LogIn';
+
+
+
+
+
+export let courseInfo = {course_id: 0, course_name: "", course_owner: "", course_users: "", course_elements: ""} 
 
 
 
@@ -12,34 +19,38 @@ import { userInfo } from '../Logging/LogIn';
 
 function MainPage() {
     
+    const navigate = useNavigate()
     
 
+
+
+    
+
+
+
+
+
     return (
-        <div className='Top-bar-app'>
-            <div className='Top-bar'>
-                <img src={logo} className="Top-bar-app-logo" alt="logo" />
-                <text className='Top-bar-text'>Hello, {userInfo.first_name}</text>
-            </div>
+        <div>
+            
 
 
-            <header className="App-header">
-
-
-                
+            <TopBar/>
 
 
 
+            <header className="Main-page-app">
 
-                <div className="Logging-element" >
-                    <text>Główna strona</text>
-                </div>
-
-                <div className="Logging-element" >
+                <div className='Courses-container'>
                     
+                    {userCourses}
+
                 </div>
 
             </header>
-        
+
+
+
         </div>
 
     );
