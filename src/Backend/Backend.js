@@ -70,7 +70,6 @@ app.get('/api/users', (req, res) => {
 app.post('/api/user/info', (req, res) => {
   const request = new sql.Request();
   const email = req.body.email_;
-  console.log("backend: " + email)
 
   request.query(`SELECT user_id, first_name, last_name, email, password, type, courses FROM users where email='${email}'`, (err, result) => {
     if (err) {
@@ -109,11 +108,17 @@ app.post('/api/newUser', async (req, res) => {
 
 app.post('/api/userscourses', (req, res) => {
   const request = new sql.Request();
-  const course_id = req.body.course_id_;
-  // console.log("backend: " + course_id)
+  let course_id = req.body.course_id_.split(",")
+  // console.log(course_id)
 
-  // request.query(`SELECT course_id, course_name, course_owner, course_users, course_elements FROM courses WHERE course_id='${course_id}'`, (err, result) => {
-  request.query(`SELECT course_id, course_name, course_owner, course_users, course_elements FROM courses`, (err, result) => {
+  let query = `SELECT course_id, course_name, course_owner, course_users, course_elements FROM courses WHERE course_id='${course_id[0]}'`
+  if (course_id.length > 1){
+    course_id.forEach( element => {
+      query += ` OR course_id='${element}'`
+    });
+  }
+
+  request.query(query, (err, result) => {
     if (err) {
       console.error('Error querying database:', err);
       res.status(500).send('Error querying database');

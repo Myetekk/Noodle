@@ -21,7 +21,7 @@ function TopBar() {
     <div>
       <div className='Top-bar'>
           <img src={logo} className="Top-bar-app-logo" alt="logo" onClick={() => navigateToHome()}/>
-          <text className='Top-bar-text'>{userInfo.user_first_name} {userInfo.user_last_name}</text>
+          <text className='Top-bar-text'>{userInfo.first_name} {userInfo.last_name}</text>
       </div>
     </div>
   )

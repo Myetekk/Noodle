@@ -10,7 +10,7 @@ import { courseInfo } from '../MainPage/MainPage';
 
 
 
-export let userInfo = {user_id: 0, user_first_name: "", user_last_name: "", user_email: "", user_password: "", user_courses: "", user_type: 0} 
+export let userInfo = {user_id: 0, first_name: "", last_name: "", email: "", password: "", courses: "", type: 0} 
 export let userCourses = []
 
 
@@ -59,8 +59,26 @@ function LogIn() {
 
 
 
-    // sprawdza czy email i hasło zgadzają się z którymś z bay danych
+    // zeruje informacje aby uniknąć wyświetlania kilka razy to samo po przejściu 'poprzednia strona' 'następna strona'
+    function clearInformation() {
+        userInfo = {user_id: 0, first_name: "", last_name: "", email: "", password: "", courses: "", type: 0}
+        userCourses = []
+    }
+
+
+
+
+
+
+
+
+
+
+    // sprawdza czy email i hasło zgadzają się z którymś z bazy danych
     async function checkCredentials()  {
+
+        clearInformation()
+
         await axios.get('http://localhost:3001/api/users')
         .then( response => {
             const credentials = response.data;
@@ -88,13 +106,10 @@ function LogIn() {
     // pobiera informacje o użytkowniku z bazy danych
     async function getUsersInfo() {
         const userEmail = { email_: email };
-        // console.log("email: " + email)
-        // console.log("userEmail: " + userEmail.email_)
         
         await axios.post('http://localhost:3001/api/user/info', userEmail)
         .then( response => {
             userInfo = response.data[0];
-            // console.log("response.data[0]: " + response)
         })
         .catch(error => {
             console.error('Error fetching data:', error);
@@ -108,10 +123,9 @@ function LogIn() {
 
     // pobiera informacje o kursach użytkownika
     async function getUsersCoursesFromDatabase()  {
-        const course_id = { course_id_: userInfo.user_courses };
-        // console.log("login 1: " + userInfo.user_courses)
+        const userCourseId = { course_id_: userInfo.courses };
 
-        await axios.post('http://localhost:3001/api/userscourses', course_id)
+        await axios.post('http://localhost:3001/api/userscourses', userCourseId)
         .then( response => {
             const userCoursesTemp = response.data;
             
