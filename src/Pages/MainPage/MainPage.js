@@ -2,10 +2,10 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { Link, Navigate, useNavigate } from 'react-router-dom';
 
-import '../TopBar/TopBar';
 import './MainPage.css';
+import '../../App.css';
 import TopBar from '../TopBar/TopBar';
-import { userCourses } from '../Logging/LogIn';
+import { userInfo, userCourses } from '../Logging/LogIn';
 
 
 
@@ -39,7 +39,7 @@ function MainPage() {
 
 
 
-            <header className="Main-page-app">
+            <header className="App">
 
                 <div className='Courses-container'>
                     
@@ -52,9 +52,46 @@ function MainPage() {
 
 
         </div>
-
     );
 }
-
-
 export default MainPage;
+
+
+
+
+
+
+
+
+
+
+// pobiera informacje o kursach użytkownika
+export async function getUsersCoursesFromDatabase(navigate)  {
+    const userCourseId = { course_id_: userInfo.courses };
+
+    await axios.post('http://localhost:3001/api/userscourses', userCourseId)
+    .then( response => {
+        const userCoursesTemp = response.data;
+        
+        userCoursesTemp.forEach( (element) => {
+            userCourses.push(
+                <div className="Course" onClick={() => navigateToCourse(navigate, element.course_id, element.course_name, element.course_owner)}>
+                    <text className='Course-title'>{element.course_name}</text>
+                    <text className='Course-description'>prowadzący kursu: {element.course_owner}</text>
+                </div>
+            )
+        })
+
+    })
+    .catch(error => {
+        console.error('Error fetching data:', error);
+    });
+}
+
+// przekazuje informacje o wybranym (klikniętym) kursie i przekierowywuje do niego
+function navigateToCourse(navigate, current_course_id, current_course_name, current_course_owner) {
+    courseInfo.course_id = current_course_id
+    courseInfo.course_name = current_course_name
+    courseInfo.course_owner = current_course_owner
+    navigate("/course")
+}

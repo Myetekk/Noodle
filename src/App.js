@@ -4,6 +4,7 @@ import LogIn from './Pages/Logging/LogIn'
 import Register from './Pages/Logging/Register'
 import MainPage from './Pages/MainPage/MainPage'
 import CoursePage from './Pages/CoursePage/CoursePage'
+import UserSettings from './Pages/UserSettings/UserSettings'
 
 
 
@@ -22,6 +23,7 @@ function App() {
           <Route path="/register" element={<Register />} />
           <Route path="/home" element={<MainPage />} />
           <Route path="/course" element={<CoursePage />} />
+          <Route path="/settings" element={<UserSettings />} />
         </Routes>
       </Router>
     

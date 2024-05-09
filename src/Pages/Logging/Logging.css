@@ -6,12 +6,12 @@
   height: 20vmin;
   pointer-events: none;
   border-radius: 50%;
-  padding: 5vh;
+  padding: 5vmin;
 }
   
 @media (prefers-reduced-motion: no-preference) {
   .Logging-app-logo {
-    animation: App-logo-spin infinite 50s linear;
+    animation: App-logo-spin infinite 20s linear;
   }
 }
 
@@ -50,7 +50,7 @@
 
 .Logging-input {
   height: 5vh;
-  width: 20vw;
+  width: 40vmin;
   font-size: 2vh;
   border-color: aqua;
   border-width: 0.2vw;
@@ -63,16 +63,16 @@
 
 .Logging-button {
   background-color: transparent;
-  height: 7vh;
-  width: 12vw;
-  font-size: 3vh;
+  height: 7vmin;
+  width: auto;
+  font-size: 3vmin;
   color: white;
   padding-right: 1vh;
   padding-bottom: 0.5vh;
   margin-left: 1vw;
   margin-right: 1vw;
   border-radius: 5vw;
-  border-color: aqua;
+  border-color: #00ffff;
   border-width: 0.4vw;
 }
 

@@ -104,7 +104,7 @@ function Register() {
             <form onSubmit={handleSubmit}>
 
                 <div className="Logging-element" >
-                    <label className="Logging-label">First name: </label>
+                    <label className="Logging-label">imię: </label>
                     <input
                         className="Logging-input"
                         type='text'
@@ -113,7 +113,7 @@ function Register() {
                 </div>
 
                 <div className="Logging-element" >
-                    <label className="Logging-label">Last Name: </label>
+                    <label className="Logging-label">nazwisko: </label>
                     <input
                         className="Logging-input"
                         type='text'
@@ -122,7 +122,7 @@ function Register() {
                 </div>
 
                 <div className="Logging-element" >
-                    <label className="Logging-label">E mail: </label>
+                    <label className="Logging-label">email: </label>
                     <input
                         className="Logging-input"
                         type='email'
@@ -131,7 +131,7 @@ function Register() {
                 </div>
 
                 <div className="Logging-element" >
-                    <label className="Logging-label">Password: </label>
+                    <label className="Logging-label">hasło: </label>
                     <input
                         className="Logging-input"
                         type='password'
@@ -140,7 +140,7 @@ function Register() {
                 </div>
 
                 <div className="Logging-element" >
-                    <label className="Logging-label">Repeat password: </label>
+                    <label className="Logging-label">powtórz hasło: </label>
                     <input
                         className="Logging-input"
                         type='password'
@@ -157,7 +157,7 @@ function Register() {
                     <button 
                         className='Logging-button' 
                         type='submit'>
-                            Sign up
+                            Zarejestruj
                     </button>
                 </div>
                 

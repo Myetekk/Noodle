@@ -1,7 +1,8 @@
 import React from 'react'
 
-import TopBar from '../TopBar/TopBar';
 import './CoursePage.css';
+import '../../App.css';
+import TopBar from '../TopBar/TopBar';
 import { courseInfo } from '../MainPage/MainPage';
 
 
@@ -29,7 +30,7 @@ function CoursePage() {
 
 
 
-      <header className="Course-page-app">
+      <header className="App">
 
 
         <div className='Courses-container'>

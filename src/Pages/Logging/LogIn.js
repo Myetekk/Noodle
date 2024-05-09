@@ -4,13 +4,13 @@ import { Link, Navigate, useNavigate } from 'react-router-dom';
 
 import './Logging.css';
 import logo from '../../logo.svg';
-import { courseInfo } from '../MainPage/MainPage';
+import { getUsersCoursesFromDatabase } from '../MainPage/MainPage';
 
 
 
 
 
-export let userInfo = {user_id: 0, first_name: "", last_name: "", email: "", password: "", courses: "", type: 0} 
+export let userInfo = {user_id: 0, first_name: "", last_name: "", email: "", password: "", courses: "", type: 0, new_mark_notify: 1, solution_sent_notify: 1, date_incoming_notify: 1} 
 export let userCourses = []
 
 
@@ -61,7 +61,7 @@ function LogIn() {
 
     // zeruje informacje aby uniknąć wyświetlania kilka razy to samo po przejściu 'poprzednia strona' 'następna strona'
     function clearInformation() {
-        userInfo = {user_id: 0, first_name: "", last_name: "", email: "", password: "", courses: "", type: 0}
+        userInfo = {user_id: 0, first_name: "", last_name: "", email: "", password: "", courses: "", type: 0, new_mark_notify: true, solution_sent_notify: true, date_incoming_notify: true}
         userCourses = []
     }
 
@@ -87,7 +87,7 @@ function LogIn() {
                 if (item.email === email){
                     if (item.password === password){
                         await getUsersInfo()
-                        await getUsersCoursesFromDatabase()
+                        await getUsersCoursesFromDatabase(navigate)
                         navigate("/home")
                     }
                 }
@@ -121,41 +121,6 @@ function LogIn() {
 
 
 
-    // pobiera informacje o kursach użytkownika
-    async function getUsersCoursesFromDatabase()  {
-        const userCourseId = { course_id_: userInfo.courses };
-
-        await axios.post('http://localhost:3001/api/userscourses', userCourseId)
-        .then( response => {
-            const userCoursesTemp = response.data;
-            
-            userCoursesTemp.forEach( (element) => {
-                userCourses.push(
-                    <div className="Course" onClick={() => navigateToCourse(element.course_id, element.course_name, element.course_owner)}>
-                        <text className='Course-title'>{element.course_name}</text>
-                        <text className='Course-description'>prowadzący kursu: {element.course_owner}</text>
-                    </div>
-                )
-            })
-
-        })
-        .catch(error => {
-            console.error('Error fetching data:', error);
-        });
-    }
-
-    // przekazuje informacje o wybranym (klikniętym) kursie i przekierowywuje do niego
-    function navigateToCourse(current_course_id, current_course_name, current_course_owner) {
-        courseInfo.course_id = current_course_id
-        courseInfo.course_name = current_course_name
-        courseInfo.course_owner = current_course_owner
-        navigate("/course")
-    }
-
-
-
-
-
 
 
 
@@ -179,7 +144,7 @@ function LogIn() {
                     </div>
 
                     <div className="Logging-element" >
-                        <label className="Logging-label">password: </label>
+                        <label className="Logging-label">hasło: </label>
                         <input
                             className="Logging-input"
                             type='password'
@@ -194,11 +159,11 @@ function LogIn() {
                         <button 
                             className='Logging-button' 
                             type='submit'>
-                                Sign in
+                                Zaloguj
                         </button>
 
                         <Link to="/register">
-                            <button className='Logging-button'>Sign up</button>
+                            <button className='Logging-button'>Zarejestruj</button>
                         </Link>
                     </div>
 

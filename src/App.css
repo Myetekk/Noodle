@@ -1,64 +1,10 @@
-/* .App {
-  text-align: center;
-}
-
-.App-logo {
-  height: 20vmin;
-  pointer-events: none;
-  border-radius: 50%;
-  padding: 5vh
-}
-
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
-}
-
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
-}
-
-
-
-.App-header {
+.App {
   background-color: #282c34;
   min-height: 100vh;
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
   font-size: calc(10px + 2vmin);
   color: white;
+  text-align: left;
 }
-
-.Logging-element {
-  padding: 2vh;
-  font-size: 4vh;
-}
-
-.Logging-input {
-  height: 5vh;
-  width: 20vw
-}
-
-.Logging-button {
-  background-color: aqua;
-  height: 7vh;
-  width: 12vw;
-  font-size: 3vh;
-  padding-right: 1vh;
-  padding-bottom: 0.5svh;
-  border-radius: 5vw;
-}
-
-
-
-.data-temp {
-  visibility: hidden;
-} */

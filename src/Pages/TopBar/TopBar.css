@@ -1,7 +1,6 @@
 .Top-bar {
-    height: 5vmin;
+    height: 7.8vmin;
     width: 100vw;
-    padding: 1vh;
     background-color: #4f5564;
     text-align: center;
     position: fixed;
@@ -18,13 +17,25 @@
     color: white;
     font-size: 4vmin;
     float: right;
-    margin-right: 3vw;
+    padding: 1vmin;
+    margin-right: 1vmin;
+    border-bottom: 0.3vmin solid #4f5564;
+    border-left: 0.3vmin solid #4f5564;
+    border-top: 0.1vmin solid #4f5564;
+    border-right: 0.1vmin solid #4f5564;
+}
+.Top-bar-text:hover {
+    border-bottom: 0.3vmin solid #00ff80;
+    border-left: 0.3vmin solid #00ff80;
+    border-top: 0.1vmin solid #00994d;
+    border-right: 0.1vmin solid #00994d;
 }
 
 
 
 .Top-bar-app-logo {
-    width: 5vmin;
+    width: 5.8vmin;
+    margin: 1vmin;
     border-radius: 50%;
     float: left;
 }

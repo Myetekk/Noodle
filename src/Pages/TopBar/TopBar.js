@@ -13,15 +13,31 @@ function TopBar() {
 
   const navigate = useNavigate()
 
+
+
+
+  
   const navigateToHome = () => {
     navigate("/home")
   }
+
+
+
+
+
+  const navigateToSettings = () => {
+    navigate("/settings")
+  }
+
+
+
+
   
   return (
     <div>
       <div className='Top-bar'>
           <img src={logo} className="Top-bar-app-logo" alt="logo" onClick={() => navigateToHome()}/>
-          <text className='Top-bar-text'>{userInfo.first_name} {userInfo.last_name}</text>
+          <text className='Top-bar-text' onClick={() => navigateToSettings()}>{userInfo.first_name} {userInfo.last_name}</text>
       </div>
     </div>
   )

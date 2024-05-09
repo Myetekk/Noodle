@@ -1,4 +1,4 @@
-.Main-page-app {
+.Settings-page-app {
     background-color: #282c34;
     min-height: 100vh;
     display: flex;
@@ -11,7 +11,7 @@
 
 
 .Courses-container {
-    max-width: 80vw;
+    max-width: 80vmin;
     background-color:#383c47;
     margin-top: 10vmin;
 }
@@ -19,21 +19,27 @@
 
 
 .Course {
-    min-width: 40vw;
+    min-width: 40vmin;
     padding: 1vh;
-    margin: 5vh;
-    font-size: 4vh;
-    border-bottom: 0.3vh solid #00ffff;
-    border-left: 0.3vh solid #00ffff;
-    border-top: 0.1vh solid #009999;
-    border-right: 0.1vh solid #009999;
+    margin: 5vmin;
+    border-bottom: 0.3vmin solid #00ffff;
+    border-left: 0.3vmin solid #00ffff;
+    border-top: 0.1vmin solid #009999;
+    border-right: 0.1vmin solid #009999;
     display: flex;
     flex-direction: column;
+}
+.Course:hover {
+    border-bottom: 0.3vmin solid #00ff80;
+    border-left: 0.3vmin solid #00ff80;
+    border-top: 0.1vmin solid #00994d;
+    border-right: 0.1vmin solid #00994d;
 }
 
 
 
 .Course-title {
+    min-width: 70vmin;
     font-size: 4vmin;
 }
 
