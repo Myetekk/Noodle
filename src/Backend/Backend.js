@@ -71,7 +71,7 @@ app.post('/api/user/info', (req, res) => {
   const request = new sql.Request();
   const email = req.body.email_;
 
-  request.query(`SELECT user_id, first_name, last_name, email, password, type, courses, new_mark_notify, solution_sent_notify, date_incoming_notify FROM users where email='${email}'`, (err, result) => {
+  request.query(`SELECT user_id, first_name, last_name, email, password, type, new_mark_notify, solution_sent_notify, date_incoming_notify FROM users where email='${email}'`, (err, result) => {
     if (err) {
       console.error('Error querying database:', err);
       res.status(500).send('Error querying database');
@@ -90,7 +90,6 @@ app.post('/api/user/updateinfo', (req, res) => {
     const { user_id, first_name, last_name, email, password, new_mark_notify, solution_sent_notify, date_incoming_notify } = req.body;
     
     const result = sql.query`UPDATE users SET first_name=${first_name}, last_name=${last_name}, email=${email}, password=${password}, new_mark_notify=${new_mark_notify}, solution_sent_notify=${solution_sent_notify}, date_incoming_notify=${date_incoming_notify} where user_id=${user_id}`;
-    res.json({ message: 'Row added successfully!' });
   } catch (error) {
     console.error('Error inserting data:', error.message);
     res.status(500).json({ error: 'Internal Server Error' });
@@ -106,7 +105,6 @@ app.post('/api/newUser', async (req, res) => {
     const { first_name, last_name, email, password, type } = req.body;
     
     const result = await sql.query`INSERT INTO users (first_name, last_name, email, password, type) VALUES (${first_name}, ${last_name}, ${email}, ${password}, ${type})`;
-    res.json({ message: 'Row added successfully!' });
   } catch (error) {
     console.error('Error inserting data:', error.message);
     res.status(500).json({ error: 'Internal Server Error' });
@@ -122,12 +120,36 @@ app.post('/api/newUser', async (req, res) => {
 
 
 
-app.post('/api/userscourses', (req, res) => {
+app.post('/api/usercourses', (req, res) => {
   const request = new sql.Request();
-  let course_id = req.body.course_id_.split(",")
-  // console.log(course_id)
+  let user_id = req.body.user_id_
 
-  let query = `SELECT course_id, course_name, course_owner, course_users, course_elements FROM courses WHERE course_id='${course_id[0]}'`
+  let query = `SELECT course_id_connection FROM user_course_connection WHERE user_id_connection=${user_id}`
+
+  request.query(query, (err, result) => {
+    if (err) {
+      console.error('Error querying database:', err);
+      res.status(500).send('Error querying database');
+    } else {
+      res.json(result.recordset);
+    }
+  });
+});
+
+
+
+
+
+
+
+
+
+
+app.post('/api/loadcourses', (req, res) => {
+  const request = new sql.Request();
+  let course_id = req.body
+
+  let query = `SELECT course_id, course_name, course_owner, course_users, course_elements FROM courses WHERE course_id=${course_id[0]}`
   if (course_id.length > 1){
     course_id.forEach( element => {
       query += ` OR course_id='${element}'`

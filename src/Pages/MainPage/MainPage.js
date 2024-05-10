@@ -66,10 +66,32 @@ export default MainPage;
 
 
 // pobiera informacje o kursach użytkownika
-export async function getUsersCoursesFromDatabase(navigate)  {
-    const userCourseId = { course_id_: userInfo.courses };
+export async function getUsersCourses(navigate)  {
+    const user_id = { user_id_: userInfo.user_id }
+    const userCourseId = [];
+    let userCourseIdTemp;
 
-    await axios.post('http://localhost:3001/api/userscourses', userCourseId)
+    await axios.post('http://localhost:3001/api/usercourses', user_id)
+    .then( response => {
+        userCourseIdTemp = response.data;
+    })
+    .catch(error => {
+        console.error('Error fetching data:', error);
+    });
+
+    userCourseIdTemp.forEach( (element) => {
+        userCourseId.push( element.course_id_connection )
+    });
+
+    await getUsersCoursesInfo(navigate, userCourseId)
+}
+
+
+
+async function getUsersCoursesInfo(navigate, userCourseId) {
+
+    console.log(userCourseId)
+    await axios.post('http://localhost:3001/api/loadcourses', userCourseId)
     .then( response => {
         const userCoursesTemp = response.data;
         
@@ -87,6 +109,8 @@ export async function getUsersCoursesFromDatabase(navigate)  {
         console.error('Error fetching data:', error);
     });
 }
+
+
 
 // przekazuje informacje o wybranym (klikniętym) kursie i przekierowywuje do niego
 function navigateToCourse(navigate, current_course_id, current_course_name, current_course_owner) {

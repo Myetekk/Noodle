@@ -4,13 +4,13 @@ import { Link, Navigate, useNavigate } from 'react-router-dom';
 
 import './Logging.css';
 import logo from '../../logo.svg';
-import { getUsersCoursesFromDatabase } from '../MainPage/MainPage';
+import { getUsersCourses } from '../MainPage/MainPage';
 
 
 
 
 
-export let userInfo = {user_id: 0, first_name: "", last_name: "", email: "", password: "", courses: "", type: 0, new_mark_notify: 1, solution_sent_notify: 1, date_incoming_notify: 1} 
+export let userInfo = {user_id: 0, first_name: "", last_name: "", email: "", password: "", type: 0, new_mark_notify: 1, solution_sent_notify: 1, date_incoming_notify: 1} 
 export let userCourses = []
 
 
@@ -61,7 +61,7 @@ function LogIn() {
 
     // zeruje informacje aby uniknąć wyświetlania kilka razy to samo po przejściu 'poprzednia strona' 'następna strona'
     function clearInformation() {
-        userInfo = {user_id: 0, first_name: "", last_name: "", email: "", password: "", courses: "", type: 0, new_mark_notify: true, solution_sent_notify: true, date_incoming_notify: true}
+        userInfo = {user_id: 0, first_name: "", last_name: "", email: "", password: "", type: 0, new_mark_notify: true, solution_sent_notify: true, date_incoming_notify: true}
         userCourses = []
     }
 
@@ -87,7 +87,7 @@ function LogIn() {
                 if (item.email === email){
                     if (item.password === password){
                         await getUsersInfo()
-                        await getUsersCoursesFromDatabase(navigate)
+                        await getUsersCourses(navigate)
                         navigate("/home")
                     }
                 }

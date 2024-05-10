@@ -9,9 +9,9 @@
 }
 
 .Course-container {
-    max-width: 80vw;
+    max-width: 80vmin;
     background-color:#383c47;
-    margin-top: 10vh;
+    margin-top: 10vmin;
 }
 
 .Course-segment {
