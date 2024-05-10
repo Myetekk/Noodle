@@ -26,6 +26,8 @@ function UserSettings() {
     const [solutionSentNotify, setSolutionSentNotify] = useState(userInfo.solution_sent_notify)
     const [dateIncomingNotify, setDateIncomingNotify] = useState(userInfo.date_incoming_notify)
 
+    const [alerts, setAlerts] = useState("")
+
     const navigate = useNavigate()  // obiekt potrzebny do przechoodzenia do innej podstrony
 
 
@@ -63,9 +65,23 @@ function UserSettings() {
 
     const handleSubmit = (event) => {
         event.preventDefault();
+        validateData()
+    }
 
-        updateUserInfo()
-        navigate("/home")
+    function validateData() {
+        if (firstName === "") setAlerts("wprowadź imię")
+        else if (lastName === "") setAlerts("wprowadź nazwisko")
+        else if (email === "") setAlerts("wprowadź email")
+        else if (password === "") setAlerts("wprowadź hasło")
+        else if (repeatPassword === "") setAlerts("powtórz hasło")
+        else if (email.slice(email.indexOf("@")+1) !== "student.polsl.pl"  &&  email.slice(email.indexOf("@")+1) !== "polsl.pl") setAlerts("email musi być w domenie @polsl.pl lub @student.polsl.pl")
+        else if (password.length < 5) setAlerts("hasło musi być dłuższe niż 8")
+        else if (password !== repeatPassword) setAlerts("hasła się różnią")
+        else {
+            setAlerts("")
+            updateUserInfo()
+            navigate("/home")
+        }
     }
 
     function updateUserInfo() {
@@ -162,13 +178,17 @@ function UserSettings() {
                                 value={repeatPassword}
                                 onChange={handleRepeatPasswordChange}/>
                         </div>
+
+
+                        <div className="Setting-separator">
+                            <span className='Settings-input-alert' >{alerts}</span>
+                        </div>
                     
 
 
 
 
 
-                        <div className='Setting-separator'/>
                         <div className='Settings-title'>
                             <text>Powiadomienia</text>
                         </div>

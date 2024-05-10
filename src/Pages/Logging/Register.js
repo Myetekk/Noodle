@@ -58,14 +58,14 @@ function Register() {
     }
 
     function validateData() {
-        if (firstName === "") setAlerts("enter your first name")
-        else if (lastName === "") setAlerts("enter your last name")
-        else if (email === "") setAlerts("enter your email")
-        else if (password === "") setAlerts("enter your password")
-        else if (repeatPassword === "") setAlerts("repeat your password")
-        else if (email.slice(email.indexOf("@")+1) !== "student.polsl.pl"  &&  email.slice(email.indexOf("@")+1) !== "polsl.pl") setAlerts("email must be on domain @polsl.pl or @student.polsl.pl")
-        else if (password.length < 5) setAlerts("password must be longer than 5")
-        else if (password !== repeatPassword) setAlerts("passwords are different")
+        if (firstName === "") setAlerts("wprowadź imię")
+        else if (lastName === "") setAlerts("wprowadź nazwisko")
+        else if (email === "") setAlerts("wprowadź email")
+        else if (password === "") setAlerts("wprowadź hasło")
+        else if (repeatPassword === "") setAlerts("powtórz hasło")
+        else if (email.slice(email.indexOf("@")+1) !== "student.polsl.pl"  &&  email.slice(email.indexOf("@")+1) !== "polsl.pl") setAlerts("email musi być w domenie @polsl.pl lub @student.polsl.pl")
+        else if (password.length < 5) setAlerts("hasło musi być dłuższe niż 8")
+        else if (password !== repeatPassword) setAlerts("hasła się różnią")
         else {
             setAlerts("")
             addNewUser()

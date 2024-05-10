@@ -88,4 +88,12 @@
 
 .Setting-separator {
     margin-bottom: 10vh;
+    text-align: center;
+}
+
+
+
+.Settings-input-alert {
+  color: red;
+  font-size: 2vh;
 }
