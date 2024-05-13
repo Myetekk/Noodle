@@ -10,8 +10,8 @@ import { getUsersCourses } from '../MainPage/MainPage';
 
 
 
-export let userInfo = {user_id: 0, first_name: "", last_name: "", email: "", password: "", type: 0, new_mark_notify: 1, solution_sent_notify: 1, date_incoming_notify: 1} 
-export let userCourses = []
+export const userInfo = {user_id: 0, first_name: "", last_name: "", email: "", password: "", type: 0, new_mark_notify: 1, solution_sent_notify: 1, date_incoming_notify: 1} 
+export const userCourses = []
 
 
 
@@ -83,12 +83,12 @@ function LogIn() {
         .then( response => {
             const credentials = response.data;
             
-            credentials.forEach( async item => {
-                if (item.email === email){
-                    if (item.password === password){
+            credentials.forEach( async user => {
+                if (user.email === email){
+                    if (user.password === password) {
                         await getUsersInfo()
                         await getUsersCourses(navigate)
-                        navigate("/home")
+                        user.type !== 0 ? navigate("/inactive-account") : navigate("/home")
                     }
                 }
             });

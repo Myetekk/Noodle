@@ -11,7 +11,7 @@ import { userInfo, userCourses } from '../Logging/LogIn';
 
 
 
-export let courseInfo = {course_id: 0, course_name: "", course_owner: "", course_users: "", course_elements: ""} 
+export const courseInfo = {course_id: 0, course_name: "", course_owner: "", course_users: "", course_elements: ""} 
 
 
 
