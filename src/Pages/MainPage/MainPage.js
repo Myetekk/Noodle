@@ -4,7 +4,7 @@ import { Link, Navigate, useNavigate } from 'react-router-dom';
 
 import './MainPage.css';
 import '../../App.css';
-import TopBar from '../TopBar/TopBar';
+import TopBar from '../../Assets/TopBar/TopBar';
 import { userInfo, userCourses } from '../Logging/LogIn';
 
 
@@ -97,9 +97,9 @@ async function getUsersCoursesInfo(navigate, userCourseId) {
         
         userCoursesTemp.forEach( (element) => {
             userCourses.push(
-                <div className="Course" onClick={() => navigateToCourse(navigate, element.course_id, element.course_name, element.course_owner)}>
-                    <text className='Course-title'>{element.course_name}</text>
-                    <text className='Course-description'>prowadzący kursu: {element.course_owner}</text>
+                <div className="Courses" onClick={() => navigateToCourse(navigate, element.course_id, element.course_name, element.course_owner)}>
+                    <text className='Courses-title'>{element.course_name}</text>
+                    <text className='Courses-description'>prowadzący kursu: {element.course_owner}</text>
                 </div>
             )
         })

@@ -67,13 +67,15 @@
   width: auto;
   font-size: 3vmin;
   color: white;
-  padding-right: 1vh;
+  padding-right: 2vmin;
+  padding-left: 2vmin;
   padding-bottom: 0.5vh;
   margin-left: 1vw;
   margin-right: 1vw;
-  border-radius: 5vw;
+  cursor: pointer;
+  border-radius: 5vmin;
   border-color: #00ffff;
-  border-width: 0.4vw;
+  border-width: 0.4vmin;
 }
 
 

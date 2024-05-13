@@ -72,13 +72,15 @@
 .Setting-button {
     background-color: transparent;
     height: 7vmin;
-    width: 12vmin;
+    width: auto;
     font-size: 3vmin;
     color: white;
-    padding-right: 1vmin;
+    padding-right: 2vmin;
+    padding-left: 2vmin;
     padding-bottom: 0.5vmin;
     margin-left: 1vmin;
     margin-right: 1vmin;
+    cursor: pointer;
     border-radius: 5vmin;
     border-color: aqua;
     border-width: 0.4vmin;

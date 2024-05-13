@@ -7,8 +7,15 @@
     top: 0vh;
     border-bottom: 0.3vh solid #00ffff;
     border-left: 0.3vh solid #00ffff;
-    border-top: 0.1vh solid #009999;
-    border-right: 0.1vh solid #009999;
+    /* border-top: 0.1vh solid #009999;
+    border-right: 0.1vh solid #009999; */
+}
+
+
+
+.Top-bar-segment {
+    float: right; 
+    margin-top: 1vmin;
 }
 
 
@@ -16,19 +23,19 @@
 .Top-bar-text {
     color: white;
     font-size: 4vmin;
-    float: right;
     padding: 1vmin;
     margin-right: 1vmin;
+    cursor: pointer;
     border-bottom: 0.3vmin solid #4f5564;
     border-left: 0.3vmin solid #4f5564;
     border-top: 0.1vmin solid #4f5564;
     border-right: 0.1vmin solid #4f5564;
 }
-.Top-bar-text:hover {
+.Top-bar-username:hover {
     border-bottom: 0.3vmin solid #00ff80;
     border-left: 0.3vmin solid #00ff80;
-    border-top: 0.1vmin solid #00994d;
-    border-right: 0.1vmin solid #00994d;
+    /* border-top: 0.1vmin solid #00994d; */
+    /* border-right: 0.1vmin solid #00994d; */
 }
 
 
@@ -38,6 +45,7 @@
     margin: 1vmin;
     border-radius: 50%;
     float: left;
+    cursor: pointer;
 }
 @media (prefers-reduced-motion: no-preference) {
     .Top-bar-app-logo {

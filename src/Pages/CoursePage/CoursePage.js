@@ -2,7 +2,7 @@ import React from 'react'
 
 import './CoursePage.css';
 import '../../App.css';
-import TopBar from '../TopBar/TopBar';
+import TopBar from '../../Assets/TopBar/TopBar';
 import { courseInfo } from '../MainPage/MainPage';
 
 
@@ -33,12 +33,12 @@ function CoursePage() {
       <header className="App">
 
 
-        <div className='Courses-container'>
+        <div className='Course-container'>
           
           <div className='Course-segment'>
-            <text>{courseInfo.course_id}</text>
-            <text>{courseInfo.course_name}</text>
-            <text>{courseInfo.course_owner}</text>
+            <text className='Course-title'>id: {courseInfo.course_id}</text>
+            <text>name: {courseInfo.course_name}</text>
+            <text>owner: {courseInfo.course_owner}</text>
           </div>
 
         </div>

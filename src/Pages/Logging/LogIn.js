@@ -95,7 +95,7 @@ function LogIn() {
 
         })
         .catch(error => {
-            console.error('Error fetching data:', error);
+            console.error('Error fetching data during login:', error);
         });
     }
 
@@ -112,7 +112,7 @@ function LogIn() {
             userInfo = response.data[0];
         })
         .catch(error => {
-            console.error('Error fetching data:', error);
+            console.error('Error fetching data about user info:', error);
         });
 
     }

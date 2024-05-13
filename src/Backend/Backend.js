@@ -23,6 +23,12 @@ app.listen(port, () => {
 
 
 
+
+
+
+
+
+// info do zalogowania się do bazy danych
 const config = {
   user: 'NoodleAdmin', 
   password: 'Makaron#Pene', 
@@ -41,6 +47,12 @@ const config = {
 
 
 
+
+
+
+
+
+// połączenie z bazą danych
 sql.connect(config).then(() => {
   console.log('Connected to SQL Server');
 }).catch(err => {
@@ -51,6 +63,13 @@ sql.connect(config).then(() => {
 
 
 
+
+
+
+
+
+// pobranie wszystkich emaili i haseł, używane przy logowaniu
+// plik Login.js
 app.get('/api/users', (req, res) => {
   const request = new sql.Request();
   request.query('SELECT email, password FROM users', (err, result) => {
@@ -67,6 +86,13 @@ app.get('/api/users', (req, res) => {
 
 
 
+
+
+
+
+
+// pobranie informacji o użytkowniku oraz jego ustawień, używane po zalogowaniu
+// plik Login.js
 app.post('/api/user/info', (req, res) => {
   const request = new sql.Request();
   const email = req.body.email_;
@@ -85,6 +111,13 @@ app.post('/api/user/info', (req, res) => {
 
 
 
+
+
+
+
+
+// zaktualizowanie ustawień użytkownika
+// plik UserSettings.js
 app.post('/api/user/updateinfo', (req, res) => {
   try {  
     const { user_id, first_name, last_name, email, password, new_mark_notify, solution_sent_notify, date_incoming_notify } = req.body;
@@ -100,11 +133,18 @@ app.post('/api/user/updateinfo', (req, res) => {
 
 
 
+
+
+
+
+
+// dodanie nowego użytkownika po rejestracji
+// plik Register.js
 app.post('/api/newUser', async (req, res) => {
   try {  
     const { first_name, last_name, email, password, type } = req.body;
     
-    const result = await sql.query`INSERT INTO users (first_name, last_name, email, password, type) VALUES (${first_name}, ${last_name}, ${email}, ${password}, ${type})`;
+    const result = await sql.query`INSERT INTO users (first_name, last_name, email, password, type, new_mark_notify, solution_sent_notify, date_incoming_notify) VALUES (${first_name}, ${last_name}, ${email}, ${password}, ${type}, 1, 1, 1)`;
   } catch (error) {
     console.error('Error inserting data:', error.message);
     res.status(500).json({ error: 'Internal Server Error' });
@@ -120,6 +160,8 @@ app.post('/api/newUser', async (req, res) => {
 
 
 
+// pobranie infromacji o kursach do którego przynależy użytkownik
+// plik MainPage.js
 app.post('/api/usercourses', (req, res) => {
   const request = new sql.Request();
   let user_id = req.body.user_id_
@@ -145,6 +187,8 @@ app.post('/api/usercourses', (req, res) => {
 
 
 
+// pobranie informacji o danym kursie 
+// plik MainPage.js
 app.post('/api/loadcourses', (req, res) => {
   const request = new sql.Request();
   let course_id = req.body
@@ -165,3 +209,14 @@ app.post('/api/loadcourses', (req, res) => {
     }
   });
 });
+
+
+
+
+
+
+
+
+
+
+//

@@ -5,7 +5,7 @@ import Switch from "react-switch";
 
 import './UserSettings.css';
 import '../../App.css';
-import TopBar from '../TopBar/TopBar';
+import TopBar from '../../Assets/TopBar/TopBar';
 import { userInfo } from '../Logging/LogIn';
 
 
@@ -32,11 +32,12 @@ function UserSettings() {
 
 
 
+    
 
-    const handlefirstNameChange = (event) => {
+    const handleFirstNameChange = (event) => {
         setFirstName(event.target.value)
     }
-    const handlelastNameChange = (event) => {
+    const handleLastNameChange = (event) => {
         setLastName(event.target.value)
     }
     const handleEmailChange = (event) => {
@@ -60,6 +61,8 @@ function UserSettings() {
     const handleDateIncomingNotifyChange = () => {
         setDateIncomingNotify(!dateIncomingNotify)
     }
+
+
 
 
 
@@ -143,7 +146,7 @@ function UserSettings() {
                             <input className='Setting-input'
                                 type='text'
                                 value={firstName}
-                                onChange={handlefirstNameChange}/>
+                                onChange={handleFirstNameChange}/>
                         </div>
                     
 
@@ -152,7 +155,7 @@ function UserSettings() {
                             <input className='Setting-input'
                                 type='text'
                                 value={lastName}
-                                onChange={handlelastNameChange}/>
+                                onChange={handleLastNameChange}/>
                         </div>
                         
 
@@ -225,8 +228,7 @@ function UserSettings() {
 
 
                         <div className="Setting-button-container" >
-                            <button 
-                                className='Setting-button' 
+                            <button className='Setting-button' 
                                 type='submit'>
                                     Zapisz
                             </button>
