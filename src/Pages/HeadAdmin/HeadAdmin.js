@@ -19,7 +19,8 @@ function HeadAdmin() {
     const navigate = useNavigate()
     
 
-
+    let admins = []
+    let users = []
 
     
 
@@ -39,8 +40,41 @@ function HeadAdmin() {
             <div className="App">
 
                 <div className="HeadAdmin">
-                    
-                    <text > Witaj wujku! To zaszczyt znów cię widzieć. </text>
+
+                    <h2>Obecni admini</h2>
+                    <div className="Tile-container">
+                        <div className="Tile">
+                            <text className="Name">Mariusz Pudzianowski</text>
+                        </div>
+                        <div className="Tile">
+                            <text className="Name">Mariusz Pudzianowski</text>
+                        </div>
+                        <div className="Tile">
+                            <text className="Name">Mariusz Pudzianowski</text>
+                        </div>
+                        <div className="Tile">
+                            <text className="Name">Mariusz Pudzianowski</text>
+                        </div>
+                    </div>
+
+                    <h2>Wszyscy użytkownicy</h2>
+                    <div className="Tile-container">
+                        <div className="Tile">
+                            <text className="Name">Mirosław Michalik</text>
+                        </div>
+                        <div className="Tile">
+                            <text className="Name">Paweł Kasztura</text>
+                        </div>
+                        <div className="Tile">
+                            <text className="Name">Szymon Jakubiec</text>
+                        </div>
+                        <div className="Tile">
+                            <text className="Name">Michał Soboszek</text>
+                        </div>
+                        <div className="Tile">
+                            <text className="Name">Andrzej Marian</text>
+                        </div>
+                    </div>
 
                 </div>
 

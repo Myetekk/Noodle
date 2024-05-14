@@ -87,10 +87,16 @@ function LogIn() {
                 if (user.email === email){
                     if (user.password === password) {
                         await getUsersInfo()
-                        await getUsersCourses(navigate)
-                        // userInfo.type !== 0 ? navigate("/home") : navigate("/inactive-account")
-                        userInfo.type === 3 ? navigate("/headadmin") : ( userInfo.type !== 0 ? navigate("/home") : navigate("/inactive-account"))
-                        
+                        if (userInfo.type === 0){
+                            navigate("/inactive-account")
+                        }
+                        else if (userInfo.type === 1 || userInfo.type === 2){
+                            await getUsersCourses(navigate)                            
+                            navigate("/home")
+                        }
+                        else{
+                            navigate("/headadmin")
+                        }                        
                     }
                 }
             });
