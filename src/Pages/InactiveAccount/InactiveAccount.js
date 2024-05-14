@@ -40,7 +40,7 @@ function InactiveAccount() {
 
                 <div className="Inactive-account">
                     
-                    <text > Musisz aktywować konto. </text>
+                    <text > Musisz aktywować konto. Sprawdź skrzynkę mailową. </text>
 
                 </div>
 

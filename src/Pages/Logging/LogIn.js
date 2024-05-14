@@ -10,8 +10,8 @@ import { getUsersCourses } from '../MainPage/MainPage';
 
 
 
-export const userInfo = {user_id: 0, first_name: "", last_name: "", email: "", password: "", type: 0, new_mark_notify: 1, solution_sent_notify: 1, date_incoming_notify: 1} 
-export const userCourses = []
+export let userInfo = {user_id: 0, first_name: "", last_name: "", email: "", password: "", type: 0, new_mark_notify: 1, solution_sent_notify: 1, date_incoming_notify: 1} 
+export let userCourses = []
 
 
 
@@ -88,7 +88,7 @@ function LogIn() {
                     if (user.password === password) {
                         await getUsersInfo()
                         await getUsersCourses(navigate)
-                        user.type !== 0 ? navigate("/inactive-account") : navigate("/home")
+                        userInfo.type !== 0 ? navigate("/home") : navigate("/inactive-account")
                     }
                 }
             });

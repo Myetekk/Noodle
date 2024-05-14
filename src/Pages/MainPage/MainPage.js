@@ -11,7 +11,7 @@ import { userInfo, userCourses } from '../Logging/LogIn';
 
 
 
-export const courseInfo = {course_id: 0, course_name: "", course_owner: "", course_users: "", course_elements: ""} 
+export let courseInfo = {course_id: 0, course_name: "", course_owner: "", course_users: "", course_elements: ""} 
 
 
 
@@ -80,7 +80,7 @@ export async function getUsersCourses(navigate)  {
     });
 
     userCourseIdTemp.forEach( (element) => {
-        userCourseId.push( element.course_id_connection )
+        userCourseId.push( element.course_id )
     });
 
     await getUsersCoursesInfo(navigate, userCourseId)

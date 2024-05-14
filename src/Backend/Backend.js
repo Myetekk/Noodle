@@ -166,7 +166,7 @@ app.post('/api/usercourses', (req, res) => {
   const request = new sql.Request();
   let user_id = req.body.user_id_
 
-  let query = `SELECT course_id_connection FROM user_course_connection WHERE user_id_connection=${user_id}`
+  let query = `SELECT course_id FROM user_course_connection WHERE user_id=${user_id}`
 
   request.query(query, (err, result) => {
     if (err) {

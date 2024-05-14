@@ -95,77 +95,77 @@ function Register() {
 
 
 
-  return (
-    <div>
-        <header className="App-header">
+    return (
+        <div>
+            <header className="App-header">
 
-            <img src={logo} className="Logging-app-logo" alt="logo" />
+                <img src={logo} className="Logging-app-logo" alt="logo" />
 
-            <form onSubmit={handleSubmit}>
+                <form onSubmit={handleSubmit}>
 
-                <div className="Logging-element" >
-                    <label className="Logging-label">imię: </label>
-                    <input
-                        className="Logging-input"
-                        type='text'
-                        value={firstName}
-                        onChange={handleFirstNameChange}/>
-                </div>
+                    <div className="Logging-element" >
+                        <label className="Logging-label">imię: </label>
+                        <input
+                            className="Logging-input"
+                            type='text'
+                            value={firstName}
+                            onChange={handleFirstNameChange}/>
+                    </div>
 
-                <div className="Logging-element" >
-                    <label className="Logging-label">nazwisko: </label>
-                    <input
-                        className="Logging-input"
-                        type='text'
-                        value={lastName}
-                        onChange={handleLastNameChange}/>
-                </div>
+                    <div className="Logging-element" >
+                        <label className="Logging-label">nazwisko: </label>
+                        <input
+                            className="Logging-input"
+                            type='text'
+                            value={lastName}
+                            onChange={handleLastNameChange}/>
+                    </div>
 
-                <div className="Logging-element" >
-                    <label className="Logging-label">email: </label>
-                    <input
-                        className="Logging-input"
-                        type='email'
-                        value={email}
-                        onChange={handleEmailChange}/>
-                </div>
+                    <div className="Logging-element" >
+                        <label className="Logging-label">email: </label>
+                        <input
+                            className="Logging-input"
+                            type='email'
+                            value={email}
+                            onChange={handleEmailChange}/>
+                    </div>
 
-                <div className="Logging-element" >
-                    <label className="Logging-label">hasło: </label>
-                    <input
-                        className="Logging-input"
-                        type='password'
-                        value={password}
-                        onChange={handlePasswordChange}/>
-                </div>
+                    <div className="Logging-element" >
+                        <label className="Logging-label">hasło: </label>
+                        <input
+                            className="Logging-input"
+                            type='password'
+                            value={password}
+                            onChange={handlePasswordChange}/>
+                    </div>
 
-                <div className="Logging-element" >
-                    <label className="Logging-label">powtórz hasło: </label>
-                    <input
-                        className="Logging-input"
-                        type='password'
-                        value={repeatPassword}
-                        onChange={handleRepeatPasswordChange}/>
-                </div>
+                    <div className="Logging-element" >
+                        <label className="Logging-label">powtórz hasło: </label>
+                        <input
+                            className="Logging-input"
+                            type='password'
+                            value={repeatPassword}
+                            onChange={handleRepeatPasswordChange}/>
+                    </div>
 
-                <div className="Logging-element">
-                    <span className='Logging-input-alert' >{alerts}</span>
-                </div>
+                    <div className="Logging-element">
+                        <span className='Logging-input-alert' >{alerts}</span>
+                    </div>
 
 
-                <div className="Logging-element" >
-                    <button 
-                        className='Logging-button' 
-                        type='submit'>
-                            Zarejestruj
-                    </button>
-                </div>
-                
-            </form>
+                    <div className="Logging-element" >
+                        <button 
+                            className='Logging-button' 
+                            type='submit'>
+                                Zarejestruj
+                        </button>
+                    </div>
+                    
+                </form>
 
-        </header>
-    </div>
-  )
+            </header>
+        </div>
+    )
 }
 
 export default Register
