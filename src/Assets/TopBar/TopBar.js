@@ -16,18 +16,6 @@ function TopBar() {
 
 
 
-
-  function showAddCourseButton() {
-    if(userInfo.type === 2) {
-      return (
-        <text className='Top-bar-text' onClick={ () => navigate("/createcourse") }>Utwórz kurs</text>
-      )
-    }
-  }
-
-
-
-
   
   return (
 
@@ -43,9 +31,8 @@ function TopBar() {
 
         <div className='Top-bar-segment'>
           
-          { showAddCourseButton() }
 
-          <text className='Top-bar-text' onClick={ () => navigate("/settings") }>{userInfo.first_name} {userInfo.last_name}</text>
+          <text className='Top-bar-text' onClick={ () => navigate("/settings") }>{userInfo.first_name + " " + userInfo.last_name}</text>
 
         </div>
 

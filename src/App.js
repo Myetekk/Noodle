@@ -7,6 +7,8 @@ import InactiveAccount from './Pages/InactiveAccount/InactiveAccount'
 import CoursePage from './Pages/CoursePage/CoursePage'
 import UserSettings from './Pages/UserSettings/UserSettings'
 import CreateCourse from './Pages/CreateCourse/CreateCourse'
+import CreateElement from './Pages/CreateElement/CreateElement'
+import ErrorPage from './Pages/ErrorPage/ErrorPage'
 
 
 
@@ -29,6 +31,8 @@ function App() {
           <Route path="/course" element={<CoursePage />} />
           <Route path="/settings" element={<UserSettings />} />
           <Route path="/create-course" element={<CreateCourse />} />
+          <Route path="/create-element" element={<CreateElement />} />
+          <Route path="/error-page" element={<ErrorPage />} />
         </Routes>
       </Router>
     

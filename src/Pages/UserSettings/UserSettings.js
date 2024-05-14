@@ -129,9 +129,9 @@ function UserSettings() {
 
 
 
-            <header className="App">
+            <div className="App">
 
-                <div className='Settings-container'>
+                <div className='Container'>
 
                     <form onSubmit={handleSubmit}>
                     
@@ -240,7 +240,7 @@ function UserSettings() {
 
                 </div>
 
-            </header>
+            </div>
 
 
 

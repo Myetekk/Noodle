@@ -153,7 +153,7 @@ function LogIn() {
 
     return (
         <div>
-            <header className="App-header">
+            <div className="App-header">
 
                 <img src={logo} className="Logging-app-logo" alt="logo" />
 
@@ -194,7 +194,7 @@ function LogIn() {
 
                 </form>
 
-            </header>
+            </div>
         </div>
     )
 }

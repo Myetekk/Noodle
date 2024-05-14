@@ -9,11 +9,12 @@ import { userInfo } from '../Logging/LogIn';
 
 
 
-function CreateCourse() {
+function CreateElement() {
     
     const navigate = useNavigate()
 
     useEffect( () => {
+        console.log("userInfo.type: " + userInfo.type)
         if(userInfo.type !== 2) {
             navigate('/error-page')
         }
@@ -25,21 +26,21 @@ function CreateCourse() {
 
     return (
         <div>
-        
+
             <TopBar/>
 
             <div className="App">
                 
                 <div className='Container'>
 
-                    <text>Nowy kurs</text>
+                    <text>Nowy element</text>
 
                 </div>
-                
+
             </div>
 
         </div>
     )
 }
 
-export default CreateCourse
+export default CreateElement

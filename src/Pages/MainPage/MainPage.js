@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import { Link, Navigate, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
 import './MainPage.css';
 import '../../App.css';
@@ -26,7 +26,16 @@ function MainPage() {
 
 
 
-    
+
+    function showAddCourseButton() {
+        if(userInfo.type === 2) {
+          return (
+            <div className="Element-list" onClick={ () => navigate('/create-course') }>
+                <text className='Courses-title'>Dodaj nowy kurs</text>
+            </div>
+          )
+        }
+    }
 
 
 
@@ -41,15 +50,17 @@ function MainPage() {
 
 
 
-            <header className="App">
+            <div className="App">
 
-                <div className='Courses-container'>
+                <div className='Container'>
                     
                     { userCourses }
 
+                    { showAddCourseButton() }
+
                 </div>
 
-            </header>
+            </div>
 
 
 
@@ -89,7 +100,7 @@ export async function getUsersCoursesInfo(navigate, userCourseId) {
         
         userCoursesTemp.forEach( (element) => {
             userCourses.push(
-                <div className="Courses" onClick={() => navigateToCourse(navigate, element.course_id, element.course_name, element.course_owner)}>
+                <div className="Element-list" onClick={() => navigateToCourse(navigate, element.course_id, element.course_name, element.course_owner)}>
                     <text className='Courses-title'>{element.course_name}</text>
                     <text className='Courses-description'>prowadzący kursu: {element.course_owner}</text>
                 </div>
@@ -140,6 +151,5 @@ async function getCoursesElements(navigate)  {
 
     console.log(courseElementId)
 
-    // await getCoursesElementsInfo(navigate, [5, 6, 7, 8, 9, 10])
     await getCoursesElementsInfo(navigate, courseElementId)
 }

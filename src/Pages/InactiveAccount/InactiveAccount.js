@@ -36,7 +36,7 @@ function InactiveAccount() {
 
 
 
-            <header className="App">
+            <div className="App">
 
                 <div className="Inactive-account">
                     
@@ -44,7 +44,7 @@ function InactiveAccount() {
 
                 </div>
 
-            </header>
+            </div>
 
 
 

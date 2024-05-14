@@ -97,7 +97,7 @@ function Register() {
 
     return (
         <div>
-            <header className="App-header">
+            <div className="App-header">
 
                 <img src={logo} className="Logging-app-logo" alt="logo" />
 
@@ -163,7 +163,7 @@ function Register() {
                     
                 </form>
 
-            </header>
+            </div>
         </div>
     )
 }
