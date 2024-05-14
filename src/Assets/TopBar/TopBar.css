@@ -31,7 +31,7 @@
     border-top: 0.1vmin solid #4f5564;
     border-right: 0.1vmin solid #4f5564;
 }
-.Top-bar-username:hover {
+.Top-bar-text:hover {
     border-bottom: 0.3vmin solid #00ff80;
     border-left: 0.3vmin solid #00ff80;
     /* border-top: 0.1vmin solid #00994d; */
