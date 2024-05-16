@@ -268,3 +268,135 @@ app.post('/api/loadelements', (req, res) => {
     }
   });
 });
+
+
+
+
+
+
+
+
+
+
+// sprawdza czy wygenerowany kod dostępu do kursu istnieje w bazie 
+// plik CreateCourse.js
+app.post('/api/accesscodeexists', (req, res) => {
+  const request = new sql.Request();
+  let access_code = req.body.access_code_
+
+  let query = `SELECT COUNT(course_id) as does_course_exists from courses where access_code=${access_code}`
+
+  request.query(query, (err, result) => {
+    if (err) {
+      console.error('Error querying database:', err);
+      res.status(500).send('Error querying database');
+    } else {
+      res.json(result.recordset);
+    }
+  });
+});
+
+
+
+
+
+
+
+
+
+
+// dodanie nowego kursu 
+// plik CreateCourse.js
+app.post('/api/newcourse', async (req, res) => {
+  try {  
+    const { course_name, course_owner, access_code } = req.body;
+    
+    await sql.query`INSERT INTO courses (course_name, course_owner, access_code) VALUES (${course_name}, ${course_owner}, ${access_code})`;
+  } catch (error) {
+    console.error('Error inserting data:', error.message);
+    res.status(500).json({ error: 'Internal Server Error' });
+  }
+});
+
+
+
+
+
+
+
+
+
+
+// pobiera id kursu o podanym kodzie dostępu 
+// plik MainPage.js
+app.post('/api/accesscodecourseid', (req, res) => {
+  const request = new sql.Request();
+  let access_code = req.body.access_code_
+
+  let query = `SELECT course_id from courses where access_code=${access_code}`
+
+  request.query(query, (err, result) => {
+    if (err) {
+      console.error('Error querying database:', err);
+      res.status(500).send('Error querying database');
+    } else {
+      res.json(result.recordset);
+    }
+  });
+});
+
+
+
+
+
+
+
+
+
+
+// pobiera id kursu o podanym kodzie dostępu 
+// plik MainPage.js
+app.post('/api/isuserincourse', (req, res) => {
+  const request = new sql.Request();
+  let user_id = req.body.user_id_
+  let course_id = req.body.course_id_
+
+  let query = `SELECT COUNT(1) as is_user_in_course from user_course_connection where user_id=${user_id} AND course_id=${course_id}`
+
+  request.query(query, (err, result) => {
+    if (err) {
+      console.error('Error querying database:', err);
+      res.status(500).send('Error querying database');
+    } else {
+      res.json(result.recordset);
+    }
+  });
+});
+
+
+
+
+
+
+
+
+
+
+// pobiera id kursu o podanym kodzie dostępu 
+// plik MainPage.js
+app.post('/api/addusertocourse', (req, res) => {
+  const request = new sql.Request();
+  let user_id = req.body.user_id_
+  let course_id = req.body.course_id_
+
+  let query = `INSERT INTO user_course_connection (user_id, course_id) VALUES (${user_id}, ${course_id})`
+
+  request.query(query, (err, result) => {
+    if (err) {
+      console.error('Error querying database:', err);
+      res.status(500).send('Error querying database');
+    } else {
+      res.json(result.recordset);
+    }
+  });
+});

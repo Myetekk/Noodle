@@ -42,17 +42,18 @@
 
 
 
-.Course-name {
-    width: 45vmin;
-}
-.Course-access-code {
-    width: 7vmin;
-}
 .Setting-input-email {
     width: 45vmin;
 }
 .Setting-input-password {
     width: 18vmin;
+}
+.Course-name {
+    width: 45vmin;
+}
+.Course-access-code {
+    width: 8.5vmin;
+    margin-right: 5vmin;
 }
 
 
@@ -81,4 +82,5 @@
 .Settings-input-alert {
   color: red;
   font-size: 2vh;
+  text-align: center;
 }

@@ -20,6 +20,7 @@
 
 .Courses-title {
     font-size: 4vmin;
+    margin-right: 5vmin;
 }
 
 
@@ -27,4 +28,11 @@
 .Courses-description {
     font-size: 2vmin;
     color: #cccccc
+}
+
+
+
+.Course-horizontal-div {
+    display: flex;
+    flex-direction: row;
 }

@@ -84,12 +84,12 @@ function Register() {
         };
         
         axios.post( 'http://localhost:3001/api/newUser', userData )
-            .then(response => {
-                console.log(response.data);
-            })
-            .catch(error => {
-                console.error(error);
-            });
+        .then(response => {
+            console.log(response.data);
+        })
+        .catch(error => {
+            console.error(error);
+        });
     }
 
 

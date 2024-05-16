@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react'
+import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 
 import '../../Styles/App.css';
@@ -28,6 +29,7 @@ function CreateCourse() {
     const [name, setName] = useState("")
     const [accessCode, setAccessCode] = useState("")
     const [alerts, setAlerts] = useState("")
+    let course_id
 
     
 
@@ -45,18 +47,97 @@ function CreateCourse() {
 
 
 
+    async function generateAccessCode() {
+        let generatedAccessCode = Math.floor(Math.random() * (999999 - 100000) ) + 100000
+
+        const accessCode = { access_code_: generatedAccessCode }
+        await checkAccessCodeExists(accessCode)
+    }
+    
+
+    
+    async function checkAccessCodeExists(accessCode) {
+        await axios.post('http://localhost:3001/api/accesscodeexists', accessCode)
+        .then( response => {
+            const does_exists = response.data[0].does_exists;
+            
+            if (does_exists === 0)
+                generateAccessCode()
+            else
+                setAccessCode(accessCode.access_code_)
+            
+        })
+        .catch(error => {
+            console.error('Error fetching data:', error);
+        });
+    }
+
+
+
+
+
     const handleSubmit = (event) => {
         event.preventDefault();        
         validateData()
     }
 
-    function validateData() {
+    async function validateData() {
         if ( name === "" ) setAlerts("wprowadź nazwe kursu")
         else if ( accessCode === "" ) setAlerts("wprowadź kod dostępu")
-        else if ( accessCode.length !== 6 ) setAlerts("kod dostępu musi mieć długość 6")
         else {
-            
+
+            setAlerts("")
+            await createCourse()
+            await getCourseId()
+            await addUserToCourse()
+            navigate("/home")
         }
+    }
+
+    async function createCourse() {
+        const courseData = { course_name: name, course_owner: "Sławek Xowski", access_code: accessCode };
+
+        console.log("createCourse")
+
+        // stworzenie nowego kursu
+        axios.post( 'http://localhost:3001/api/newcourse', courseData )
+        .then(response => {
+            console.log(response.data);
+        })
+        .catch(error => {
+            console.error(error);
+        });
+    }
+
+    async function getCourseId() {
+        const accessData = { access_code_: accessCode }
+
+        console.log("accessData: " + accessData.access_code_)
+
+        // pobranie id kursu na podstawie kodu dostępu
+        await axios.post('http://localhost:3001/api/accesscodecourseid', accessData)
+        .then( response => {
+            course_id = response.data[0].course_id
+            console.log(response.data);
+        })
+        .catch(error => {
+            console.error('Error fetching data:', error)
+        });
+    }
+
+    async function addUserToCourse() {
+        // dodanie użytkownika do kursu
+        const data = { user_id_: userInfo.user_id, course_id_: course_id }
+        
+        console.log("user_id: " + userInfo.user_id + ", course_id: " + course_id)
+
+        axios.post('http://localhost:3001/api/addusertocourse', data)
+        .then( response => {
+            console.log(response.data);
+        })
+        .catch(error => {
+            console.error('Error fetching data:', error)
+        });
     }
 
 
@@ -98,16 +179,20 @@ function CreateCourse() {
                                 readOnly
                                 value={accessCode}
                                 onChange={handleAccessCodeChange}/>
-                            <button className='Small-button'>generuj kod</button>
+                            <button className='Small-button'
+                                type='button'
+                                onClick={ () => { generateAccessCode() } }
+                                >generuj kod</button>
                         </div>
+
+                        {/* TODO dodanie innych prowadzących */}
 
                         <div className="Logging-element">
                             <span className='Logging-input-alert' >{alerts}</span>
                         </div>
 
                         <div className="Logging-element" >
-                            <button 
-                                className='Main-button' 
+                            <button className='Main-button' 
                                 type='submit'>
                                     Stwórz
                             </button>

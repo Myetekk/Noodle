@@ -22,7 +22,20 @@ export let coursesElements = []
 function MainPage() {
     
     const navigate = useNavigate()
+
+    const [showEnterCode, setShowEnterCode] = useState(false)
+    const [accessCode, setAccessCode] = useState("")
     
+    const [alerts, setAlerts] = useState("")
+    
+
+
+
+    
+    const handleAccessCodeChange = (event) => {
+        setAccessCode(event.target.value)
+    }
+
 
 
 
@@ -35,6 +48,84 @@ function MainPage() {
             </div>
           )
         }
+    }
+    
+
+
+
+
+    function enterCode() {
+        if(showEnterCode === true) {
+          return (
+            <div>
+                <input className='Course-access-code'
+                    type='text'
+                    maxLength={6}
+                    placeholder='kod'
+                    value={accessCode}
+                    onChange={handleAccessCodeChange}/>
+                <button className='Small-button'
+                    onClick={ () => { checkAccessCodeExists() } }>
+                    dołącz
+                </button>
+            </div>
+          )
+        }
+    }
+
+    async function checkAccessCodeExists() {
+        const access_code = { access_code_: accessCode }
+        let does_exists
+        let course_id
+        let is_user_in_course
+
+        // sprawdza czy kurs o takim kodzie dostępu istnieje
+        await axios.post('http://localhost:3001/api/accesscodeexists', access_code)
+        .then( response => {
+            does_exists = response.data[0].does_course_exists
+        })
+        .catch(error => {
+            console.error('Error fetching data:', error)
+        });
+
+        if (does_exists !== 0){
+            // pobiera id kursu do którego użytkownik chce się zapisać 
+            await axios.post('http://localhost:3001/api/accesscodecourseid', access_code)
+            .then( response => {
+                course_id = response.data[0].course_id
+            })
+            .catch(error => {
+                console.error('Error fetching data:', error)
+            });
+
+            // sprawdza czy użytkownik już przynależy do tego kursu
+            const data = { user_id_: userInfo.user_id, course_id_: course_id }
+            await axios.post('http://localhost:3001/api/isuserincourse', data)
+            .then( response => {
+                is_user_in_course = response.data[0].is_user_in_course
+            })
+            .catch(error => {
+                console.error('Error fetching data:', error)
+            });
+
+            if (is_user_in_course === 0) {
+                // dodaje użytkownika do kursu
+                const data = { user_id_: userInfo.user_id, course_id_: course_id }
+                await axios.post('http://localhost:3001/api/addusertocourse', data)
+                .then( response => {
+                    console.log(response.data);
+                })
+                .catch(error => {
+                    console.error('Error fetching data:', error)
+                });
+                
+
+
+                // trzeba jakoś przeładować strone żeby pokazała kurs do którego dołączono
+            }  
+            else setAlerts("Już należysz do tego kursu") 
+        }
+        else setAlerts("Błędny kod dostępu")
     }
 
 
@@ -55,6 +146,16 @@ function MainPage() {
                 <div className='Container'>
                     
                     { userCourses }
+
+                    <div className="Element-list" onClick={ () => setShowEnterCode(true) }>
+                        <div className='Course-horizontal-div'>
+                            <text className='Courses-title'>Dołącz do kursu</text>
+                            { enterCode() }
+                        </div>
+                        <span className='Settings-input-alert' >{alerts}</span>
+                    </div>
+
+                    
 
                     { showAddCourseButton() }
 
