@@ -3,8 +3,8 @@ import axios from 'axios';
 import { Link, Navigate, useNavigate } from 'react-router-dom';
 import Switch from "react-switch";
 
-import './UserSettings.css';
-import '../../App.css';
+import '../../Styles/App.css';
+import '../../Styles/App.css';
 import TopBar from '../../Assets/TopBar/TopBar';
 import { userInfo } from '../Logging/LogIn';
 
@@ -145,6 +145,7 @@ function UserSettings() {
                             <text className='Setting-name'>imię: </text>
                             <input className='Setting-input'
                                 type='text'
+                                maxLength='20'
                                 value={firstName}
                                 onChange={handleFirstNameChange}/>
                         </div>
@@ -154,6 +155,7 @@ function UserSettings() {
                             <text className='Setting-name'>nazwisko: </text>
                             <input className='Setting-input'
                                 type='text'
+                                maxLength='20'
                                 value={lastName}
                                 onChange={handleLastNameChange}/>
                         </div>
@@ -161,8 +163,9 @@ function UserSettings() {
 
                         <div className='Setting'>
                             <text className='Setting-name'>email: </text>
-                            <input className='Setting-input'
+                            <input className='Setting-input-email'
                                 type='email'
+                                maxLength='40'
                                 value={email}
                                 onChange={handleEmailChange}/>
                         </div>
@@ -170,13 +173,15 @@ function UserSettings() {
 
                         <div className='Setting'>
                             <text className='Setting-name'>hasło: </text>
-                            <input className='Setting-input'
+                            <input className='Setting-input-password'
                                 type='password'
+                                maxLength='25'
                                 placeholder='nowe hasło'
                                 value={password}
                                 onChange={handlePasswordChange}/>
-                            <input className='Setting-input'
+                            <input className='Setting-input-password'
                                 type='password'
+                                maxLength='25'
                                 placeholder='powtórz nowe hasło'
                                 value={repeatPassword}
                                 onChange={handleRepeatPasswordChange}/>
@@ -228,7 +233,7 @@ function UserSettings() {
 
 
                         <div className="Setting-button-container" >
-                            <button className='Setting-button' 
+                            <button className='Main-button' 
                                 type='submit'>
                                     Zapisz
                             </button>

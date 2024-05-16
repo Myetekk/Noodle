@@ -1,0 +1,84 @@
+.Settings-title {
+    min-width: 40vmin;
+    padding: 1vmin;
+    margin: 5vmin;
+    font-size: 5vmin;
+    border-bottom: 0.3vmin solid #00ffff;
+    border-left: 0.3vmin solid #00ffff;
+    border-top: 0.1vmin solid #009999;
+    border-right: 0.1vmin solid #009999;
+    display: flex;
+    flex-direction: column;
+}
+
+
+
+.Setting {
+    min-width: 40vmin;
+    padding: 1vmin;
+    margin: 5vmin;
+    font-size: 3.5vmin;
+    border-bottom: 0.1vmin solid #009999;
+    border-left: 0.1vmin solid #009999;
+    display: flex;
+    flex-direction: row;
+}
+
+
+
+.Setting-name {
+    margin-right: 2vmin;
+}
+
+
+
+.Setting-input, .Setting-input-email, .Setting-input-password, .Course-name, .Course-access-code {
+    background-color: #383c47;
+    color: white;
+    width: 23vmin;
+    font-size: 2vmin;
+    margin-right: 2vmin;
+}
+
+
+
+.Course-name {
+    width: 45vmin;
+}
+.Course-access-code {
+    width: 7vmin;
+}
+.Setting-input-email {
+    width: 45vmin;
+}
+.Setting-input-password {
+    width: 18vmin;
+}
+
+
+
+.Setting-switch {
+    margin-top: 1vmin;
+}
+
+
+
+.Setting-button-container {
+    padding: 1vmin;
+    margin: 1vmin;
+    text-align: center;
+}
+
+
+
+.Setting-separator {
+    margin-bottom: 10vh;
+    text-align: center;
+}
+
+
+
+.Settings-input-alert {
+  color: red;
+  font-size: 2vh;
+}

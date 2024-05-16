@@ -2,8 +2,8 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 
+import '../../Styles/App.css';
 import './MainPage.css';
-import '../../App.css';
 import TopBar from '../../Assets/TopBar/TopBar';
 import { userInfo, userCourses } from '../Logging/LogIn';
 import { getCoursesElementsInfo } from '../CoursePage/CoursePage';

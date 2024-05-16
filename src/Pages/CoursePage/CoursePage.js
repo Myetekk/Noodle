@@ -3,7 +3,7 @@ import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 
 import './CoursePage.css';
-import '../../App.css';
+import '../../Styles/App.css';
 import TopBar from '../../Assets/TopBar/TopBar';
 import { userInfo } from '../Logging/LogIn';
 import { coursesElements } from '../MainPage/MainPage';

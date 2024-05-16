@@ -190,14 +190,12 @@ function LogIn() {
 
                     <div className="Logging-element" >
                         <button 
-                            className='Logging-button' 
+                            className='Main-button' 
                             type='submit'>
                                 Zaloguj
                         </button>
 
-                        <Link to="/register">
-                            <button className='Logging-button'>Zarejestruj</button>
-                        </Link>
+                        <button className='Main-button' onClick={ () => { navigate("/register") } }>Zarejestruj</button>
                     </div>
 
                 </form>

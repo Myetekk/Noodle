@@ -1,0 +1,51 @@
+.App {
+  background-color: #282c34;
+  min-height: 90vh;
+  padding-bottom: 10vmin;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  font-size: calc(10px + 2vmin);
+  color: white;
+  text-align: left;
+}
+
+
+
+.Container {
+  min-width: 80vmin;
+  background-color:#383c47;
+  margin-top: 10vmin;
+}
+
+
+
+.Main-button, .Small-button {
+  background-color: transparent;
+  height: 7vmin;
+  width: auto;
+  font-size: 3vmin;
+  color: white;
+  padding-right: 2vmin;
+  padding-left: 2vmin;
+  padding-bottom: 0.5vmin;
+  margin-left: 1vmin;
+  margin-right: 1vmin;
+  cursor: pointer;
+  border: 0.4vmin solid aqua;
+  border-radius: 5vmin;
+}
+.Main-button:hover, .Small-button:hover {
+  background-color: aqua;
+  color: black;
+  border-radius: 5vmin;
+}
+
+
+
+.Small-button {
+  height: 5vmin;
+  font-size: 2vmin;
+  padding-right: 1vmin;
+  padding-left: 1vmin;
+}

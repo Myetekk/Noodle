@@ -11,6 +11,8 @@ import logo from '../../logo.svg';
 
 function Register() {
     
+    const navigate = useNavigate()
+    
     
 
     
@@ -22,7 +24,6 @@ function Register() {
     const [repeatPassword, setRepeatPassword] = useState("")
     const [alerts, setAlerts] = useState("")
 
-    const navigate = useNavigate()
 
     
 
@@ -155,7 +156,7 @@ function Register() {
 
                     <div className="Logging-element" >
                         <button 
-                            className='Logging-button' 
+                            className='Main-button' 
                             type='submit'>
                                 Zarejestruj
                         </button>
