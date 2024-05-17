@@ -5,6 +5,7 @@ import { Link, Navigate, useNavigate } from 'react-router-dom';
 import './Logging.css';
 import logo from '../../logo.svg';
 import { getUsersCoursesInfo } from '../MainPage/MainPage';
+import { getUserTypes } from '../HeadAdmin/HeadAdmin';
 
 
 
@@ -12,6 +13,8 @@ import { getUsersCoursesInfo } from '../MainPage/MainPage';
 
 export let userInfo = {user_id: 0, first_name: "", last_name: "", email: "", password: "", type: 0, new_mark_notify: 1, solution_sent_notify: 1, date_incoming_notify: 1} 
 export let userCourses = []
+export let students = []
+export let admins = []
 
 
 
@@ -24,7 +27,6 @@ function LogIn() {
     const [password, setPassword] = useState("")  // hasło podany przy logowaniu
 
     const navigate = useNavigate()  // obiekt potrzebny do przechoodzenia do innej podstrony
-
 
 
 
@@ -69,11 +71,6 @@ function LogIn() {
 
 
 
-
-
-
-
-
     // sprawdza czy email i hasło zgadzają się z którymś z bazy danych
     async function checkCredentials()  {
 
@@ -95,6 +92,7 @@ function LogIn() {
                             navigate("/home")
                         }
                         else{
+                            await getUserTypes()
                             navigate("/headadmin")
                         }                        
                     }
@@ -154,6 +152,41 @@ function LogIn() {
 
 
 
+    async function getUserTypes(){
+        await getSpecificType(1)
+        await getSpecificType(2)
+    }
+
+
+    // pobiera informacje o użytkownikach z danym typem
+    async function getSpecificType(userType){
+        const type = {type_: userType};
+        await axios.post('http://localhost:3001/api/headadmin', type)
+        .then(response => {
+            const usersTemp = response.data;
+            if (userType === 1){
+            usersTemp.forEach((element) => {
+                students.push(
+                    <div className="Tile">
+                        <text className="Name">{element.first_name} {element.last_name}</text>
+                    </div>
+                )
+            });
+            }
+            else {
+                usersTemp.forEach((element) => {
+                    admins.push(
+                        <div className="Tile">
+                            <text className="Name">{element.first_name} {element.last_name}</text>
+                        </div>
+                    )
+                });
+            }
+        })
+        .catch(error => {
+            console.error('Error fetching data:', error);
+        });
+    }
 
 
 

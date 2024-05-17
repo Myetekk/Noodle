@@ -5,11 +5,9 @@ import { Link, Navigate, useNavigate } from 'react-router-dom';
 import '../../Styles/App.css';
 import './HeadAdmin.css';
 import TopBar from '../../Assets/TopBar/TopBar';
-import { userInfo, userCourses } from '../Logging/LogIn';
-
-
-
-
+import { userInfo } from '../Logging/LogIn';
+// import { response } from 'express';
+import { students, admins } from '../Logging/LogIn';
 
 
 
@@ -19,8 +17,6 @@ function HeadAdmin() {
     const navigate = useNavigate()
     
 
-    let admins = []
-    let users = []
 
     
 
@@ -43,37 +39,12 @@ function HeadAdmin() {
 
                     <h2>Obecni admini</h2>
                     <div className="Tile-container">
-                        <div className="Tile">
-                            <text className="Name">Mariusz Pudzianowski</text>
-                        </div>
-                        <div className="Tile">
-                            <text className="Name">Mariusz Pudzianowski</text>
-                        </div>
-                        <div className="Tile">
-                            <text className="Name">Mariusz Pudzianowski</text>
-                        </div>
-                        <div className="Tile">
-                            <text className="Name">Mariusz Pudzianowski</text>
-                        </div>
+                        { admins }
                     </div>
 
                     <h2>Wszyscy użytkownicy</h2>
                     <div className="Tile-container">
-                        <div className="Tile">
-                            <text className="Name">Mirosław Michalik</text>
-                        </div>
-                        <div className="Tile">
-                            <text className="Name">Paweł Kasztura</text>
-                        </div>
-                        <div className="Tile">
-                            <text className="Name">Szymon Jakubiec</text>
-                        </div>
-                        <div className="Tile">
-                            <text className="Name">Michał Soboszek</text>
-                        </div>
-                        <div className="Tile">
-                            <text className="Name">Andrzej Marian</text>
-                        </div>
+                        { students }
                     </div>
 
                 </div>

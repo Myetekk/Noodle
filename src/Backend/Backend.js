@@ -116,6 +116,30 @@ app.post('/api/user/info', (req, res) => {
 
 
 
+// pobranie informacji o użytkownikach typu 1 lub 2
+// plik HeadAdmin.js
+app.post('/api/headadmin', (req, res) => {
+  const request = new sql.Request();
+  const type = req.body.type_;
+
+  request.query(`SELECT first_name, last_name FROM users WHERE type='${type}'`, (err, result) => {
+    if (err) {
+      console.error('Error querying database:', err);
+      res.status(500).send('Error querying database');
+    } else {
+      res.json(result.recordset);
+    }
+  });
+});
+
+
+
+
+
+
+
+
+
 // zaktualizowanie ustawień użytkownika
 // plik UserSettings.js
 app.post('/api/user/updateinfo', (req, res) => {
