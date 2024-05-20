@@ -7,7 +7,7 @@ import '../../Styles/App.css';
 import TopBar from '../../Assets/TopBar/TopBar';
 import { userInfo } from '../Logging/LogIn';
 import { coursesElements } from '../MainPage/MainPage';
-
+import { courseInfo } from '../MainPage/MainPage'; 
 
 
 
@@ -16,6 +16,20 @@ function CoursePage() {
     
   const navigate = useNavigate()
     
+
+
+
+
+  function showCourseMembers(){
+    if (userInfo.type === 2) {
+      return(
+        <div className="Course-members-button" onClick={() => navigate('/course-members')}>
+          <text className="Course-members-title">Kursanci</text>
+        </div>
+      )
+    }
+  }
+
 
 
 
@@ -47,6 +61,11 @@ function CoursePage() {
 
 
         <div className='Container'>
+
+          <div className="Top-container">
+            <h3>{courseInfo.course_name}</h3>
+            { showCourseMembers() }
+          </div>
 
           { coursesElements }
 

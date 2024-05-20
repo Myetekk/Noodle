@@ -3,17 +3,10 @@ import axios from 'axios';
 import { Link, Navigate, useNavigate } from 'react-router-dom';
 
 import '../../Styles/App.css';
-import './HeadAdmin.css';
 import TopBar from '../../Assets/TopBar/TopBar';
-import { userInfo } from '../Logging/LogIn';
-// import { response } from 'express'; <3
-import { students, admins } from '../Logging/LogIn';
 
+function CourseMembers() {
 
-
-
-function HeadAdmin() {
-    
     const navigate = useNavigate()
     
 
@@ -35,16 +28,10 @@ function HeadAdmin() {
 
             <div className="App-headadmin">
 
-                <div className="HeadAdmin">
+                <div className="">
 
-                    <h2>Obecni nauczyciele (admini)</h2>
+                    <h2>Aktywni studenci</h2>
                     <div className="Tile-container">
-                        { admins }
-                    </div>
-
-                    <h2>Wszyscy studenci</h2>
-                    <div className="Tile-container">
-                        { students }
                     </div>
 
                 </div>
@@ -56,4 +43,4 @@ function HeadAdmin() {
         </div>
     );
 }
-export default HeadAdmin;
+export default CourseMembers;

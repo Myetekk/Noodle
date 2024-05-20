@@ -22,3 +22,30 @@
     font-size: 2vmin;
     color: #cccccc
 }
+
+.Top-container {
+    margin: 3.5vmin 5vmin;
+    display: flex;
+    justify-content: space-between;
+}
+
+h3 {
+    max-width: 75%;
+    font-size: 4vmin;
+}
+
+.Course-members-button {
+    border: 0.1vh solid #00ffff;
+    padding: 1vh;
+    margin-top: auto;
+    margin-bottom: auto;
+    cursor: pointer;
+}
+
+.Course-members-button:hover {
+    border: 0.1vh solid #00ff80;
+}
+
+.Course-members-title {
+    font-weight: 500;
+}
