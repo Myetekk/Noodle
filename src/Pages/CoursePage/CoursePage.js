@@ -10,7 +10,7 @@ import { coursesElements } from '../MainPage/MainPage';
 import { courseInfo } from '../MainPage/MainPage'; 
 
 
-
+export let activeStudents = []
 
 function CoursePage() {
     
@@ -112,5 +112,29 @@ export async function getCoursesElementsInfo(navigate, elementId) {
   })
   .catch(error => {
       console.error('Error fetching data:', error);
+  });
+  getActiveStudents()
+}
+
+
+
+
+
+async function getActiveStudents() {
+  const course_id = {course_id_ : courseInfo.course_id}
+  await axios.post('http://localhost:3001/api/loadactivestudents', course_id)
+  .then(response => {
+    const usersTemp = response.data;
+    activeStudents.length = 0
+    usersTemp.forEach((element) => {
+        activeStudents.push(
+            <div className="Tile">
+                <text className="Name">{element.first_name} {element.last_name}</text>
+            </div>
+        )
+    });
+  })
+  .catch(error => {
+    console.error('Error fetching data:', error);
   });
 }

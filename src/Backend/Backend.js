@@ -117,7 +117,7 @@ app.post('/api/user/info', (req, res) => {
 
 
 // pobranie informacji o użytkownikach typu 1 lub 2
-// plik HeadAdmin.js
+// plik Login.js
 app.post('/api/headadmin', (req, res) => {
   const request = new sql.Request();
   const type = req.body.type_;
@@ -131,6 +131,7 @@ app.post('/api/headadmin', (req, res) => {
     }
   });
 });
+
 
 
 
@@ -282,6 +283,34 @@ app.post('/api/loadelements', (req, res) => {
       query += ` OR element_id='${element}'`
     });
   }
+
+  request.query(query, (err, result) => {
+    if (err) {
+      console.error('Error querying database:', err);
+      res.status(500).send('Error querying database');
+    } else {
+      res.json(result.recordset);
+    }
+  });
+});
+
+
+
+
+
+
+
+
+
+
+// ładuje informacje o aktywnych studentach (zakładając stworzenie później tych nieaktywnych)
+// plik CoursePage.js
+app.post('/api/loadactivestudents', (req, res) => {
+  const request = new sql.Request();
+  const course_id = req.body.course_id_;
+
+
+  let query = `SELECT first_name, last_name FROM users WHERE type = 1 AND user_id in (SELECT user_id FROM user_course_connection WHERE course_id = ${course_id})`;
 
   request.query(query, (err, result) => {
     if (err) {

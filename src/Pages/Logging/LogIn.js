@@ -165,6 +165,7 @@ function LogIn() {
         .then(response => {
             const usersTemp = response.data;
             if (userType === 1){
+                students.length = 0
             usersTemp.forEach((element) => {
                 students.push(
                     <div className="Tile">
@@ -174,6 +175,7 @@ function LogIn() {
             });
             }
             else {
+                admins.length = 0
                 usersTemp.forEach((element) => {
                     admins.push(
                         <div className="Tile">
