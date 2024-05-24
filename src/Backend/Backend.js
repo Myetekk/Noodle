@@ -218,7 +218,8 @@ app.post('/api/loadcourses', (req, res) => {
   const request = new sql.Request();
   let course_id = req.body
 
-  let query = `SELECT course_id, course_name, course_owner FROM courses WHERE course_id=${course_id[0]}`
+  let query = `SELECT courses.course_id, courses.course_name, courses.course_owner, users.first_name, users.last_name FROM courses INNER JOIN users ON users.user_id=courses.course_owner WHERE course_id=${course_id[0]}`
+
   if (course_id.length > 1){
     course_id.forEach( element => {
       query += ` OR course_id='${element}'`

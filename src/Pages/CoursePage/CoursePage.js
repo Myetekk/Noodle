@@ -15,13 +15,21 @@ export let activeStudents = []
 function CoursePage() {
     
   const navigate = useNavigate()
+
+
+
+
+
+  function isCoursOwner() {
+    return userInfo.user_id === courseInfo.course_owner
+  }
     
 
 
 
 
   function showCourseMembers(){
-    if (userInfo.type === 2) {
+    if (isCoursOwner()) {
       return(
         <div className="Course-members-button" onClick={() => navigate('/course-members')}>
           <text className="Course-members-title">Kursanci</text>
@@ -35,7 +43,7 @@ function CoursePage() {
 
 
   function showAddElementButton() {
-    if(userInfo.type === 2) {
+    if(isCoursOwner()) {
       return (
         <div className="Element-list" onClick={ () => navigate('/create-element') }>
           <text className='Courses-title'>Dodaj nowy element</text>

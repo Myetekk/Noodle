@@ -12,7 +12,7 @@ import { getCoursesElementsInfo } from '../CoursePage/CoursePage';
 
 
 
-export let courseInfo = {course_id: 0, course_name: "", course_owner: ""} 
+export let courseInfo = {course_id: 0, course_name: "", course_owner: 0} 
 export let coursesElements = []
 
 
@@ -181,7 +181,7 @@ export default MainPage;
 
 // zeruje informacje aby uniknąć wyświetlania kilka razy to samo po przejściu 'poprzednia strona' 'następna strona'
 function clearInformation() {
-    courseInfo = {course_id: 0, course_name: "", course_owner: ""} 
+    courseInfo = {course_id: 0, course_name: "", course_owner: 0} 
     coursesElements = []
 }
 
@@ -203,7 +203,7 @@ export async function getUsersCoursesInfo(navigate, userCourseId) {
             userCourses.push(
                 <div className="Element-list" onClick={() => navigateToCourse(navigate, element.course_id, element.course_name, element.course_owner)}>
                     <text className='Courses-title'>{element.course_name}</text>
-                    <text className='Courses-description'>prowadzący kursu: {element.course_owner}</text>
+                    <text className='Courses-description'>prowadzący kursu: {element.first_name} {element.last_name}</text>
                 </div>
             )
         })
