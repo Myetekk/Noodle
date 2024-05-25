@@ -5,7 +5,7 @@ import { useNavigate } from 'react-router-dom';
 import '../../Styles/App.css';
 import './MainPage.css';
 import TopBar from '../../Assets/TopBar/TopBar';
-import { userInfo, userCourses } from '../Logging/LogIn';
+import { userInfo, userCourses, loadCourses } from '../Logging/LogIn';
 import { getCoursesElementsInfo } from '../CoursePage/CoursePage';
 
 
@@ -122,6 +122,9 @@ function MainPage() {
 
 
                 // trzeba jakoś przeładować strone żeby pokazała kurs do którego dołączono
+                await loadCourses(navigate)  // ponownie pobiera kursy użytkownika
+
+                
             }  
             else setAlerts("Już należysz do tego kursu") 
         }
@@ -152,7 +155,7 @@ function MainPage() {
                             <text className='Courses-title'>Dołącz do kursu</text>
                             { enterCode() }
                         </div>
-                        <span className='Settings-input-alert' >{alerts}</span>
+                        <span className='Settings-input-alert'>{alerts}</span>
                     </div>
 
                     

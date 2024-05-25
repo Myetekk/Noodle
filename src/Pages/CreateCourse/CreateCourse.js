@@ -6,7 +6,7 @@ import '../../Styles/App.css';
 import './CreateCourse.css';
 import '../../Styles/Settings.css';
 import TopBar from '../../Assets/TopBar/TopBar';
-import { userInfo } from '../Logging/LogIn';
+import { userInfo, loadCourses } from '../Logging/LogIn';
 
 
 
@@ -90,12 +90,13 @@ function CreateCourse() {
             await createCourse()
             await getCourseId()
             await addUserToCourse()
-            navigate("/home")
+
+            loadCourses(navigate)
         }
     }
 
     async function createCourse() {
-        const courseData = { course_name: name, course_owner: "Sławek Xowski", access_code: accessCode };
+        const courseData = { course_name: name, course_owner: userInfo.user_id, access_code: accessCode };
 
         console.log("createCourse")
 
