@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 
@@ -20,6 +20,18 @@ export let coursesElements = []
 
 
 function MainPage() {
+
+    useEffect( () => {
+        window.localStorage.setItem('userInfo', JSON.stringify(userInfo.data))
+        // window.localStorage.setItem('userCourses', JSON.stringify(userCourses.data))
+    }, [userInfo.data], [userCourses.data])
+
+    useEffect( () => {
+        userInfo.setData(JSON.parse(window.localStorage.getItem('userInfo')))
+        // userCourses.setData(JSON.parse(window.localStorage.getItem('userCourses')))
+    }, [])
+
+
     
     const navigate = useNavigate()
 
@@ -119,12 +131,8 @@ function MainPage() {
                     console.error('Error fetching data:', error)
                 });
                 
-
-
-                // trzeba jakoś przeładować strone żeby pokazała kurs do którego dołączono
-                await loadCourses(navigate)  // ponownie pobiera kursy użytkownika
-
                 
+                await loadCourses(navigate)  // ponownie pobiera kursy użytkownika
             }  
             else setAlerts("Już należysz do tego kursu") 
         }
@@ -148,7 +156,7 @@ function MainPage() {
 
                 <div className='Container'>
                     
-                    { userCourses }
+                    { userCourses.data }
 
                     <div className="Element-list" onClick={ () => setShowEnterCode(true) }>
                         <div className='Course-horizontal-div'>
@@ -203,7 +211,7 @@ export async function getUsersCoursesInfo(navigate, userCourseId) {
         const userCoursesTemp = response.data;
         
         userCoursesTemp.forEach( (element) => {
-            userCourses.push(
+            userCourses.data.push(
                 <div className="Element-list" onClick={() => navigateToCourse(navigate, element.course_id, element.course_name, element.course_owner)}>
                     <text className='Courses-title'>{element.course_name}</text>
                     <text className='Courses-description'>prowadzący kursu: {element.first_name} {element.last_name}</text>

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 
@@ -11,7 +11,7 @@ import { getUsersCoursesInfo } from '../MainPage/MainPage';
 
 
 // export let userInfo = {user_id: 0, first_name: "", last_name: "", email: "", password: "", type: 0, new_mark_notify: 1, solution_sent_notify: 1, date_incoming_notify: 1} 
-export let userCourses = []
+// export let userCourses = []
 export let students = []
 export let admins = []
 
@@ -28,19 +28,27 @@ class UserInfo {
         return this.data
     }
 }
-
 export const userInfo = new UserInfo()
+
+class UserCourses {
+    constructor() {
+        this.data = []
+    }
+
+    setData(data) {
+        this.data = data
+    }
+
+    getData() {
+        return this.data
+    }
+}
+export const userCourses = new UserCourses()
 
 
 
 
 function LogIn() {
-    
-    useEffect( () => {
-        // console.log(userInfo.data.email)
-        // userInfo.setData(1, "A", "B", "C@C.com", "DDD", 2, 1, 1, 1)
-        // console.log(userInfo.data.email)
-    })
 
 
 
@@ -85,7 +93,7 @@ function LogIn() {
     // zeruje informacje aby uniknąć wyświetlania kilka razy to samo po przejściu 'poprzednia strona' 'następna strona'
     function clearInformation() {
         userInfo.setData({user_id: 0, first_name: "", last_name: "", email: "", password: "", type: 0, new_mark_notify: true, solution_sent_notify: true, date_incoming_notify: true})
-        userCourses = []
+        userCourses.setData([])
     }
 
 
@@ -109,7 +117,11 @@ function LogIn() {
                             navigate("/inactive-account")
                         }
                         else if (userInfo.data.type === 1 || userInfo.data.type === 2){
-                            await loadCourses(navigate)
+                            // await loadCourses(navigate)
+                        
+                            await getUsersCourses(navigate)
+                            navigate("/home")
+
                         }
                         else if (userInfo.data.type === 3){
                             await getUserTypes()
@@ -250,7 +262,7 @@ export default LogIn
 
 
 export async function loadCourses(navigate) {
-    userCourses = []  // wyzerowanie pamięci o kursach żeby nie dublować 
+    userCourses.setData([])  // wyzerowanie pamięci o kursach żeby nie dublować 
 
     await getUsersCourses(navigate)
 

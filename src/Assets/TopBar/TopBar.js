@@ -1,5 +1,5 @@
-import React, { useEffect } from 'react'
-import { Link, Navigate, useNavigate } from 'react-router-dom';
+import React, { useState, useEffect } from 'react'
+import { useNavigate } from 'react-router-dom';
 
 import './TopBar.css';
 import logo from '../../logo.svg';
@@ -11,7 +11,19 @@ import { userInfo } from '../../Pages/Logging/LogIn';
 
 function TopBar() {
 
+  useEffect( () => {
+    userInfo.setData(JSON.parse(window.localStorage.getItem('userInfo')))
+    setFirstName(userInfo.data.first_name)
+    setLastName(userInfo.data.last_name)
+  }, [])
+
+
+
   const navigate = useNavigate()
+
+  const [firstName, setFirstName] = useState("")
+  const [lastName, setLastName] = useState("")
+
 
 
 
@@ -30,9 +42,8 @@ function TopBar() {
 
 
         <div className='Top-bar-segment'>
-          
 
-          <text className='Top-bar-text' onClick={ () => navigate("/settings") }>{userInfo.data.first_name + " " + userInfo.data.last_name}</text>
+          <text className='Top-bar-text' onClick={ () => navigate("/settings") }>{firstName + " " + lastName}</text>
 
         </div>
 
