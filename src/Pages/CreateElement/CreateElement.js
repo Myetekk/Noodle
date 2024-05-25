@@ -14,8 +14,7 @@ function CreateElement() {
     const navigate = useNavigate()
 
     useEffect( () => {
-        console.log("userInfo.type: " + userInfo.type)
-        if(userInfo.type !== 2) {
+        if(userInfo.data.type !== 2) {
             navigate('/error-page')
         }
     })

@@ -21,7 +21,7 @@ function CoursePage() {
 
 
   function isCoursOwner() {
-    return userInfo.user_id === courseInfo.course_owner
+    return userInfo.data.user_id === courseInfo.course_owner
   }
     
 

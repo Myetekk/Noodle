@@ -17,7 +17,7 @@ function CreateCourse() {
     const navigate = useNavigate()
 
     useEffect( () => {
-        if(userInfo.type !== 2) {
+        if(userInfo.data.type !== 2) {
             navigate('/error-page')
         }
     })
@@ -96,7 +96,7 @@ function CreateCourse() {
     }
 
     async function createCourse() {
-        const courseData = { course_name: name, course_owner: userInfo.user_id, access_code: accessCode };
+        const courseData = { course_name: name, course_owner: userInfo.data.user_id, access_code: accessCode };
 
         console.log("createCourse")
 
@@ -128,9 +128,9 @@ function CreateCourse() {
 
     async function addUserToCourse() {
         // dodanie użytkownika do kursu
-        const data = { user_id_: userInfo.user_id, course_id_: course_id }
+        const data = { user_id_: userInfo.data.user_id, course_id_: course_id }
         
-        console.log("user_id: " + userInfo.user_id + ", course_id: " + course_id)
+        console.log("user_id: " + userInfo.data.user_id + ", course_id: " + course_id)
 
         axios.post('http://localhost:3001/api/addusertocourse', data)
         .then( response => {

@@ -1,6 +1,6 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import axios from 'axios';
-import { Link, Navigate, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import Switch from "react-switch";
 
 import '../../Styles/App.css';
@@ -16,15 +16,15 @@ function UserSettings() {
 
 
 
-    const [firstName, setFirstName] = useState(userInfo.first_name)
-    const [lastName, setLastName] = useState(userInfo.last_name)
-    const [email, setEmail] = useState(userInfo.email)
-    const [password, setPassword] = useState(userInfo.password)
-    const [repeatPassword, setRepeatPassword] = useState(userInfo.password)
+    const [firstName, setFirstName] = useState(userInfo.data.first_name)
+    const [lastName, setLastName] = useState(userInfo.data.last_name)
+    const [email, setEmail] = useState(userInfo.data.email)
+    const [password, setPassword] = useState(userInfo.data.password)
+    const [repeatPassword, setRepeatPassword] = useState(userInfo.data.password)
 
-    const [newMarkNotify, setNewMarkNotify] = useState(userInfo.new_mark_notify)
-    const [solutionSentNotify, setSolutionSentNotify] = useState(userInfo.solution_sent_notify)
-    const [dateIncomingNotify, setDateIncomingNotify] = useState(userInfo.date_incoming_notify)
+    const [newMarkNotify, setNewMarkNotify] = useState(userInfo.data.new_mark_notify)
+    const [solutionSentNotify, setSolutionSentNotify] = useState(userInfo.data.solution_sent_notify)
+    const [dateIncomingNotify, setDateIncomingNotify] = useState(userInfo.data.date_incoming_notify)
 
     const [alerts, setAlerts] = useState("")
 
@@ -89,7 +89,7 @@ function UserSettings() {
 
     function updateUserInfo() {
         const userData = {
-            user_id: userInfo.user_id,
+            user_id: userInfo.data.user_id,
             first_name: firstName,
             last_name: lastName,
             email: email,
@@ -98,14 +98,17 @@ function UserSettings() {
             solution_sent_notify: solutionSentNotify,
             date_incoming_notify: dateIncomingNotify
         };
+
+        userInfo.setData({user_id: userInfo.data.user_id, first_name: firstName, last_name: lastName, email: email, password: password, type: userInfo.data.type, new_mark_notify: newMarkNotify, solution_sent_notify: solutionSentNotify, date_incoming_notify: dateIncomingNotify})
+
         
-        userInfo.first_name = firstName
-        userInfo.last_name = lastName
-        userInfo.email = email
-        userInfo.password = password
-        userInfo.new_mark_notify = newMarkNotify
-        userInfo.solution_sent_notify =solutionSentNotify
-        userInfo.date_incoming_notify = dateIncomingNotify
+        // userInfo.first_name = firstName
+        // userInfo.last_name = lastName
+        // userInfo.email = email
+        // userInfo.password = password
+        // userInfo.new_mark_notify = newMarkNotify
+        // userInfo.solution_sent_notify =solutionSentNotify
+        // userInfo.date_incoming_notify = dateIncomingNotify
         
         axios.post( 'http://localhost:3001/api/user/updateinfo', userData )
             .then(response => {

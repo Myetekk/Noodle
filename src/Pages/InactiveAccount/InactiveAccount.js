@@ -1,11 +1,8 @@
-import React, { useState, useEffect } from 'react';
-import axios from 'axios';
-import { Link, Navigate, useNavigate } from 'react-router-dom';
+import React from 'react';
 
 import '../../Styles/App.css';
 import './InactiveAccount.css';
 import TopBar from '../../Assets/TopBar/TopBar';
-import { userInfo, userCourses } from '../Logging/LogIn';
 
 
 
@@ -15,8 +12,6 @@ import { userInfo, userCourses } from '../Logging/LogIn';
 
 
 function InactiveAccount() {
-    
-    const navigate = useNavigate()
     
 
 

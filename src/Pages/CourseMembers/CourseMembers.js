@@ -1,14 +1,10 @@
-import React, { useState, useEffect } from 'react';
-import axios from 'axios';
-import { Link, Navigate, useNavigate } from 'react-router-dom';
+import React from 'react';
 
 import '../../Styles/App.css';
 import TopBar from '../../Assets/TopBar/TopBar';
 import { activeStudents } from '../CoursePage/CoursePage';
 
 function CourseMembers() {
-
-    const navigate = useNavigate()
     
 
 

@@ -32,7 +32,7 @@ function TopBar() {
         <div className='Top-bar-segment'>
           
 
-          <text className='Top-bar-text' onClick={ () => navigate("/settings") }>{userInfo.first_name + " " + userInfo.last_name}</text>
+          <text className='Top-bar-text' onClick={ () => navigate("/settings") }>{userInfo.data.first_name + " " + userInfo.data.last_name}</text>
 
         </div>
 

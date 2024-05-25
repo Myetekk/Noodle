@@ -1,25 +1,46 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 
 import './Logging.css';
 import logo from '../../logo.svg';
 import { getUsersCoursesInfo } from '../MainPage/MainPage';
-import { getUserTypes } from '../HeadAdmin/HeadAdmin';
 
 
 
 
 
-export let userInfo = {user_id: 0, first_name: "", last_name: "", email: "", password: "", type: 0, new_mark_notify: 1, solution_sent_notify: 1, date_incoming_notify: 1} 
+// export let userInfo = {user_id: 0, first_name: "", last_name: "", email: "", password: "", type: 0, new_mark_notify: 1, solution_sent_notify: 1, date_incoming_notify: 1} 
 export let userCourses = []
 export let students = []
 export let admins = []
+
+class UserInfo {
+    constructor() {
+        this.data = {user_id: 0, first_name: "", last_name: "", email: "", password: "", type: 0, new_mark_notify: 1, solution_sent_notify: 1, date_incoming_notify: 1}
+    }
+
+    setData({user_id, first_name, last_name, email, password, type, new_mark_notify, solution_sent_notify, date_incoming_notify}) {
+        this.data = {user_id: user_id, first_name: first_name, last_name: last_name, email: email, password: password, type: type, new_mark_notify: new_mark_notify, solution_sent_notify: solution_sent_notify, date_incoming_notify: date_incoming_notify}
+    }
+
+    getData() {
+        return this.data
+    }
+}
+
+export const userInfo = new UserInfo()
 
 
 
 
 function LogIn() {
+    
+    useEffect( () => {
+        // console.log(userInfo.data.email)
+        // userInfo.setData(1, "A", "B", "C@C.com", "DDD", 2, 1, 1, 1)
+        // console.log(userInfo.data.email)
+    })
 
 
 
@@ -63,7 +84,7 @@ function LogIn() {
 
     // zeruje informacje aby uniknąć wyświetlania kilka razy to samo po przejściu 'poprzednia strona' 'następna strona'
     function clearInformation() {
-        userInfo = {user_id: 0, first_name: "", last_name: "", email: "", password: "", type: 0, new_mark_notify: true, solution_sent_notify: true, date_incoming_notify: true}
+        userInfo.setData({user_id: 0, first_name: "", last_name: "", email: "", password: "", type: 0, new_mark_notify: true, solution_sent_notify: true, date_incoming_notify: true})
         userCourses = []
     }
 
@@ -84,14 +105,13 @@ function LogIn() {
                 if (user.email === email){
                     if (user.password === password) {
                         await getUsersInfo()
-                        if (userInfo.type === 0){
+                        if (userInfo.data.type === 0){
                             navigate("/inactive-account")
                         }
-                        else if (userInfo.type === 1 || userInfo.type === 2){
+                        else if (userInfo.data.type === 1 || userInfo.data.type === 2){
                             await loadCourses(navigate)
-                            navigate("/home")
                         }
-                        else if (userInfo.type === 3){
+                        else if (userInfo.data.type === 3){
                             await getUserTypes()
                             navigate("/headadmin")
                         }     
@@ -118,7 +138,7 @@ function LogIn() {
         
         await axios.post('http://localhost:3001/api/user/info', userEmail)
         .then( response => {
-            userInfo = response.data[0];
+            userInfo.setData(response.data[0])
         })
         .catch(error => {
             console.error('Error fetching data about user info:', error);
@@ -244,7 +264,7 @@ export async function loadCourses(navigate) {
 
 // pobiera informacje o kursach użytkownika
 async function getUsersCourses(navigate)  {
-    const user_id = { user_id_: userInfo.user_id }
+    const user_id = { user_id_: userInfo.data.user_id }
     const userCourseId = [];
     let userCourseIdTemp;
 

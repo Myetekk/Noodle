@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 
@@ -41,7 +41,7 @@ function MainPage() {
 
 
     function showAddCourseButton() {
-        if(userInfo.type === 2) {
+        if(userInfo.data.type === 2) {
           return (
             <div className="Element-list" onClick={ () => navigate('/create-course') }>
                 <text className='Courses-title'>Dodaj nowy kurs</text>
@@ -99,7 +99,7 @@ function MainPage() {
             });
 
             // sprawdza czy użytkownik już przynależy do tego kursu
-            const data = { user_id_: userInfo.user_id, course_id_: course_id }
+            const data = { user_id_: userInfo.data.user_id, course_id_: course_id }
             await axios.post('http://localhost:3001/api/isuserincourse', data)
             .then( response => {
                 is_user_in_course = response.data[0].is_user_in_course
@@ -110,7 +110,7 @@ function MainPage() {
 
             if (is_user_in_course === 0) {
                 // dodaje użytkownika do kursu
-                const data = { user_id_: userInfo.user_id, course_id_: course_id }
+                const data = { user_id_: userInfo.data.user_id, course_id_: course_id }
                 await axios.post('http://localhost:3001/api/addusertocourse', data)
                 .then( response => {
                     console.log(response.data);
