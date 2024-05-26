@@ -6,7 +6,7 @@ import '../../Styles/App.css';
 import './CreateCourse.css';
 import '../../Styles/Settings.css';
 import TopBar from '../../Assets/TopBar/TopBar';
-import { userInfo, loadCourses } from '../Logging/LogIn';
+import { userInfo, getUsersCourses } from '../Logging/LogIn';
 
 
 
@@ -91,7 +91,9 @@ function CreateCourse() {
             await getCourseId()
             await addUserToCourse()
 
-            loadCourses(navigate)
+            // loadCourses(navigate)
+            await getUsersCourses()
+            navigate("/home")
         }
     }
 

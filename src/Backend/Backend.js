@@ -310,8 +310,8 @@ app.post('/api/loadactivestudents', (req, res) => {
   const request = new sql.Request();
   const course_id = req.body.course_id_;
 
-
-  let query = `SELECT first_name, last_name FROM users WHERE type = 1 AND user_id in (SELECT user_id FROM user_course_connection WHERE course_id = ${course_id})`;
+  // wywaliłem sprawdzanie czy type użytwkownika to '1', bo chyba zakładamy że admini też mogą być kursantami
+  let query = `SELECT first_name, last_name FROM users WHERE user_id in (SELECT user_id FROM user_course_connection WHERE course_id = ${course_id})`;
 
   request.query(query, (err, result) => {
     if (err) {

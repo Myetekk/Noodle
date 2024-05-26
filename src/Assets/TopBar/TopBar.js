@@ -12,7 +12,7 @@ import { userInfo } from '../../Pages/Logging/LogIn';
 function TopBar() {
 
   useEffect( () => {
-    userInfo.setData(JSON.parse(window.localStorage.getItem('userInfo')))
+    userInfo.setData(JSON.parse(window.localStorage.getItem('userInfo')))  // sczytanie userInfo z danych zapisanych w przeglądarce 
     setFirstName(userInfo.data.first_name)
     setLastName(userInfo.data.last_name)
   }, [])
@@ -43,7 +43,7 @@ function TopBar() {
 
         <div className='Top-bar-segment'>
 
-          <text className='Top-bar-text' onClick={ () => navigate("/settings") }>{firstName + " " + lastName}</text>
+          <text className='Top-bar-text' onClick={ () => { navigate("/settings") } }>{firstName + " " + lastName}</text>
 
         </div>
 

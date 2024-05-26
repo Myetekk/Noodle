@@ -11,7 +11,6 @@ import ErrorPage from './Pages/ErrorPage/ErrorPage'
 import HeadAdmin from './Pages/HeadAdmin/HeadAdmin'
 import CourseMembers from './Pages/CourseMembers/CourseMembers'
 import InactiveAccount from './Pages/InactiveAccount/InactiveAccount'
-import ReloadMainPage from './Assets/ReloadMainPage'
 
 
 
@@ -39,7 +38,6 @@ function App() {
           <Route path="/course-members" element={<CourseMembers />} />
           
           <Route path="/inactive-account" element={<InactiveAccount />} />
-          <Route path="/reload-main-page" element={<ReloadMainPage />} />
 
         </Routes>
       </Router>

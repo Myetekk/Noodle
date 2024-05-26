@@ -5,15 +5,37 @@ import { useNavigate } from 'react-router-dom';
 import '../../Styles/App.css';
 import './MainPage.css';
 import TopBar from '../../Assets/TopBar/TopBar';
-import { userInfo, userCourses, loadCourses } from '../Logging/LogIn';
-import { getCoursesElementsInfo } from '../CoursePage/CoursePage';
+import { userInfo, userCourses, getUsersCourses } from '../Logging/LogIn';
 
 
 
 
 
-export let courseInfo = {course_id: 0, course_name: "", course_owner: 0} 
-export let coursesElements = []
+// info o otwartym kursie
+class CurrentCourseInfo {
+    constructor() {
+        this.courseInfo = {course_id: 0, course_name: "", course_owner: 0}
+        this.coursesElements = []
+        this.visualCoursesElements = []
+    }
+
+    setSelectedData({course_id, course_name, course_owner}) {
+        this.courseInfo = {course_id: course_id, course_name: course_name, course_owner: course_owner}
+    }
+
+    setData(coursesElements) {
+        this.coursesElements = coursesElements
+    }
+
+    setVisualData(visualCoursesElements) {
+        this.visualCoursesElements = visualCoursesElements
+    }
+
+    getData() {
+        return this.data
+    }
+}
+export const currentCourseInfo = new CurrentCourseInfo()
 
 
 
@@ -22,13 +44,12 @@ export let coursesElements = []
 function MainPage() {
 
     useEffect( () => {
-        window.localStorage.setItem('userInfo', JSON.stringify(userInfo.data))
-        // window.localStorage.setItem('userCourses', JSON.stringify(userCourses.data))
-    }, [userInfo.data], [userCourses.data])
+        userInfo.setData(JSON.parse(window.localStorage.getItem('userInfo')))  // sczytanie userInfo z danych zapisanych w przeglądarce 
+        setUserType(userInfo.data.type)
 
-    useEffect( () => {
-        userInfo.setData(JSON.parse(window.localStorage.getItem('userInfo')))
-        // userCourses.setData(JSON.parse(window.localStorage.getItem('userCourses')))
+        userCourses.setVisualData([])  // czyści żeby nie wypisywać kilka razy tego samego (szczególnie przy chodzeniu 'poprzednia strona' 'następna strona')
+        userCourses.setData(JSON.parse(window.localStorage.getItem('userCourses')))  // sczytanie userCourses z danych zapisanych w przeglądarce 
+        visualizeCoursesInfo(navigate, setUserCoursesVisualized)  // przekuwa userCourses w widok przycisków kursów
     }, [])
 
 
@@ -37,6 +58,8 @@ function MainPage() {
 
     const [showEnterCode, setShowEnterCode] = useState(false)
     const [accessCode, setAccessCode] = useState("")
+    const [userType, setUserType] = useState(0)
+    const [userCoursesVisualized, setUserCoursesVisualized] = useState([])
     
     const [alerts, setAlerts] = useState("")
     
@@ -53,9 +76,9 @@ function MainPage() {
 
 
     function showAddCourseButton() {
-        if(userInfo.data.type === 2) {
+        if(userType === 2) {
           return (
-            <div className="Element-list" onClick={ () => navigate('/create-course') }>
+            <div className="Element-list" onClick={ () => { navigate('/create-course') } }>
                 <text className='Courses-title'>Dodaj nowy kurs</text>
             </div>
           )
@@ -132,7 +155,8 @@ function MainPage() {
                 });
                 
                 
-                await loadCourses(navigate)  // ponownie pobiera kursy użytkownika
+                await getUsersCourses()
+                window.location.reload()
             }  
             else setAlerts("Już należysz do tego kursu") 
         }
@@ -156,7 +180,7 @@ function MainPage() {
 
                 <div className='Container'>
                     
-                    { userCourses.data }
+                    { userCoursesVisualized }
 
                     <div className="Element-list" onClick={ () => setShowEnterCode(true) }>
                         <div className='Course-horizontal-div'>
@@ -191,9 +215,8 @@ export default MainPage;
 
 
 // zeruje informacje aby uniknąć wyświetlania kilka razy to samo po przejściu 'poprzednia strona' 'następna strona'
-function clearInformation() {
-    courseInfo = {course_id: 0, course_name: "", course_owner: 0} 
-    coursesElements = []
+function clearInformation() {    
+    currentCourseInfo.setSelectedData({course_id: 0, course_name: "", course_owner: 0})
 }
 
 
@@ -205,47 +228,38 @@ function clearInformation() {
 
 
 
-export async function getUsersCoursesInfo(navigate, userCourseId) {
-    await axios.post('http://localhost:3001/api/loadcourses', userCourseId)
-    .then( response => {
-        const userCoursesTemp = response.data;
-        
-        userCoursesTemp.forEach( (element) => {
-            userCourses.data.push(
-                <div className="Element-list" onClick={() => navigateToCourse(navigate, element.course_id, element.course_name, element.course_owner)}>
-                    <text className='Courses-title'>{element.course_name}</text>
-                    <text className='Courses-description'>prowadzący kursu: {element.first_name} {element.last_name}</text>
-                </div>
-            )
-        })
-
+// przekuwa userCourses w widok przycisków kursów
+function visualizeCoursesInfo(navigate, setUserCoursesVisualized) {
+    userCourses.data.forEach( (element) => {
+        userCourses.visualData.push(
+            <div className="Element-list" onClick={() => navigateToCourse(navigate, element.course_id, element.course_name, element.course_owner)}>
+                <text className='Courses-title'>{element.course_name}</text>
+                <text className='Courses-description'>prowadzący kursu: {element.first_name} {element.last_name}</text>
+            </div>
+        )
     })
-    .catch(error => {
-        console.error('Error fetching data:', error);
-    });
+
+    setUserCoursesVisualized(userCourses.visualData)
 }
 
 
 
 // przekazuje informacje o wybranym (klikniętym) kursie i przekierowywuje do niego
-async function navigateToCourse(navigate, current_course_id, current_course_name, current_course_owner) {
-
+async function navigateToCourse(navigate, course_id, course_name, course_owner) {
     clearInformation()
-    
-    courseInfo.course_id = current_course_id
-    courseInfo.course_name = current_course_name
-    courseInfo.course_owner = current_course_owner
 
-    await getCoursesElements(navigate)
+    currentCourseInfo.setSelectedData({course_id, course_name, course_owner})
+    window.localStorage.setItem('coursesInfo', JSON.stringify(currentCourseInfo.courseInfo))
 
+    await getCoursesElements()
     navigate("/course")
 }
 
 
 
 // pobiera informacje o elementach kursu
-async function getCoursesElements(navigate)  {
-    const course_id = { course_id_: courseInfo.course_id }
+async function getCoursesElements()  {
+    const course_id = { course_id_: currentCourseInfo.courseInfo.course_id }
     const courseElementId = [];
     let courseElementIdTemp;
 
@@ -257,11 +271,18 @@ async function getCoursesElements(navigate)  {
         console.error('Error fetching data:', error);
     });
 
+
     courseElementIdTemp.forEach( (element) => {
         courseElementId.push( element.element_id )
     });
 
-    console.log(courseElementId)
 
-    await getCoursesElementsInfo(navigate, courseElementId)
+    await axios.post('http://localhost:3001/api/loadelements', courseElementId)
+    .then( response => {
+        const coursesElementsTemp = response.data;
+        window.localStorage.setItem('coursesElements', JSON.stringify(coursesElementsTemp))
+    })
+    .catch(error => {
+        console.error('Error fetching data:', error);
+    });
 }

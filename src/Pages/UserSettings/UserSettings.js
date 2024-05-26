@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import Switch from "react-switch";
@@ -13,6 +13,18 @@ import { userInfo } from '../Logging/LogIn';
 
 
 function UserSettings() {
+
+    useEffect( () => {
+      userInfo.setData(JSON.parse(window.localStorage.getItem('userInfo')))  // sczytanie userInfo z danych zapisanych w przeglądarce 
+      setFirstName(userInfo.data.first_name)
+      setLastName(userInfo.data.last_name)
+      setEmail(userInfo.data.email)
+      setPassword(userInfo.data.password)
+      setRepeatPassword(userInfo.data.password)
+      setNewMarkNotify(userInfo.data.new_mark_notify)
+      setSolutionSentNotify(userInfo.data.solution_sent_notify)
+      setDateIncomingNotify(userInfo.data.date_incoming_notify)
+    }, [])
 
 
 

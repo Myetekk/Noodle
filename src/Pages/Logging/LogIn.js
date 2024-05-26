@@ -4,17 +4,15 @@ import { useNavigate } from 'react-router-dom';
 
 import './Logging.css';
 import logo from '../../logo.svg';
-import { getUsersCoursesInfo } from '../MainPage/MainPage';
 
 
 
 
 
-// export let userInfo = {user_id: 0, first_name: "", last_name: "", email: "", password: "", type: 0, new_mark_notify: 1, solution_sent_notify: 1, date_incoming_notify: 1} 
-// export let userCourses = []
 export let students = []
 export let admins = []
 
+// info o zalogowanym użytkowniku 
 class UserInfo {
     constructor() {
         this.data = {user_id: 0, first_name: "", last_name: "", email: "", password: "", type: 0, new_mark_notify: 1, solution_sent_notify: 1, date_incoming_notify: 1}
@@ -30,13 +28,20 @@ class UserInfo {
 }
 export const userInfo = new UserInfo()
 
+
+// info o kursach zalogowanego użytkownika
 class UserCourses {
     constructor() {
         this.data = []
+        this.visualData = []
     }
 
     setData(data) {
         this.data = data
+    }
+
+    setVisualData(visualData) {
+        this.visualData = visualData
     }
 
     getData() {
@@ -113,15 +118,14 @@ function LogIn() {
                 if (user.email === email){
                     if (user.password === password) {
                         await getUsersInfo()
+                        window.localStorage.setItem('userInfo', JSON.stringify(userInfo.data))  // zapisuje userInfo w przeglądarce
+
                         if (userInfo.data.type === 0){
                             navigate("/inactive-account")
                         }
                         else if (userInfo.data.type === 1 || userInfo.data.type === 2){
-                            // await loadCourses(navigate)
-                        
                             await getUsersCourses(navigate)
                             navigate("/home")
-
                         }
                         else if (userInfo.data.type === 3){
                             await getUserTypes()
@@ -155,7 +159,6 @@ function LogIn() {
         .catch(error => {
             console.error('Error fetching data about user info:', error);
         });
-
     }
 
 
@@ -261,21 +264,8 @@ export default LogIn
 
 
 
-export async function loadCourses(navigate) {
-    userCourses.setData([])  // wyzerowanie pamięci o kursach żeby nie dublować 
-
-    await getUsersCourses(navigate)
-
-    
-    navigate("/reload-main-page")
-}
-
-
-
-
-
 // pobiera informacje o kursach użytkownika
-async function getUsersCourses(navigate)  {
+export async function getUsersCourses()  {
     const user_id = { user_id_: userInfo.data.user_id }
     const userCourseId = [];
     let userCourseIdTemp;
@@ -292,5 +282,13 @@ async function getUsersCourses(navigate)  {
         userCourseId.push( element.course_id )
     });
 
-    await getUsersCoursesInfo(navigate, userCourseId)
+
+    await axios.post('http://localhost:3001/api/loadcourses', userCourseId)
+    .then( response => {
+        const userCoursesTemp = response.data;
+        window.localStorage.setItem('userCourses', JSON.stringify(userCoursesTemp))
+    })
+    .catch(error => {
+        console.error('Error fetching data:', error);
+    });
 }
