@@ -260,27 +260,13 @@ async function navigateToCourse(navigate, course_id, course_name, course_owner) 
 // pobiera informacje o elementach kursu
 async function getCoursesElements()  {
     const course_id = { course_id_: currentCourseInfo.courseInfo.course_id }
-    const courseElementId = [];
-    let courseElementIdTemp;
+    let courseElementId = [];
+    // let courseElementIdTemp;
 
     await axios.post('http://localhost:3001/api/courseelements', course_id)
     .then( response => {
-        courseElementIdTemp = response.data;
-    })
-    .catch(error => {
-        console.error('Error fetching data:', error);
-    });
-
-
-    courseElementIdTemp.forEach( (element) => {
-        courseElementId.push( element.element_id )
-    });
-
-
-    await axios.post('http://localhost:3001/api/loadelements', courseElementId)
-    .then( response => {
-        const coursesElementsTemp = response.data;
-        window.localStorage.setItem('coursesElements', JSON.stringify(coursesElementsTemp))
+        courseElementId = response.data;
+        window.localStorage.setItem('coursesElements', JSON.stringify(courseElementId))
     })
     .catch(error => {
         console.error('Error fetching data:', error);
