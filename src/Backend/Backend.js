@@ -251,7 +251,6 @@ app.post('/api/courseelements', (req, res) => {
   const request = new sql.Request();
   let course_id = req.body.course_id_
 
-  // let query = `SELECT element_id FROM course_element_connection WHERE course_id=${course_id}`
   let query = `SELECT * FROM elements WHERE course_id=${course_id}`
 
   request.query(query, (err, result) => {
@@ -263,38 +262,6 @@ app.post('/api/courseelements', (req, res) => {
     }
   });
 });
-
-
-
-
-
-
-
-
-
-
-// // pobranie informacji o elementach w kursie 
-// // plik CoursePage.js
-// app.post('/api/loadelements', (req, res) => {
-//   const request = new sql.Request();
-//   let element_id = req.body
-
-//   let query = `SELECT * FROM elements WHERE element_id=${element_id[0]}`
-//   if (element_id.length > 1){
-//     element_id.forEach( element => {
-//       query += ` OR element_id='${element}'`
-//     });
-//   }
-
-//   request.query(query, (err, result) => {
-//     if (err) {
-//       console.error('Error querying database:', err);
-//       res.status(500).send('Error querying database');
-//     } else {
-//       res.json(result.recordset);
-//     }
-//   });
-// });
 
 
 

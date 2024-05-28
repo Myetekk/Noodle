@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
+import { format } from 'date-fns';
+import dateFormat from 'dateformat'
 
 import '../../Styles/App.css';
 import './MainPage.css';
@@ -261,14 +263,21 @@ async function navigateToCourse(navigate, course_id, course_name, course_owner) 
 async function getCoursesElements()  {
     const course_id = { course_id_: currentCourseInfo.courseInfo.course_id }
     let courseElementId = [];
-    // let courseElementIdTemp;
 
     await axios.post('http://localhost:3001/api/courseelements', course_id)
     .then( response => {
         courseElementId = response.data;
-        window.localStorage.setItem('coursesElements', JSON.stringify(courseElementId))
     })
     .catch(error => {
         console.error('Error fetching data:', error);
     });
+
+    // zmiana formatu daty i godziny
+    courseElementId.forEach( (element) => {
+        element.open_date = dateFormat(new Date(element.open_date), "dddd dd mmmm yyyy  HH:MM", true)
+        element.close_date = dateFormat(new Date(element.close_date), "dddd dd mmmm yyyy  HH:MM", true)
+    } )
+
+    // wrzucenie danych o elementach do pamięci przeglądarki
+    window.localStorage.setItem('coursesElements', JSON.stringify(courseElementId))
 }
