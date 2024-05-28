@@ -32,7 +32,7 @@
 
 
 
-.Setting-input, .Setting-input-email, .Setting-input-password, .Course-name, .Course-access-code {
+.Setting-input, .Setting-input-email, .Setting-input-password, .Course-name, .Course-access-code, .Setting-date {
     background-color: #383c47;
     color: white;
     width: 23vmin;
@@ -54,6 +54,10 @@
 .Course-access-code {
     width: 8.5vmin;
     margin-right: 5vmin;
+}
+.Setting-date {
+    width: 17vmin;
+    padding: 1vmin;
 }
 
 

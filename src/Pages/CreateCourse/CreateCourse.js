@@ -17,6 +17,7 @@ function CreateCourse() {
     const navigate = useNavigate()
 
     useEffect( () => {
+        // zabezpiecza przed wchodzeniem na tą stronę przez wpisanie jej linku przez osobę nieadminową 
         if(userInfo.data.type !== 2) {
             navigate('/error-page')
         }
@@ -85,13 +86,11 @@ function CreateCourse() {
         if ( name === "" ) setAlerts("wprowadź nazwe kursu")
         else if ( accessCode === "" ) setAlerts("wprowadź kod dostępu")
         else {
-
             setAlerts("")
             await createCourse()
             await getCourseId()
             await addUserToCourse()
 
-            // loadCourses(navigate)
             await getUsersCourses()
             navigate("/home")
         }
@@ -99,8 +98,6 @@ function CreateCourse() {
 
     async function createCourse() {
         const courseData = { course_name: name, course_owner: userInfo.data.user_id, access_code: accessCode };
-
-        console.log("createCourse")
 
         // stworzenie nowego kursu
         axios.post( 'http://localhost:3001/api/newcourse', courseData )
@@ -114,8 +111,6 @@ function CreateCourse() {
 
     async function getCourseId() {
         const accessData = { access_code_: accessCode }
-
-        console.log("accessData: " + accessData.access_code_)
 
         // pobranie id kursu na podstawie kodu dostępu
         await axios.post('http://localhost:3001/api/accesscodecourseid', accessData)
@@ -131,8 +126,6 @@ function CreateCourse() {
     async function addUserToCourse() {
         // dodanie użytkownika do kursu
         const data = { user_id_: userInfo.data.user_id, course_id_: course_id }
-        
-        console.log("user_id: " + userInfo.data.user_id + ", course_id: " + course_id)
 
         axios.post('http://localhost:3001/api/addusertocourse', data)
         .then( response => {

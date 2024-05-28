@@ -422,3 +422,25 @@ app.post('/api/addusertocourse', (req, res) => {
     }
   });
 });
+
+
+
+
+
+
+
+
+
+
+// dodanie nowego elementu 
+// plik CreateElement.js
+app.post('/api/newelement', (req, res) => {
+  try {  
+    const { name, description, type, open_date, close_date, course_id } = req.body;
+    
+    sql.query`INSERT INTO elements (name, description, type, open_date, close_date, course_id) VALUES (${name}, ${description}, ${type}, ${open_date}, ${close_date}, ${course_id})`;
+  } catch (error) {
+    console.error('Error inserting data:', error.message);
+    res.status(500).json({ error: 'Internal Server Error' });
+  }
+});//newelement
