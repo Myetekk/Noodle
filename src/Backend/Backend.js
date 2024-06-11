@@ -251,7 +251,7 @@ app.post('/api/courseelements', (req, res) => {
   const request = new sql.Request();
   let course_id = req.body.course_id_
 
-  let query = `SELECT * FROM elements WHERE course_id=${course_id}`
+  let query = `SELECT element_id, name, description, type, open_date, close_date, course_id, (SELECT COUNT(1) FROM solutions WHERE solutions.element_id = elements.element_id) as number_solutions_in_element FROM elements WHERE course_id=${course_id}`
 
   request.query(query, (err, result) => {
     if (err) {
@@ -276,10 +276,10 @@ app.post('/api/courseelements', (req, res) => {
 // plik CoursePage.js
 app.post('/api/loadactivestudents', (req, res) => {
   const request = new sql.Request();
-  const course_id = req.body.course_id_;
+  const course_id = req.body.course_id_
+  const user_id = req.body.user_id_
 
-  // wywaliłem sprawdzanie czy type użytwkownika to '1', bo chyba zakładamy że admini też mogą być kursantami
-  let query = `SELECT first_name, last_name FROM users WHERE user_id in (SELECT user_id FROM user_course_connection WHERE course_id = ${course_id})`;
+  let query = `SELECT first_name, last_name FROM users WHERE user_id in (SELECT user_id FROM user_course_connection WHERE course_id = ${course_id}) AND user_id != ${user_id}`;
 
   request.query(query, (err, result) => {
     if (err) {
@@ -443,4 +443,60 @@ app.post('/api/newelement', (req, res) => {
     console.error('Error inserting data:', error.message);
     res.status(500).json({ error: 'Internal Server Error' });
   }
-});//newelement
+});
+
+
+
+
+
+
+
+
+
+
+// sprawdzenie ilości użytkowników w kursie 
+// plik CoursePage.js
+app.post('/api/usersincourse', (req, res) => {
+  const request = new sql.Request();
+  const course_id = req.body.course_id_
+  const user_id = req.body.user_id_
+
+  let query = `SELECT COUNT(1) as number_users_in_course FROM users WHERE user_id in (SELECT user_id FROM user_course_connection WHERE course_id = ${course_id}) AND user_id != ${user_id}`;
+
+  request.query(query, (err, result) => {
+    if (err) {
+      console.error('Error querying database:', err);
+      res.status(500).send('Error querying database');
+    } else {
+      res.json(result.recordset);
+    }
+  });
+});
+
+
+
+
+
+
+
+
+
+
+// sprawdza czy użytkownik przesłał rozwiązanie danego elementu
+// plik CoursePage.js
+app.post('/api/didusersentsolution', (req, res) => {
+  const request = new sql.Request();
+  let element_id = req.body.element_id_
+  let user_id = req.body.user_id_
+
+  let query = `SELECT COUNT(1) as user_solution_sent FROM solutions WHERE element_id=${element_id} AND user_id=${user_id}`
+
+  request.query(query, (err, result) => {
+    if (err) {
+      console.error('Error querying database:', err);
+      res.status(500).send('Error querying database');
+    } else {
+      res.json(result.recordset);
+    }
+  });
+});
