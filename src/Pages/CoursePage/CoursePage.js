@@ -14,7 +14,7 @@ import { currentCourseInfo } from '../MainPage/MainPage';
 
 export let activeStudents = []
 let numberOfStudents = "x"
-let numberOfUsersSolutions = 0
+// let numberOfUsersSolutions = 0
 // let status = ""
 // let status_numberOfStudents = ""
 
@@ -90,6 +90,99 @@ function CoursePage() {
   }
 
 
+
+
+
+  // przekuwa coursesElements w widok przycisków elementów
+  async function visualizeElements(navigate, setCoursesElementsVisualized) {
+    await checkNumberOfUsersInCourse(numberOfStudents)
+
+    currentCourseInfo.coursesElements.forEach( (element) => {
+
+      currentCourseInfo.visualCoursesElements.push(
+        <div className="Element-list">
+          <text className='Courses-title'>{element.name}</text>
+          <text className='Courses-description'>opis: {element.description}</text>
+          <text className='Courses-description'>otwarcie: {element.open_date}</text>
+          <text className='Courses-description'>zamknięcie: {element.close_date}</text>
+          <text className='Courses-description'>status: { loadElementStatus(element) }</text>  {/* jeśli to właściciel kursu: ilość przesłanych zadań (np. 10/16); jeśli zwykły użytkownik: czy przesłano rozwiązanie, czy oceniono, jak ocena */}
+        </div>
+      )
+    })
+
+    setCoursesElementsVisualized(currentCourseInfo.visualCoursesElements)
+    getActiveStudents()
+  }
+
+
+
+
+
+  function loadElementStatus(element) {
+    if (userInfo.data.user_id === currentCourseInfo.courseInfo.course_owner) {  // gdy użytkownik jest właścicielem kursu
+      return (
+        <text>{element.number_solutions_in_element}/{numberOfStudents}</text>
+      )
+    }
+    else {  // gdy użytkownik nie jest właścicielem kursu
+      if ( element.solutions_sent === 0) {
+        return (
+          <text>nie przesłano</text>
+        )
+      }
+      else {
+        return (
+          <text>przesłano</text>
+        )
+      }
+
+    }
+  }
+
+
+
+
+
+  //pobiera info o ilości użytkowników w kursie
+  async function checkNumberOfUsersInCourse() {
+    const course_id = {course_id_ : currentCourseInfo.courseInfo.course_id, user_id_: userInfo.data.user_id}
+
+    await axios.post('http://localhost:3001/api/usersincourse', course_id)
+    .then(response => {
+      const numberOfUsers = response.data;
+      numberOfStudents = numberOfUsers[0].number_users_in_course
+    })
+    .catch(error => {
+      console.error('Error fetching data:', error);
+    });
+  }
+
+
+
+
+
+  // pobiera info o użytkownikach w danym kursie
+  async function getActiveStudents() {
+    const course_id = {course_id_ : currentCourseInfo.courseInfo.course_id, user_id_: userInfo.data.user_id}
+
+    await axios.post('http://localhost:3001/api/loadactivestudents', course_id)
+    .then(response => {
+      const usersTemp = response.data;
+      activeStudents.length = 0
+      usersTemp.forEach((element) => {
+          activeStudents.push(
+              <div className="Tile">
+                  <text className="Name">{element.first_name} {element.last_name}</text>
+              </div>
+          )
+      });
+    })
+    .catch(error => {
+      console.error('Error fetching data:', error);
+    });
+  }
+
+
   
   
 
@@ -138,117 +231,3 @@ export default CoursePage
 
 
 
-// przekuwa coursesElements w widok przycisków elementów
-async function visualizeElements(navigate, setCoursesElementsVisualized) {
-  await checkNumberOfUsersInCourse(numberOfStudents)
-  
-  currentCourseInfo.coursesElements.forEach( async (element) => {
-
-    currentCourseInfo.visualCoursesElements.push(
-      <div className="Element-list">
-          <text className='Courses-title'>{element.name}</text>
-          <text className='Courses-description'>opis: {element.description}</text>
-          <text className='Courses-description'>otwarcie: {element.open_date}</text>
-          <text className='Courses-description'>zamknięcie: {element.close_date}</text>
-          <text className='Courses-description'>status: { loadElementStatus(element) }</text>  {/* jeśli to właściciel kursu: ilość przesłanych zadań (np. 10/16); jeśli zwykły użytkownik: czy przesłano rozwiązanie, czy oceniono, jak ocena */}
-      </div>
-    )
-  })
-
-  setCoursesElementsVisualized(currentCourseInfo.visualCoursesElements)
-  getActiveStudents()
-}
-
-
-
-
-
-//pobiera info o ilości użytkowników w kursie
-async function checkNumberOfUsersInCourse() {
-  const course_id = {course_id_ : currentCourseInfo.courseInfo.course_id, user_id_: userInfo.data.user_id}
-
-  await axios.post('http://localhost:3001/api/usersincourse', course_id)
-  .then(response => {
-    const numberOfUsers = response.data;
-    numberOfStudents = numberOfUsers[0].number_users_in_course
-  })
-  .catch(error => {
-    console.error('Error fetching data:', error);
-  });
-}
-
-
-
-
-
-function loadElementStatus(element) {
-  numberOfUsersSolutions = 0
-
-  if (userInfo.data.user_id === currentCourseInfo.courseInfo.course_owner) {  // gdy użytkownik jest właścicielem kursu
-    return(
-      <text>{element.number_solutions_in_element}/{numberOfStudents}</text>
-    )
-  }
-  else {  // gdy użytkownik nie jest właścicielem kursu
-    didUserSentSolution(element)
-    // console.log("numberOfUsersSolutions2: " + numberOfUsersSolutions)
-
-    // return(
-    //   <text>numberOfUsersSolutions: {numberOfUsersSolutions}</text>
-    // )
-
-
-    // if (numberOfUsersSolutions === 0) {
-    //   return(
-    //     <text>nie przesłano</text>
-    //   )
-    // }
-    // else {
-    //   return(
-    //     <text>przesłano</text>
-    //   )
-    // }
-  }
-}
-
-
-
-
-
-// sprawdza czy użytkownik przesłał rozwiązanie danego elementu
-async function didUserSentSolution(element) {
-  const data = {element_id_ : element.element_id, user_id_: userInfo.data.user_id}
-
-  await axios.post('http://localhost:3001/api/didusersentsolution', data)
-  .then(response => {
-    numberOfUsersSolutions = response.data[0].user_solution_sent;
-  })
-  .catch(error => {
-    console.error('Error fetching data:', error);
-  });
-}
-
-
-
-
-
-// pobiera info o użytkownikach w danym kursie
-async function getActiveStudents() {
-  const course_id = {course_id_ : currentCourseInfo.courseInfo.course_id, user_id_: userInfo.data.user_id}
-
-  await axios.post('http://localhost:3001/api/loadactivestudents', course_id)
-  .then(response => {
-    const usersTemp = response.data;
-    activeStudents.length = 0
-    usersTemp.forEach((element) => {
-        activeStudents.push(
-            <div className="Tile">
-                <text className="Name">{element.first_name} {element.last_name}</text>
-            </div>
-        )
-    });
-  })
-  .catch(error => {
-    console.error('Error fetching data:', error);
-  });
-}

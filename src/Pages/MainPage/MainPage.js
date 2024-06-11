@@ -260,10 +260,10 @@ async function navigateToCourse(navigate, course_id, course_name, course_owner) 
 
 // pobiera informacje o elementach kursu
 async function getCoursesElements()  {
-    const course_id = { course_id_: currentCourseInfo.courseInfo.course_id }
+    const data = { course_id_: currentCourseInfo.courseInfo.course_id, user_id_: userInfo.data.user_id }
     let courseElementId = [];
 
-    await axios.post('http://localhost:3001/api/courseelements', course_id)
+    await axios.post('http://localhost:3001/api/courseelements', data)
     .then( response => {
         courseElementId = response.data;
     })

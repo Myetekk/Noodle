@@ -250,8 +250,9 @@ app.post('/api/loadcourses', (req, res) => {
 app.post('/api/courseelements', (req, res) => {
   const request = new sql.Request();
   let course_id = req.body.course_id_
+  let user_id = req.body.user_id_
 
-  let query = `SELECT element_id, name, description, type, open_date, close_date, course_id, (SELECT COUNT(1) FROM solutions WHERE solutions.element_id = elements.element_id) as number_solutions_in_element FROM elements WHERE course_id=${course_id}`
+  let query = `SELECT element_id, name, description, type, open_date, close_date, course_id, (SELECT COUNT(1) FROM solutions WHERE solutions.element_id = elements.element_id) as number_solutions_in_element, (SELECT COUNT(1) FROM solutions WHERE solutions.element_id=elements.element_id AND user_id=${user_id}) as solutions_sent FROM elements WHERE course_id=${course_id}`
 
   request.query(query, (err, result) => {
     if (err) {
@@ -482,21 +483,3 @@ app.post('/api/usersincourse', (req, res) => {
 
 
 
-// sprawdza czy użytkownik przesłał rozwiązanie danego elementu
-// plik CoursePage.js
-app.post('/api/didusersentsolution', (req, res) => {
-  const request = new sql.Request();
-  let element_id = req.body.element_id_
-  let user_id = req.body.user_id_
-
-  let query = `SELECT COUNT(1) as user_solution_sent FROM solutions WHERE element_id=${element_id} AND user_id=${user_id}`
-
-  request.query(query, (err, result) => {
-    if (err) {
-      console.error('Error querying database:', err);
-      res.status(500).send('Error querying database');
-    } else {
-      res.json(result.recordset);
-    }
-  });
-});
