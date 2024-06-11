@@ -4,6 +4,7 @@ import LogIn from './Pages/Logging/LogIn'
 import Register from './Pages/Logging/Register'
 import MainPage from './Pages/MainPage/MainPage'
 import CoursePage from './Pages/CoursePage/CoursePage'
+import ElementPage from './Pages/ElementPage/ElementPage'
 import UserSettings from './Pages/UserSettings/UserSettings'
 import CreateCourse from './Pages/CreateCourse/CreateCourse'
 import CreateElement from './Pages/CreateElement/CreateElement'
@@ -30,6 +31,7 @@ function App() {
           <Route path="/register" element={<Register />} />
           <Route path="/home" element={<MainPage />} />
           <Route path="/course" element={<CoursePage />} />
+          <Route path="/element" element={<ElementPage />} />
           <Route path="/settings" element={<UserSettings />} />
           <Route path="/create-course" element={<CreateCourse />} />
           <Route path="/create-element" element={<CreateElement />} />

@@ -12,11 +12,23 @@ import { currentCourseInfo } from '../MainPage/MainPage';
 
 
 
+// info o otwartym kursie
+class CurrentElementInfo {
+    constructor() {
+      this.elementInfo = {element_id: 0, name: "", description: "", open_date: new Date, close_date: new Date}
+    }
+
+    setData({element_id, name, description, open_date, close_date}) {
+      this.elementInfo = {element_id: element_id, name: name, description: description, open_date: open_date, close_date: close_date}
+    }
+}
+export const currentElementInfo = new CurrentElementInfo()
+
+
+
+
+
 export let activeStudents = []
-let numberOfStudents = "x"
-// let numberOfUsersSolutions = 0
-// let status = ""
-// let status_numberOfStudents = ""
 
 
 
@@ -27,7 +39,8 @@ function CoursePage() {
   useEffect( () => {
     userInfo.setData(JSON.parse(window.localStorage.getItem('userInfo')))  // sczytanie userInfo z danych zapisanych w przeglądarce 
     setUserId(userInfo.data.user_id)
-
+    
+    currentCourseInfo.setSelectedData({})  // czyści żeby nie wypisywać kilka razy tego samego (szczególnie przy chodzeniu 'poprzednia strona' 'następna strona')
     currentCourseInfo.setSelectedData(JSON.parse(window.localStorage.getItem('coursesInfo')))  // sczytanie userCourses z danych zapisanych w przeglądarce 
     setCourseName(currentCourseInfo.courseInfo.course_name)
     setCourseOwner(currentCourseInfo.courseInfo.course_owner)
@@ -48,7 +61,8 @@ function CoursePage() {
   const [courseName, setCourseName] = useState("")
   const [courseOwner, setCourseOwner] = useState(0)
   const [coursesElementsVisualized, setCoursesElementsVisualized] = useState([])
-  // const [elementStatus, setElementStatus] = useState("")
+
+  let numberOfStudents = "x"
 
 
 
@@ -56,7 +70,7 @@ function CoursePage() {
 
   // sprawdza czy użytkownik jest właścicielem danego kursu
   function isCourseOwner() {
-    return userId === courseOwner
+    return userInfo.data.user_id === currentCourseInfo.courseInfo.course_owner
   }
     
 
@@ -100,7 +114,7 @@ function CoursePage() {
     currentCourseInfo.coursesElements.forEach( (element) => {
 
       currentCourseInfo.visualCoursesElements.push(
-        <div className="Element-list">
+        <div className="Element-list" onClick={ () => navigateToElement(navigate, element.element_id, element.name, element.description, element.open_date, element.close_date) }>
           <text className='Courses-title'>{element.name}</text>
           <text className='Courses-description'>opis: {element.description}</text>
           <text className='Courses-description'>otwarcie: {element.open_date}</text>
@@ -118,8 +132,21 @@ function CoursePage() {
 
 
 
+  async function navigateToElement(navigate, element_id, name, description, open_date, close_date) {
+    currentElementInfo.setData({element_id: 0, name: "", description: "", open_date: new Date, close_date: new Date})
+    
+    currentElementInfo.setData({element_id, name, description, open_date, close_date})
+    window.localStorage.setItem('elementInfo', JSON.stringify(currentElementInfo.elementInfo))
+
+    navigate("/element")
+  }
+
+
+
+
+
   function loadElementStatus(element) {
-    if (userInfo.data.user_id === currentCourseInfo.courseInfo.course_owner) {  // gdy użytkownik jest właścicielem kursu
+    if (isCourseOwner()) {  // gdy użytkownik jest właścicielem kursu
       return (
         <text>{element.number_solutions_in_element}/{numberOfStudents}</text>
       )

@@ -163,6 +163,72 @@ function MainPage() {
         }
         else setAlerts("Błędny kod dostępu")
     }
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    // przekuwa userCourses w widok przycisków kursów
+    function visualizeCoursesInfo(navigate, setUserCoursesVisualized) {
+        userCourses.data.forEach( (element) => {
+            userCourses.visualData.push(
+                <div className="Element-list" onClick={ () => navigateToCourse(navigate, element.course_id, element.course_name, element.course_owner) }>
+                    <text className='Courses-title'>{element.course_name}</text>
+                    <text className='Courses-description'>prowadzący kursu: {element.first_name} {element.last_name}</text>
+                </div>
+            )
+        })
+    
+        setUserCoursesVisualized(userCourses.visualData)
+    }
+    
+    
+    
+    // przekazuje informacje o wybranym (klikniętym) kursie i przekierowywuje do niego
+    async function navigateToCourse(navigate, course_id, course_name, course_owner) {
+        currentCourseInfo.setSelectedData({course_id: 0, course_name: "", course_owner: 0})  // zeruje informacje aby uniknąć wyświetlania kilka razy to samo po przejściu 'poprzednia strona' 'następna strona'
+    
+        currentCourseInfo.setSelectedData({course_id, course_name, course_owner})
+        window.localStorage.setItem('coursesInfo', JSON.stringify(currentCourseInfo.courseInfo))
+    
+        await getCoursesElements()
+        navigate("/course")
+    }
+    
+    
+    
+    // pobiera informacje o elementach kursu
+    async function getCoursesElements()  {
+        const data = { course_id_: currentCourseInfo.courseInfo.course_id, user_id_: userInfo.data.user_id }
+        let courseElementId = [];
+    
+        await axios.post('http://localhost:3001/api/courseelements', data)
+        .then( response => {
+            courseElementId = response.data;
+        })
+        .catch(error => {
+            console.error('Error fetching data:', error);
+        });
+    
+        // zmiana formatu daty i godziny
+        courseElementId.forEach( (element) => {
+            element.open_date = dateFormat(new Date(element.open_date), "dddd dd mmmm yyyy  HH:MM", true)
+            element.close_date = dateFormat(new Date(element.close_date), "dddd dd mmmm yyyy  HH:MM", true)
+        } )
+    
+        // wrzucenie danych o elementach do pamięci przeglądarki
+        window.localStorage.setItem('coursesElements', JSON.stringify(courseElementId))
+    }
+
+
+
+
+
 
 
 
@@ -205,78 +271,3 @@ function MainPage() {
     );
 }
 export default MainPage;
-
-
-
-
-
-
-
-
-
-
-// zeruje informacje aby uniknąć wyświetlania kilka razy to samo po przejściu 'poprzednia strona' 'następna strona'
-function clearInformation() {    
-    currentCourseInfo.setSelectedData({course_id: 0, course_name: "", course_owner: 0})
-}
-
-
-
-
-
-
-
-
-
-
-// przekuwa userCourses w widok przycisków kursów
-function visualizeCoursesInfo(navigate, setUserCoursesVisualized) {
-    userCourses.data.forEach( (element) => {
-        userCourses.visualData.push(
-            <div className="Element-list" onClick={() => navigateToCourse(navigate, element.course_id, element.course_name, element.course_owner)}>
-                <text className='Courses-title'>{element.course_name}</text>
-                <text className='Courses-description'>prowadzący kursu: {element.first_name} {element.last_name}</text>
-            </div>
-        )
-    })
-
-    setUserCoursesVisualized(userCourses.visualData)
-}
-
-
-
-// przekazuje informacje o wybranym (klikniętym) kursie i przekierowywuje do niego
-async function navigateToCourse(navigate, course_id, course_name, course_owner) {
-    clearInformation()
-
-    currentCourseInfo.setSelectedData({course_id, course_name, course_owner})
-    window.localStorage.setItem('coursesInfo', JSON.stringify(currentCourseInfo.courseInfo))
-
-    await getCoursesElements()
-    navigate("/course")
-}
-
-
-
-// pobiera informacje o elementach kursu
-async function getCoursesElements()  {
-    const data = { course_id_: currentCourseInfo.courseInfo.course_id, user_id_: userInfo.data.user_id }
-    let courseElementId = [];
-
-    await axios.post('http://localhost:3001/api/courseelements', data)
-    .then( response => {
-        courseElementId = response.data;
-    })
-    .catch(error => {
-        console.error('Error fetching data:', error);
-    });
-
-    // zmiana formatu daty i godziny
-    courseElementId.forEach( (element) => {
-        element.open_date = dateFormat(new Date(element.open_date), "dddd dd mmmm yyyy  HH:MM", true)
-        element.close_date = dateFormat(new Date(element.close_date), "dddd dd mmmm yyyy  HH:MM", true)
-    } )
-
-    // wrzucenie danych o elementach do pamięci przeglądarki
-    window.localStorage.setItem('coursesElements', JSON.stringify(courseElementId))
-}

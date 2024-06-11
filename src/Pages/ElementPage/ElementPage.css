@@ -1,0 +1,25 @@
+.Element-container {
+    margin: 3.5vmin 5vmin;
+    display: flex;
+    flex-direction: column;
+}
+
+
+
+.Element-title {
+    font-size: 5vmin;
+    padding-bottom: 2vmin;
+}
+
+
+
+.Element-description, .Element-dates {
+    font-size: 3vmin;
+    color: #e4e4e4
+}
+
+
+
+.Element-dates {
+
+}
