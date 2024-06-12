@@ -49,3 +49,57 @@ h3 {
 .Course-members-title {
     font-weight: 500;
 }
+
+.DropdownList {
+    list-style-type: none;
+    padding-left: 0;
+    margin: 0 1.5vmin 1.5vmin 1.5vmin;
+    display: flex;
+    flex-direction: column;
+}
+
+.DropdownList :active
+.DropdownList :focus {
+    list-style-type: none;
+    padding-left: 0;
+    margin: 0 1.5vmin 1.5vmin 1.5vmin;
+}
+
+.dropdown-item{
+    border: 0.3vh solid #edf5f5;
+    padding: 0.8vh;
+    text-decoration: none;
+    color: inherit;
+    /* border-bottom: 0.3vh solid #edf5f5;
+    border-left: 0.3vh solid #edf5f5;
+    border-top: 0.1vh solid #8e9393;
+    border-right: 0.1vh solid #8e9393; */
+    margin-bottom: -0.2vh;
+}
+
+.dropdown-item:hover{
+    border: 0.3vh solid #00ff80;
+    padding: 0.8vh;
+    /* border-bottom: 0.3vh solid #edf5f5;
+    border-left: 0.3vh solid #edf5f5;
+    border-top: 0.1vh solid #8e9393;
+    border-right: 0.1vh solid #8e9393; */
+    margin-bottom: -0.2vh;
+}
+
+.dropdown-item:last-child{
+    border: 0.3vh solid #ff0000;
+    padding: 0.8vh;
+    text-decoration: none;
+    /* border-bottom: 0.3vh solid #edf5f5;
+    border-left: 0.3vh solid #edf5f5;
+    border-top: 0.1vh solid #8e9393;
+    border-right: 0.1vh solid #8e9393; */
+    color: #ff0000;
+    margin-top: 0.2vh;
+}
+
+.DropdownList.dropdown-menu.show{
+    position: unset;
+
+}

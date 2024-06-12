@@ -12,6 +12,7 @@ import ErrorPage from './Pages/ErrorPage/ErrorPage'
 import HeadAdmin from './Pages/HeadAdmin/HeadAdmin'
 import CourseMembers from './Pages/CourseMembers/CourseMembers'
 import InactiveAccount from './Pages/InactiveAccount/InactiveAccount'
+import 'bootstrap/dist/css/bootstrap.min.css';
 
 
 

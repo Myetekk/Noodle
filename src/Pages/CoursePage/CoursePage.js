@@ -7,28 +7,28 @@ import '../../Styles/App.css';
 import TopBar from '../../Assets/TopBar/TopBar';
 import { userInfo } from '../Logging/LogIn';
 import { currentCourseInfo } from '../MainPage/MainPage';
-
+import { Dropdown } from 'react-bootstrap';
+import ActiveStudents from './ActiveStudents';
 
 
 
 
 // info o otwartym kursie
 class CurrentElementInfo {
-    constructor() {
-      this.elementInfo = {element_id: 0, name: "", description: "", open_date: new Date, close_date: new Date}
-    }
+  constructor() {
+    this.elementInfo = {element_id: 0, name: "", description: "", open_date: new Date, close_date: new Date}
+  }
 
-    setData({element_id, name, description, open_date, close_date}) {
-      this.elementInfo = {element_id: element_id, name: name, description: description, open_date: open_date, close_date: close_date}
-    }
+  setData({element_id, name, description, open_date, close_date}) {
+    this.elementInfo = {element_id: element_id, name: name, description: description, open_date: open_date, close_date: close_date}
+  }
 }
 export const currentElementInfo = new CurrentElementInfo()
 
 
 
 
-
-export let activeStudents = []
+// export let activeStudents = []
 
 
 
@@ -67,7 +67,6 @@ function CoursePage() {
 
 
 
-
   // sprawdza czy użytkownik jest właścicielem danego kursu
   function isCourseOwner() {
     return userInfo.data.user_id === currentCourseInfo.courseInfo.course_owner
@@ -78,7 +77,8 @@ function CoursePage() {
 
 
   // pokazuje przycisk użytkowników w kursie
-  function showCourseMembers(){
+  function ShowCourseMembers(){
+    
     if (isCourseOwner()) {
       return(
         <div className="Course-members-button" onClick={() => navigate('/course-members')}>
@@ -125,7 +125,6 @@ function CoursePage() {
     })
 
     setCoursesElementsVisualized(currentCourseInfo.visualCoursesElements)
-    getActiveStudents()
   }
 
 
@@ -186,31 +185,6 @@ function CoursePage() {
 
 
 
-
-
-  // pobiera info o użytkownikach w danym kursie
-  async function getActiveStudents() {
-    const course_id = {course_id_ : currentCourseInfo.courseInfo.course_id, user_id_: userInfo.data.user_id}
-
-    await axios.post('http://localhost:3001/api/loadactivestudents', course_id)
-    .then(response => {
-      const usersTemp = response.data;
-      activeStudents.length = 0
-      usersTemp.forEach((element) => {
-          activeStudents.push(
-              <div className="Tile">
-                  <text className="Name">{element.first_name} {element.last_name}</text>
-              </div>
-          )
-      });
-    })
-    .catch(error => {
-      console.error('Error fetching data:', error);
-    });
-  }
-
-
-  
   
 
   return (
@@ -229,7 +203,7 @@ function CoursePage() {
 
           <div className="Top-container">
             <h3>{courseName}</h3>
-            { showCourseMembers() }
+             <ShowCourseMembers/>
           </div>
 
           { coursesElementsVisualized }
@@ -248,13 +222,3 @@ function CoursePage() {
 }
 
 export default CoursePage
-
-
-
-
-
-
-
-
-
-
