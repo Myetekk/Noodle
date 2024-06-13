@@ -20,6 +20,11 @@
 
 
 
-.Element-dates {
+.Table-borders {
+    font-size: 3vmin;
+    border: 0.1vmin solid #00ffff;
+}
 
+.Table-elements {
+    margin-right: 2vmin;
 }

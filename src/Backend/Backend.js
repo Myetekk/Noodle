@@ -483,3 +483,48 @@ app.post('/api/usersincourse', (req, res) => {
 
 
 
+// pobranie info o przesłanych rozwiązaniach w danym kursie 
+// plik CoursePage.js
+app.post('/api/usersstatus', (req, res) => {
+  const request = new sql.Request();
+  const element_id = req.body.element_id_
+
+  let query = `SELECT solutions.solution_id, solutions.user_id, users.first_name, users.last_name, solutions.element_id, solutions.grade FROM solutions INNER JOIN users ON solutions.user_id = users.user_id WHERE element_id=${element_id}`;
+
+  request.query(query, (err, result) => {
+    if (err) {
+      console.error('Error querying database:', err);
+      res.status(500).send('Error querying database');
+    } else {
+      res.json(result.recordset);
+    }
+  });
+});
+
+
+
+
+
+
+
+
+
+
+// pobranie info o rozwiązaniach użytkownika w danym elemencie 
+// plik ElementPage.js
+app.post('/api/userssolutionstatus', (req, res) => {
+  const request = new sql.Request();
+  const user_id = req.body.user_id_
+  const element_id = req.body.element_id_
+
+  let query = `SELECT solution_id, user_id, element_id, grade FROM solutions WHERE user_id=${user_id} AND element_id=${element_id}`;
+
+  request.query(query, (err, result) => {
+    if (err) {
+      console.error('Error querying database:', err);
+      res.status(500).send('Error querying database');
+    } else {
+      res.json(result.recordset);
+    }
+  });
+});

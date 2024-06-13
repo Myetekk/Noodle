@@ -13,14 +13,25 @@ import ActiveStudents from './ActiveStudents';
 
 
 
+
 // info o otwartym kursie
 class CurrentElementInfo {
   constructor() {
     this.elementInfo = {element_id: 0, name: "", description: "", open_date: new Date, close_date: new Date}
+    this.elementUsersStatus = []
+    this.elementUsersStatusVisualized = []
   }
 
   setData({element_id, name, description, open_date, close_date}) {
     this.elementInfo = {element_id: element_id, name: name, description: description, open_date: open_date, close_date: close_date}
+  }
+  
+  setUserStatus(elementUsersStatus) {
+    this.elementUsersStatus = elementUsersStatus
+  }
+
+  setUserStatusVisualized(elementUsersStatusVisualized) {
+    this.elementUsersStatusVisualized = elementUsersStatusVisualized
   }
 }
 export const currentElementInfo = new CurrentElementInfo()
@@ -38,16 +49,14 @@ function CoursePage() {
 
   useEffect( () => {
     userInfo.setData(JSON.parse(window.localStorage.getItem('userInfo')))  // sczytanie userInfo z danych zapisanych w przeglądarce 
-    setUserId(userInfo.data.user_id)
+    // setUserId(userInfo.data.user_id)
     
     currentCourseInfo.setSelectedData({})  // czyści żeby nie wypisywać kilka razy tego samego (szczególnie przy chodzeniu 'poprzednia strona' 'następna strona')
     currentCourseInfo.setSelectedData(JSON.parse(window.localStorage.getItem('coursesInfo')))  // sczytanie userCourses z danych zapisanych w przeglądarce 
-    setCourseName(currentCourseInfo.courseInfo.course_name)
-    setCourseOwner(currentCourseInfo.courseInfo.course_owner)
 
     currentCourseInfo.setVisualData([])  // czyści żeby nie wypisywać kilka razy tego samego (szczególnie przy chodzeniu 'poprzednia strona' 'następna strona')
-    currentCourseInfo.setData(JSON.parse(window.localStorage.getItem('coursesElements')))  // sczytanie userCourses z danych zapisanych w przeglądarce 
-    visualizeElements(navigate, setCoursesElementsVisualized)  // przekuwa userCourses w widok przycisków kursów
+    currentCourseInfo.setData(JSON.parse(window.localStorage.getItem('coursesElements')))  // sczytanie coursesElements z danych zapisanych w przeglądarce 
+    visualizeElements(navigate)  // przekuwa coursesElements w widok przycisków kursów
   }, [])
 
 
@@ -56,13 +65,10 @@ function CoursePage() {
     
   const navigate = useNavigate()
 
-  const [userId, setUserId] = useState(0)
-
-  const [courseName, setCourseName] = useState("")
-  const [courseOwner, setCourseOwner] = useState(0)
   const [coursesElementsVisualized, setCoursesElementsVisualized] = useState([])
 
-  let numberOfStudents = "x"
+  let numberOfStudents = "0"
+
 
 
 
@@ -78,7 +84,6 @@ function CoursePage() {
 
   // pokazuje przycisk użytkowników w kursie
   function ShowCourseMembers(){
-    
     if (isCourseOwner()) {
       return(
         <div className="Course-members-button" onClick={() => navigate('/course-members')}>
@@ -108,13 +113,12 @@ function CoursePage() {
 
 
   // przekuwa coursesElements w widok przycisków elementów
-  async function visualizeElements(navigate, setCoursesElementsVisualized) {
+  async function visualizeElements(navigate) {
     await checkNumberOfUsersInCourse(numberOfStudents)
 
     currentCourseInfo.coursesElements.forEach( (element) => {
-
       currentCourseInfo.visualCoursesElements.push(
-        <div className="Element-list" onClick={ () => navigateToElement(navigate, element.element_id, element.name, element.description, element.open_date, element.close_date) }>
+        <div className="Element-list" onClick={ () => navigateToElement(navigate, element.element_id, element.name, element.description, element.open_date, element.close_date, element.solutions_sent) }>
           <text className='Courses-title'>{element.name}</text>
           <text className='Courses-description'>opis: {element.description}</text>
           <text className='Courses-description'>otwarcie: {element.open_date}</text>
@@ -131,11 +135,13 @@ function CoursePage() {
 
 
 
-  async function navigateToElement(navigate, element_id, name, description, open_date, close_date) {
+  async function navigateToElement(navigate, element_id, name, description, open_date, close_date, solutions_sent) {
     currentElementInfo.setData({element_id: 0, name: "", description: "", open_date: new Date, close_date: new Date})
     
     currentElementInfo.setData({element_id, name, description, open_date, close_date})
     window.localStorage.setItem('elementInfo', JSON.stringify(currentElementInfo.elementInfo))
+
+    await getUsersStatus(element_id, solutions_sent)
 
     navigate("/element")
   }
@@ -202,7 +208,7 @@ function CoursePage() {
         <div className='Container'>
 
           <div className="Top-container">
-            <h3>{courseName}</h3>
+            <h3>{currentCourseInfo.courseInfo.course_name}</h3>
              <ShowCourseMembers/>
           </div>
 
@@ -222,3 +228,23 @@ function CoursePage() {
 }
 
 export default CoursePage
+
+
+
+
+
+export async function getUsersStatus(element_id, solutions_sent) {
+  const data = { element_id_: element_id }
+  let usersStatus = [];
+
+  await axios.post('http://localhost:3001/api/usersstatus', data)
+  .then( response => {
+    usersStatus = response.data;
+  })
+  .catch(error => {
+    console.error('Error fetching data:', error);
+  });
+
+  // wrzucenie danych o statusach do pamięci przeglądarki
+  window.localStorage.setItem('usersStatus', JSON.stringify(usersStatus))
+}

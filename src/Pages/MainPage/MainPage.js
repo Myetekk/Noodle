@@ -199,31 +199,6 @@ function MainPage() {
         await getCoursesElements()
         navigate("/course")
     }
-    
-    
-    
-    // pobiera informacje o elementach kursu
-    async function getCoursesElements()  {
-        const data = { course_id_: currentCourseInfo.courseInfo.course_id, user_id_: userInfo.data.user_id }
-        let courseElementId = [];
-    
-        await axios.post('http://localhost:3001/api/courseelements', data)
-        .then( response => {
-            courseElementId = response.data;
-        })
-        .catch(error => {
-            console.error('Error fetching data:', error);
-        });
-    
-        // zmiana formatu daty i godziny
-        courseElementId.forEach( (element) => {
-            element.open_date = dateFormat(new Date(element.open_date), "dddd dd mmmm yyyy  HH:MM", true)
-            element.close_date = dateFormat(new Date(element.close_date), "dddd dd mmmm yyyy  HH:MM", true)
-        } )
-    
-        // wrzucenie danych o elementach do pamięci przeglądarki
-        window.localStorage.setItem('coursesElements', JSON.stringify(courseElementId))
-    }
 
 
 
@@ -271,3 +246,30 @@ function MainPage() {
     );
 }
 export default MainPage;
+
+
+    
+    
+    
+// pobiera informacje o elementach kursu
+export async function getCoursesElements()  {
+    const data = { course_id_: currentCourseInfo.courseInfo.course_id, user_id_: userInfo.data.user_id }
+    let courseElements = [];
+
+    await axios.post('http://localhost:3001/api/courseelements', data)
+    .then( response => {
+        courseElements = response.data;
+    })
+    .catch(error => {
+        console.error('Error fetching data:', error);
+    });
+
+    // zmiana formatu daty i godziny
+    courseElements.forEach( (element) => {
+        element.open_date = dateFormat(new Date(element.open_date), "dddd dd mmmm yyyy  HH:MM", true)
+        element.close_date = dateFormat(new Date(element.close_date), "dddd dd mmmm yyyy  HH:MM", true)
+    } )
+
+    // wrzucenie danych o elementach do pamięci przeglądarki
+    window.localStorage.setItem('coursesElements', JSON.stringify(courseElements))
+}

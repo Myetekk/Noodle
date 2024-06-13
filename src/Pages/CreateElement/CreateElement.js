@@ -9,6 +9,7 @@ import "react-datepicker/dist/react-datepicker.css";
 import TopBar from '../../Assets/TopBar/TopBar';
 import { userInfo } from '../Logging/LogIn';
 import { currentCourseInfo } from '../MainPage/MainPage';
+import { getCoursesElements } from '../MainPage/MainPage';
 
 
 
@@ -48,23 +49,13 @@ function CreateElement() {
     const handleDescriptionChange = (event) => {
         setDescription(event.target.value)
     }
-    
-    async function changeDateFormat(date) {
-        setOpenDate(dateFormat(new Date(date), "yyyy-mm-dd'T'HH:MM:00.000'Z'"))  // zmiana formatu daty na taką jak jest w bazie 
-    }
-
-    // const handleCloseDateChange = () => {
-    //     setCloseDate(dateFormat(new Date(closeDate), "yyyy-mm-dd'T'HH:MM:00.000'Z'"))  // zmiana formatu daty na taką jak jest w bazie 
-    // }
 
 
 
 
 
     const handleSubmit = (event) => {
-        event.preventDefault();   
-        changeDateFormat(openDate)
-        changeDateFormat(closeDate)     
+        event.preventDefault();
         validateData()
     }
 
@@ -74,6 +65,7 @@ function CreateElement() {
         else {
             setAlerts("")
             await createElement()
+            await getCoursesElements()
             navigate("/course")
         }
     }
