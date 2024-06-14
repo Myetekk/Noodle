@@ -377,7 +377,7 @@ app.post('/api/accesscodecourseid', (req, res) => {
 
 
 
-// pobiera id kursu o podanym kodzie dostępu 
+// sprawdza czy użytkownik jest już w kursie do którego chce się zapisać 
 // plik MainPage.js
 app.post('/api/isuserincourse', (req, res) => {
   const request = new sql.Request();
@@ -489,7 +489,7 @@ app.post('/api/usersstatus', (req, res) => {
   const request = new sql.Request();
   const element_id = req.body.element_id_
 
-  let query = `SELECT solutions.solution_id, solutions.user_id, users.first_name, users.last_name, solutions.element_id, solutions.grade FROM solutions INNER JOIN users ON solutions.user_id = users.user_id WHERE element_id=${element_id}`;
+  let query = `SELECT user_course_connection.user_id,   (SELECT users.first_name FROM users WHERE users.user_id=user_course_connection.user_id) as first_name,   (SELECT users.last_name FROM users WHERE users.user_id=user_course_connection.user_id) as last_name,   solutions.grade   FROM   user_course_connection   LEFT JOIN   solutions ON (solutions.element_id=${element_id} AND solutions.user_id=user_course_connection.user_id)   WHERE   user_course_connection.course_id=(SELECT elements.course_id FROM elements WHERE elements.element_id=${element_id})   AND   user_course_connection.user_id!=(SELECT courses.course_owner FROM courses WHERE courses.course_id=user_course_connection.course_id)`;
 
   request.query(query, (err, result) => {
     if (err) {

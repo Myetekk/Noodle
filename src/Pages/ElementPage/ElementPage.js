@@ -10,7 +10,6 @@ import TopBar from '../../Assets/TopBar/TopBar';
 import { userInfo } from '../Logging/LogIn';
 import { currentCourseInfo } from '../MainPage/MainPage';
 import { currentElementInfo } from '../CoursePage/CoursePage';
-// import { getUsersStatus } from '../CoursePage/CoursePage';
 
 
 
@@ -19,22 +18,26 @@ import { currentElementInfo } from '../CoursePage/CoursePage';
 function ElementPage() {
 
     useEffect( () => {
-        userInfo.setData(JSON.parse(window.localStorage.getItem('userInfo')))  // sczytanie userInfo z danych zapisanych w przeglądarce 
+        ( async () => {  // tak dziwna konstrukcja żeby można było użyć async / await w useEffect
+            userInfo.setData(JSON.parse(window.localStorage.getItem('userInfo')))  // sczytanie userInfo z danych zapisanych w przeglądarce 
     
-        currentCourseInfo.setSelectedData({})  // czyści żeby nie wypisywać kilka razy tego samego (szczególnie przy chodzeniu 'poprzednia strona' 'następna strona')
-        currentCourseInfo.setSelectedData(JSON.parse(window.localStorage.getItem('coursesInfo')))  // sczytanie userCourses z danych zapisanych w przeglądarce 
-        
-        currentElementInfo.setData({})
-        currentElementInfo.setData(JSON.parse(window.localStorage.getItem('elementInfo')))
-        setElementName(currentElementInfo.elementInfo.name)
-        setDescription(currentElementInfo.elementInfo.description)
-        setOpenDate(currentElementInfo.elementInfo.open_date)
-        setCloseDate(currentElementInfo.elementInfo.close_date)
-
-        currentElementInfo.setUserStatus([])
-        currentElementInfo.setUserStatusVisualized([])
-        currentElementInfo.setUserStatus(JSON.parse(window.localStorage.getItem('usersStatus')))  // sczytanie usersStatus z danych zapisanych w przeglądarce 
-        visualizeUserStatus()
+            currentCourseInfo.setSelectedData({})  // czyści żeby nie wypisywać kilka razy tego samego (szczególnie przy chodzeniu 'poprzednia strona' 'następna strona')
+            currentCourseInfo.setSelectedData(JSON.parse(window.localStorage.getItem('coursesInfo')))  // sczytanie userCourses z danych zapisanych w przeglądarce 
+            
+            currentElementInfo.setData({})
+            currentElementInfo.setData(JSON.parse(window.localStorage.getItem('elementInfo')))
+            setElementName(currentElementInfo.elementInfo.name)
+            setDescription(currentElementInfo.elementInfo.description)
+            setOpenDate(currentElementInfo.elementInfo.open_date)
+            setCloseDate(currentElementInfo.elementInfo.close_date)
+    
+            await getUsersStatus(currentElementInfo.elementInfo.element_id)
+    
+            currentElementInfo.setUserStatus([])
+            currentElementInfo.setUserStatusVisualized([])
+            currentElementInfo.setUserStatus(JSON.parse(window.localStorage.getItem('usersStatus')))  // sczytanie usersStatus z danych zapisanych w przeglądarce 
+            visualizeUserStatus()
+        }) ()
     }, [])
 
 
@@ -128,6 +131,26 @@ function ElementPage() {
             
             setUserStatusVisualized(status)
         }
+    }
+
+
+
+
+
+    async function getUsersStatus(element_id) {
+      const data = { element_id_: element_id }
+      let usersStatus = [];
+    
+      await axios.post('http://localhost:3001/api/usersstatus', data)
+      .then( response => {
+        usersStatus = response.data;
+      })
+      .catch(error => {
+        console.error('Error fetching data:', error);
+      });
+    
+      // wrzucenie danych o statusach do pamięci przeglądarki
+      window.localStorage.setItem('usersStatus', JSON.stringify(usersStatus))
     }
 
 

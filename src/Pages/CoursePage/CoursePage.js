@@ -118,7 +118,7 @@ function CoursePage() {
 
     currentCourseInfo.coursesElements.forEach( (element) => {
       currentCourseInfo.visualCoursesElements.push(
-        <div className="Element-list" onClick={ () => navigateToElement(navigate, element.element_id, element.name, element.description, element.open_date, element.close_date, element.solutions_sent) }>
+        <div className="Element-list" onClick={ () => navigateToElement(navigate, element.element_id, element.name, element.description, element.open_date, element.close_date) }>
           <text className='Courses-title'>{element.name}</text>
           <text className='Courses-description'>opis: {element.description}</text>
           <text className='Courses-description'>otwarcie: {element.open_date}</text>
@@ -135,13 +135,13 @@ function CoursePage() {
 
 
 
-  async function navigateToElement(navigate, element_id, name, description, open_date, close_date, solutions_sent) {
+  async function navigateToElement(navigate, element_id, name, description, open_date, close_date) {
     currentElementInfo.setData({element_id: 0, name: "", description: "", open_date: new Date, close_date: new Date})
     
     currentElementInfo.setData({element_id, name, description, open_date, close_date})
     window.localStorage.setItem('elementInfo', JSON.stringify(currentElementInfo.elementInfo))
 
-    await getUsersStatus(element_id, solutions_sent)
+    // await getUsersStatus(element_id, solutions_sent)
 
     navigate("/element")
   }
@@ -228,23 +228,3 @@ function CoursePage() {
 }
 
 export default CoursePage
-
-
-
-
-
-export async function getUsersStatus(element_id, solutions_sent) {
-  const data = { element_id_: element_id }
-  let usersStatus = [];
-
-  await axios.post('http://localhost:3001/api/usersstatus', data)
-  .then( response => {
-    usersStatus = response.data;
-  })
-  .catch(error => {
-    console.error('Error fetching data:', error);
-  });
-
-  // wrzucenie danych o statusach do pamięci przeglądarki
-  window.localStorage.setItem('usersStatus', JSON.stringify(usersStatus))
-}
