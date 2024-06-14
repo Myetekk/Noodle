@@ -124,7 +124,6 @@ function LogIn() {
                             navigate("/inactive-account")
                         }
                         else if (userInfo.data.type === 1 || userInfo.data.type === 2){
-                            await getUsersCourses(navigate)
                             navigate("/home")
                         }
                         else if (userInfo.data.type === 3){
@@ -254,41 +253,3 @@ function LogIn() {
 }
 
 export default LogIn
-
-
-
-
-
-
-
-
-
-
-// pobiera informacje o kursach użytkownika
-export async function getUsersCourses()  {
-    const user_id = { user_id_: userInfo.data.user_id }
-    const userCourseId = [];
-    let userCourseIdTemp;
-
-    await axios.post('http://localhost:3001/api/usercourses', user_id)
-    .then( response => {
-        userCourseIdTemp = response.data;
-    })
-    .catch(error => {
-        console.error('Error fetching data:', error);
-    });
-
-    userCourseIdTemp.forEach( (element) => {
-        userCourseId.push( element.course_id )
-    });
-
-
-    await axios.post('http://localhost:3001/api/loadcourses', userCourseId)
-    .then( response => {
-        const userCoursesTemp = response.data;
-        window.localStorage.setItem('userCourses', JSON.stringify(userCoursesTemp))
-    })
-    .catch(error => {
-        console.error('Error fetching data:', error);
-    });
-}

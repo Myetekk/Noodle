@@ -9,7 +9,6 @@ import "react-datepicker/dist/react-datepicker.css";
 import TopBar from '../../Assets/TopBar/TopBar';
 import { userInfo } from '../Logging/LogIn';
 import { currentCourseInfo } from '../MainPage/MainPage';
-import { getCoursesElements } from '../MainPage/MainPage';
 
 
 
@@ -65,7 +64,6 @@ function CreateElement() {
         else {
             setAlerts("")
             await createElement()
-            await getCoursesElements()
             navigate("/course")
         }
     }

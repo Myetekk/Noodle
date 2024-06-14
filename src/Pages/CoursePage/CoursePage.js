@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
+import dateFormat from 'dateformat'
 
 import './CoursePage.css';
 import '../../Styles/App.css';
@@ -48,15 +49,18 @@ export const currentElementInfo = new CurrentElementInfo()
 function CoursePage() {
 
   useEffect( () => {
-    userInfo.setData(JSON.parse(window.localStorage.getItem('userInfo')))  // sczytanie userInfo z danych zapisanych w przeglądarce 
-    // setUserId(userInfo.data.user_id)
-    
-    currentCourseInfo.setSelectedData({})  // czyści żeby nie wypisywać kilka razy tego samego (szczególnie przy chodzeniu 'poprzednia strona' 'następna strona')
-    currentCourseInfo.setSelectedData(JSON.parse(window.localStorage.getItem('coursesInfo')))  // sczytanie userCourses z danych zapisanych w przeglądarce 
-
-    currentCourseInfo.setVisualData([])  // czyści żeby nie wypisywać kilka razy tego samego (szczególnie przy chodzeniu 'poprzednia strona' 'następna strona')
-    currentCourseInfo.setData(JSON.parse(window.localStorage.getItem('coursesElements')))  // sczytanie coursesElements z danych zapisanych w przeglądarce 
-    visualizeElements(navigate)  // przekuwa coursesElements w widok przycisków kursów
+    ( async () => {  // tak dziwna konstrukcja żeby można było użyć async / await w useEffect
+      userInfo.setData(JSON.parse(window.localStorage.getItem('userInfo')))  // sczytanie userInfo z danych zapisanych w przeglądarce 
+      
+      currentCourseInfo.setSelectedData({})  // czyści żeby nie wypisywać kilka razy tego samego (szczególnie przy chodzeniu 'poprzednia strona' 'następna strona')
+      currentCourseInfo.setSelectedData(JSON.parse(window.localStorage.getItem('coursesInfo')))  // sczytanie userCourses z danych zapisanych w przeglądarce 
+  
+      await getCoursesElements()
+      
+      currentCourseInfo.setVisualData([])  // czyści żeby nie wypisywać kilka razy tego samego (szczególnie przy chodzeniu 'poprzednia strona' 'następna strona')
+      currentCourseInfo.setData(JSON.parse(window.localStorage.getItem('coursesElements')))  // sczytanie coursesElements z danych zapisanych w przeglądarce 
+      visualizeElements(navigate)  // przekuwa coursesElements w widok przycisków kursów
+    }) ()
   }, [])
 
 
@@ -106,6 +110,33 @@ function CoursePage() {
         </div>
       )
     }
+  }
+
+
+    
+    
+    
+  // pobiera informacje o elementach kursu
+  async function getCoursesElements()  {
+      const data = { course_id_: currentCourseInfo.courseInfo.course_id, user_id_: userInfo.data.user_id }
+      let courseElements = [];
+  
+      await axios.post('http://localhost:3001/api/courseelements', data)
+      .then( response => {
+          courseElements = response.data;
+      })
+      .catch(error => {
+          console.error('Error fetching data:', error);
+      });
+  
+      // zmiana formatu daty i godziny
+      courseElements.forEach( (element) => {
+          element.open_date = dateFormat(new Date(element.open_date), "dddd dd mmmm yyyy  HH:MM", true)
+          element.close_date = dateFormat(new Date(element.close_date), "dddd dd mmmm yyyy  HH:MM", true)
+      } )
+  
+      // wrzucenie danych o elementach do pamięci przeglądarki
+      window.localStorage.setItem('coursesElements', JSON.stringify(courseElements))
   }
 
 
