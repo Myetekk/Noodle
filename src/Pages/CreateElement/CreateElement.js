@@ -59,7 +59,7 @@ function CreateElement() {
     }
 
     async function validateData() {
-        if ( name === "" ) setAlerts("wprowadź nazwe kursu")
+        if ( name === "" ) setAlerts("wprowadź nazwe elementu")
         else if ( description === "" ) setAlerts("wprowadź opis elementu")
         else {
             setAlerts("")
@@ -113,10 +113,10 @@ function CreateElement() {
 
                         <div className="Setting" >
                             <label className="Setting-name">opis: </label>
-                            <input
+                            <textarea
                                 className="Course-name"
                                 type='text'
-                                maxLength='40'
+                                maxLength='200'
                                 value={description}
                                 onChange={handleDescriptionChange}/>
                         </div>
@@ -126,7 +126,6 @@ function CreateElement() {
                             <DatePicker 
                                 className='Setting-date'
                                 selected={openDate}
-                                // onSelect={handleOpenDateChange}
                                 onChange={ (date) => setOpenDate(date) }
                                 dateFormat={"dd.MM.yyyy ' ' HH:mm"}
                                 timeInputLabel="Time:"
@@ -140,7 +139,6 @@ function CreateElement() {
                             <DatePicker 
                                 className='Setting-date'
                                 selected={closeDate}
-                                // onSelect={handleCloseDateChange}
                                 onChange={ (date) => setCloseDate(date) }
                                 dateFormat={"dd.MM.yyyy ' ' HH:mm"}
                                 timeInputLabel="Time:"

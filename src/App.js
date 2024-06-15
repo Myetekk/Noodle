@@ -5,6 +5,7 @@ import Register from './Pages/Logging/Register'
 import MainPage from './Pages/MainPage/MainPage'
 import CoursePage from './Pages/CoursePage/CoursePage'
 import ElementPage from './Pages/ElementPage/ElementPage'
+import MarkSolutionPage from './Pages/MarkSolutionPage/MarkSolutionPage'
 import UserSettings from './Pages/UserSettings/UserSettings'
 import CreateCourse from './Pages/CreateCourse/CreateCourse'
 import CreateElement from './Pages/CreateElement/CreateElement'
@@ -33,6 +34,7 @@ function App() {
           <Route path="/home" element={<MainPage />} />
           <Route path="/course" element={<CoursePage />} />
           <Route path="/element" element={<ElementPage />} />
+          <Route path="/mark-solution" element={<MarkSolutionPage />} />
           <Route path="/settings" element={<UserSettings />} />
           <Route path="/create-course" element={<CreateCourse />} />
           <Route path="/create-element" element={<CreateElement />} />

@@ -15,6 +15,22 @@ import { currentElementInfo } from '../CoursePage/CoursePage';
 
 
 
+// info o otwartym rozwiązaniu
+class CurrentSolutionInfo {
+  constructor() {
+    this.solutionInfo = {course_id: 0, element_id: 0, user_id: 0, user_name: ""}
+  }
+
+  setSolutionData({course_id, element_id, user_id, user_name}) {
+    this.solutionInfo = {course_id: course_id, element_id: element_id, user_id: user_id, user_name: user_name}
+  }
+}
+export const currentSolutionInfo = new CurrentSolutionInfo()
+
+
+
+
+
 function ElementPage() {
 
     useEffect( () => {
@@ -52,6 +68,8 @@ function ElementPage() {
     const [closeDate, setCloseDate] = useState()
 
     const [userStatusVisualized, setUserStatusVisualized] = useState([])
+    const [userGrade, setGrade] = useState("")
+    const [userGradeComment, setGradeComment] = useState("")
 
 
 
@@ -88,7 +106,11 @@ function ElementPage() {
         else {
             return(
                 <div className='Table-borders'>
-                    <text>Status: { userStatusVisualized }</text>
+                    <div className='Element-status'>
+                        <text className='Element-info'>status: { userStatusVisualized }</text>
+                        <text className='Element-info'>ocena: { userGrade }</text>
+                        <text className='Element-info'>komentarz: { userGradeComment }</text>
+                    </div>
                 </div>
             )
         }
@@ -102,12 +124,14 @@ function ElementPage() {
         let status = ""
         if (isCourseOwner()){
             currentElementInfo.elementUsersStatus.forEach( (element) => {
-                if (element.grade === "0") status = "nie oceniono"
+                if (element.grade === "0") status = ""
                 else status = element.grade
+
+                let user_name = element.last_name + " " + element.first_name
 
                 currentElementInfo.elementUsersStatusVisualized.push(
                     <tr>
-                        <td>{ element.first_name } {element.last_name}</td>
+                        <td onClick={ () => navigateToMarkSolution(element.user_id, user_name) }>{ element.last_name } {element.first_name}</td>
                         <td>{ status }</td>
                     </tr>
                 )
@@ -118,19 +142,37 @@ function ElementPage() {
         else {
             const data = { user_id_: userInfo.data.user_id, element_id_: currentElementInfo.elementInfo.element_id }
             let solutionsGrade = ""
+            let solutionsGradeComment = ""
 
             await axios.post('http://localhost:3001/api/userssolutionstatus', data)
             .then( response => {
                 solutionsGrade = response.data[0].grade;
+                solutionsGradeComment = response.data[0].grade_comment;
             })
             .catch(error => {
                 console.error('Error fetching data:', error);
             });
 
-            if (solutionsGrade === "0") status = "nie oceniono"
-            
-            setUserStatusVisualized(status)
+            if (solutionsGrade === "0") setUserStatusVisualized("przesłano")
+            else {
+                setUserStatusVisualized("oceniono")
+                setGrade(solutionsGrade)
+                setGradeComment(solutionsGradeComment)
+            }
         }
+    }
+
+
+
+
+
+    async function navigateToMarkSolution(user_id, user_name) {
+        currentSolutionInfo.setSolutionData({course_id: 0, element_id: 0, user_id: 0, user_name: ""})  // user_id to id osoby która przesłała rozwiązanie
+
+        currentSolutionInfo.setSolutionData({course_id: currentCourseInfo.courseInfo.course_id, element_id: currentElementInfo.elementInfo.element_id, user_id: user_id, user_name: user_name})
+        window.localStorage.setItem('solutionInfo', JSON.stringify(currentSolutionInfo.solutionInfo))
+
+        navigate("/mark-solution")
     }
 
 
@@ -169,13 +211,20 @@ function ElementPage() {
                 <div className='Container'>
 
                     <div className="Element-container">
-                        <text className='Element-title'>{elementName}</text>
-                        <text className='Element-description'>{description}</text>
+                        <div className='Title-borders'>
+                            <div className="Element-container">
+                                <text className='Element-title'>{elementName}</text>
+                                <text className='Element-info'>{description}</text>
+                            </div>
+                        </div>
                     </div>
+
                     
-                    <div className="Element-container">
-                        <text className='Element-dates'>otwarcie: {openDate}</text>
-                        <text className='Element-dates'>zamknięcie: {closeDate}</text>
+                    <div className='Setting'>
+                        <div className='Element-dates'>
+                            <text className='Element-info'>otwarcie: {openDate}</text>
+                            <text className='Element-info'>zamknięcie: {closeDate}</text>
+                        </div>
                     </div>
 
                     <div className="Element-container">

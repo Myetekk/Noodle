@@ -1,7 +1,13 @@
-.Element-container {
+.Element-container, .Element-dates, .Table-borders, .Element-status {
     margin: 3.5vmin 5vmin;
     display: flex;
     flex-direction: column;
+}
+
+
+
+.Element-dates {
+    margin: 0vmin;
 }
 
 
@@ -13,18 +19,29 @@
 
 
 
-.Element-description, .Element-dates {
+.Element-status {
+    margin: 1vmin;
+}
+
+
+
+.Element-info {
     font-size: 3vmin;
     color: #e4e4e4
 }
 
 
 
-.Table-borders {
+.Title-borders {
     font-size: 3vmin;
     border: 0.1vmin solid #00ffff;
 }
 
-.Table-elements {
-    margin-right: 2vmin;
+
+
+.Table-borders {
+    margin: 0vmin;
+    font-size: 3vmin;
+    border-bottom: 0.1vmin solid #009999;
+    border-left: 0.1vmin solid #009999;
 }

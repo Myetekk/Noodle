@@ -489,7 +489,7 @@ app.post('/api/usersstatus', (req, res) => {
   const request = new sql.Request();
   const element_id = req.body.element_id_
 
-  let query = `SELECT user_course_connection.user_id,   (SELECT users.first_name FROM users WHERE users.user_id=user_course_connection.user_id) as first_name,   (SELECT users.last_name FROM users WHERE users.user_id=user_course_connection.user_id) as last_name,   solutions.grade   FROM   user_course_connection   LEFT JOIN   solutions ON (solutions.element_id=${element_id} AND solutions.user_id=user_course_connection.user_id)   WHERE   user_course_connection.course_id=(SELECT elements.course_id FROM elements WHERE elements.element_id=${element_id})   AND   user_course_connection.user_id!=(SELECT courses.course_owner FROM courses WHERE courses.course_id=user_course_connection.course_id)`;
+  let query = `SELECT user_course_connection.user_id,   (SELECT users.last_name FROM users WHERE users.user_id=user_course_connection.user_id) as last_name,   (SELECT users.first_name FROM users WHERE users.user_id=user_course_connection.user_id) as first_name,   solutions.grade   FROM   user_course_connection   LEFT JOIN   solutions ON (solutions.element_id=${element_id} AND solutions.user_id=user_course_connection.user_id)   WHERE   user_course_connection.course_id=(SELECT elements.course_id FROM elements WHERE elements.element_id=${element_id})   AND   user_course_connection.user_id!=(SELECT courses.course_owner FROM courses WHERE courses.course_id=user_course_connection.course_id)   ORDER BY last_name`;
 
   request.query(query, (err, result) => {
     if (err) {
@@ -517,7 +517,65 @@ app.post('/api/userssolutionstatus', (req, res) => {
   const user_id = req.body.user_id_
   const element_id = req.body.element_id_
 
-  let query = `SELECT solution_id, user_id, element_id, grade FROM solutions WHERE user_id=${user_id} AND element_id=${element_id}`;
+  let query = `SELECT solution_id, user_id, element_id, grade, grade_comment FROM solutions WHERE user_id=${user_id} AND element_id=${element_id}`;
+
+  request.query(query, (err, result) => {
+    if (err) {
+      console.error('Error querying database:', err);
+      res.status(500).send('Error querying database');
+    } else {
+      res.json(result.recordset);
+    }
+  });
+});
+
+
+
+
+
+
+
+
+
+
+// przesyła ocene danego rozwiązania do bazy 
+// plik MarkSolutionPage.js
+app.post('/api/marksolution', (req, res) => {
+  const request = new sql.Request();
+  const grade = req.body.grade_
+  const grade_comment = req.body.grade_comment_
+  const user_id = req.body.user_id_
+  const element_id = req.body.element_id_
+
+  let query = `UPDATE solutions SET grade='${grade}', grade_comment='${grade_comment}' WHERE user_id=${user_id} AND element_id=${element_id}`;
+
+  request.query(query, (err, result) => {
+    if (err) {
+      console.error('Error querying database:', err);
+      res.status(500).send('Error querying database');
+    } else {
+      res.json(result.recordset);
+    }
+  });
+});
+
+
+
+
+
+
+
+
+
+
+// pobiera aktualną ocenę i komentarz dla danego rozwiązania 
+// plik MarkSolutionPage.js
+app.post('/api/solutioninfo', (req, res) => {
+  const request = new sql.Request();
+  const user_id = req.body.user_id_
+  const element_id = req.body.element_id_
+
+  let query = `SELECT grade, grade_comment FROM solutions WHERE user_id=${user_id} AND element_id=${element_id}`;
 
   request.query(query, (err, result) => {
     if (err) {

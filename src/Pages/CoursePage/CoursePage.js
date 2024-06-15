@@ -15,7 +15,7 @@ import ActiveStudents from './ActiveStudents';
 
 
 
-// info o otwartym kursie
+// info o otwartym elemencie
 class CurrentElementInfo {
   constructor() {
     this.elementInfo = {element_id: 0, name: "", description: "", open_date: new Date, close_date: new Date}
@@ -144,12 +144,12 @@ function CoursePage() {
 
 
   // przekuwa coursesElements w widok przycisków elementów
-  async function visualizeElements(navigate) {
+  async function visualizeElements() {
     await checkNumberOfUsersInCourse(numberOfStudents)
 
     currentCourseInfo.coursesElements.forEach( (element) => {
       currentCourseInfo.visualCoursesElements.push(
-        <div className="Element-list" onClick={ () => navigateToElement(navigate, element.element_id, element.name, element.description, element.open_date, element.close_date) }>
+        <div className="Element-list" onClick={ () => navigateToElement(element.element_id, element.name, element.description, element.open_date, element.close_date) }>
           <text className='Courses-title'>{element.name}</text>
           <text className='Courses-description'>opis: {element.description}</text>
           <text className='Courses-description'>otwarcie: {element.open_date}</text>
@@ -166,13 +166,11 @@ function CoursePage() {
 
 
 
-  async function navigateToElement(navigate, element_id, name, description, open_date, close_date) {
+  async function navigateToElement(element_id, name, description, open_date, close_date) {
     currentElementInfo.setData({element_id: 0, name: "", description: "", open_date: new Date, close_date: new Date})
     
     currentElementInfo.setData({element_id, name, description, open_date, close_date})
     window.localStorage.setItem('elementInfo', JSON.stringify(currentElementInfo.elementInfo))
-
-    // await getUsersStatus(element_id, solutions_sent)
 
     navigate("/element")
   }

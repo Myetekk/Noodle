@@ -32,7 +32,7 @@
 
 
 
-.Setting-input, .Setting-input-email, .Setting-input-password, .Course-name, .Course-access-code, .Setting-date {
+.Setting-input, .Setting-input-email, .Setting-input-password, .Course-name, .Course-access-code, .Setting-date, .Solution-mark {
     background-color: #383c47;
     color: white;
     width: 23vmin;
@@ -50,6 +50,8 @@
 }
 .Course-name {
     width: 45vmin;
+    min-height: 5vmin;
+    max-height: 17vmin;
 }
 .Course-access-code {
     width: 8.5vmin;
