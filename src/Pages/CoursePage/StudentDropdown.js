@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import Dropdown from 'react-bootstrap/Dropdown';
 
 const StudentDropdown = ({first_name, last_name}) => {
     const [isOpen, setIsOpen] = useState(false)
@@ -7,19 +6,27 @@ const StudentDropdown = ({first_name, last_name}) => {
     const toggleDropdown = () => {
       setIsOpen(!isOpen)
     }
+    const hideDropdown = () => {
+      setIsOpen(false)
+    }
   
     return (
-      <Dropdown show={isOpen} onToggle={toggleDropdown}>
-        <Dropdown.Toggle className="Tile" id={`dropdown-${first_name}-${last_name}`}>
+      <div className="tile-and-dropdown">
+        <div className="Tile" onClick={toggleDropdown} onBlur={hideDropdown} tabIndex={0}>
           <text className="Name">{first_name} {last_name}</text>
-        </Dropdown.Toggle>
-  
-        <Dropdown.Menu className='DropdownList'>
-          <Dropdown.Item>Action</Dropdown.Item>
-          <Dropdown.Item>Another action</Dropdown.Item>
-          <Dropdown.Item>Something else</Dropdown.Item>
-        </Dropdown.Menu>
-      </Dropdown>
+        </div>
+        {isOpen &&(
+          <ul className="DropdownList">
+            <li className="dropdown-item">Szczegóły profilu</li>
+            <li className="dropdown-item">Wyślij Wiadomość</li>
+            <li className="dropdown-item">Ustaw jako nieaktywnego kursanta</li>
+            <li className="dropdown-item">Pobierz rozwiązania użytkownika</li>
+            <li className="dropdown-item">Zarządzaj terminami</li>
+            <li className="dropdown-item">Usuń kursanta</li>
+          </ul>
+          
+        )}
+      </div>
     )
 }
 

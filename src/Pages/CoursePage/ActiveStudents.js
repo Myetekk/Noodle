@@ -22,7 +22,7 @@ const ActiveStudents = () => {
     }, [])
   
     return (
-      <div>
+      <>
         {activeStudents.map((student) => (
           <StudentDropdown 
             key={student.id} 
@@ -30,7 +30,7 @@ const ActiveStudents = () => {
             last_name={student.last_name} 
           />
         ))}
-      </div>
+      </>
     )
 }
 

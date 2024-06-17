@@ -53,7 +53,7 @@ h3 {
 .DropdownList {
     list-style-type: none;
     padding-left: 0;
-    margin: 0 1.5vmin 1.5vmin 1.5vmin;
+    margin: -1.5vmin 1.5vmin 1.5vmin 1.5vmin;
     display: flex;
     flex-direction: column;
 }
@@ -62,14 +62,12 @@ h3 {
 .DropdownList :focus {
     list-style-type: none;
     padding-left: 0;
-    margin: 0 1.5vmin 1.5vmin 1.5vmin;
+    margin: -1.5vmin 1.5vmin 1.5vmin 1.5vmin;
 }
 
 .dropdown-item{
     border: 0.3vh solid #edf5f5;
     padding: 0.8vh;
-    text-decoration: none;
-    color: inherit;
     /* border-bottom: 0.3vh solid #edf5f5;
     border-left: 0.3vh solid #edf5f5;
     border-top: 0.1vh solid #8e9393;
@@ -80,21 +78,19 @@ h3 {
 .dropdown-item:hover{
     border: 0.3vh solid #00ff80;
     padding: 0.8vh;
-    /* border-bottom: 0.3vh solid #edf5f5;
-    border-left: 0.3vh solid #edf5f5;
-    border-top: 0.1vh solid #8e9393;
-    border-right: 0.1vh solid #8e9393; */
+    /* border-bottom: 0.3vh solid #00ff80;
+    border-left: 0.3vh solid #00ff80;
+    border-top: 0.1vh solid #00994d;
+    border-right: 0.1vh solid #00994d; */
     margin-bottom: -0.2vh;
 }
 
 .dropdown-item:last-child{
     border: 0.3vh solid #ff0000;
-    padding: 0.8vh;
-    text-decoration: none;
-    /* border-bottom: 0.3vh solid #edf5f5;
-    border-left: 0.3vh solid #edf5f5;
-    border-top: 0.1vh solid #8e9393;
-    border-right: 0.1vh solid #8e9393; */
+    /* border-bottom: 0.3vh solid #ff0000;
+    border-left: 0.3vh solid #ff0000;
+    border-top: 0.1vh solid #800008;
+    border-right: 0.1vh solid #800008; */
     color: #ff0000;
     margin-top: 0.2vh;
 }
