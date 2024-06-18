@@ -108,9 +108,6 @@ function MarkSolutionPage() {
         .then( response => {
             setGrade(response.data[0].grade)
             setGradeComment(response.data[0].grade_comment)
-
-            // console.log("response.data[0].grade: " + response.data[0].grade)
-            // console.log("response.data[0].grade_comment: " + response.data[0].grade_comment)
         })
         .catch(error => {
             console.error('Error fetching data:', error);

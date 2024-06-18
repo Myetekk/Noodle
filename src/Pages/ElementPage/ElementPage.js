@@ -84,29 +84,46 @@ function ElementPage() {
 
 
 
+      // pokazuje przycisk edycji elementu
+    function showEditElementButton(){
+        if (isCourseOwner()) {
+        return(
+            <div className="Edit-element-button" onClick={() => navigate('/edit-element')}>
+                <text className="Course-members-title">Edytuj</text>
+            </div>
+        )
+        }
+    }
+
+
+
+
+
     function LoadThings() {
         if (isCourseOwner()){
             return(
-                <div className='Table-borders'>
-                    <Table bordered variant='dark'>
-                        <thead>
-                            <tr>
-                                <th>Imię</th>
-                                <th>Status</th>
-                            </tr>
-                        </thead>
+                <div className="Element-container">
+                    <div className='Table-borders'>
+                        <Table bordered variant='dark'>
+                            <thead>
+                                <tr>
+                                    <th className='Table-separator'>Imię</th>
+                                    <th className='Table-separator'>Status</th>
+                                </tr>
+                            </thead>
 
-                        <tbody>
-                            { userStatusVisualized }
-                        </tbody>
-                    </Table>
+                            <tbody>
+                                { userStatusVisualized }
+                            </tbody>
+                        </Table>
+                    </div>
                 </div>
             )
         }
         else {
             return(
-                <div className='Table-borders'>
-                    <div className='Element-status'>
+                <div className='Setting'>
+                    <div className='Element-dates'>
                         <text className='Element-info'>status: { userStatusVisualized }</text>
                         <text className='Element-info'>ocena: { userGrade }</text>
                         <text className='Element-info'>komentarz: { userGradeComment }</text>
@@ -131,8 +148,8 @@ function ElementPage() {
 
                 currentElementInfo.elementUsersStatusVisualized.push(
                     <tr>
-                        <td onClick={ () => navigateToMarkSolution(element.user_id, user_name) }>{ element.last_name } {element.first_name}</td>
-                        <td>{ status }</td>
+                        <td className='Table-separator' onClick={ () => navigateToMarkSolution(element.user_id, user_name) }>{ element.last_name } {element.first_name}</td>
+                        <td className='Table-separator'>{ status }</td>
                     </tr>
                 )
             })
@@ -225,12 +242,11 @@ function ElementPage() {
                             <text className='Element-info'>otwarcie: {openDate}</text>
                             <text className='Element-info'>zamknięcie: {closeDate}</text>
                         </div>
+                        
+                        { showEditElementButton() }
                     </div>
 
-                    <div className="Element-container">
-                        { LoadThings() }
-                    </div>
-
+                    { LoadThings() }
 
                 </div>
 

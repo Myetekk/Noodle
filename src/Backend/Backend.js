@@ -586,3 +586,63 @@ app.post('/api/solutioninfo', (req, res) => {
     }
   });
 });
+
+
+
+
+
+
+
+
+
+
+// pobiera nazwe, opis i daty danego elementu 
+// plik EditElementPage.js
+app.post('/api/elementinfo', (req, res) => {
+  const request = new sql.Request();
+  const element_id = req.body.element_id_
+
+  let query = `SELECT name, description, open_date, close_date FROM elements WHERE element_id=${element_id}`;
+
+  request.query(query, (err, result) => {
+    if (err) {
+      console.error('Error querying database:', err);
+      res.status(500).send('Error querying database');
+    } else {
+      res.json(result.recordset);
+    }
+  });
+});
+
+
+
+
+
+
+
+
+
+
+// zmienia dane elementu 
+// plik EditElementPage.js
+app.post('/api/editelement', (req, res) => {
+  const request = new sql.Request();
+  const name = req.body.name_
+  const description = req.body.description_
+  const open_date = req.body.open_date_
+  const close_date = req.body.close_date_
+  const element_id = req.body.element_id_
+  
+  console.log(name + ", " + description + ", " + open_date + ", " + close_date + ", " + element_id)
+
+  let query = `UPDATE elements SET name='${name}', description='${description}', open_date='${open_date}', close_date='${close_date}' WHERE element_id=${element_id}`;
+
+  request.query(query, (err, result) => {
+    if (err) {
+      console.error('Error querying database:', err);
+      res.status(500).send('Error querying database');
+    } else {
+      res.json(result.recordset);
+    }
+  });
+});

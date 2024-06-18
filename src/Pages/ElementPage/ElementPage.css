@@ -1,4 +1,4 @@
-.Element-container, .Element-dates, .Table-borders, .Element-status {
+.Element-container, .Element-dates, .Element-status {
     margin: 3.5vmin 5vmin;
     display: flex;
     flex-direction: column;
@@ -40,8 +40,17 @@
 
 
 .Table-borders {
-    margin: 0vmin;
+    display: flex;
+    flex-direction: column;
+}
+
+.Table-separator {
+    padding-left: 1vmin;
     font-size: 3vmin;
     border-bottom: 0.1vmin solid #009999;
     border-left: 0.1vmin solid #009999;
+}
+
+.Edit-element-button {
+    margin-left: 2vmin;
 }
