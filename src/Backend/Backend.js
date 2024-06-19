@@ -280,7 +280,7 @@ app.post('/api/loadactivestudents', (req, res) => {
   const course_id = req.body.course_id_
   const user_id = req.body.user_id_
 
-  let query = `SELECT first_name, last_name FROM users WHERE user_id in (SELECT user_id FROM user_course_connection WHERE course_id = ${course_id}) AND user_id != ${user_id}`;
+  let query = `SELECT user_id, first_name, last_name FROM users WHERE user_id in (SELECT user_id FROM user_course_connection WHERE course_id = ${course_id}) AND user_id != ${user_id}`;
 
   request.query(query, (err, result) => {
     if (err) {

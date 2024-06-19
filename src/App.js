@@ -14,6 +14,7 @@ import ErrorPage from './Pages/ErrorPage/ErrorPage'
 import HeadAdmin from './Pages/HeadAdmin/HeadAdmin'
 import CourseMembers from './Pages/CourseMembers/CourseMembers'
 import InactiveAccount from './Pages/InactiveAccount/InactiveAccount'
+import EditDeadlines from './Pages/EditDeadlines/EditDeadlines';
 
 
 
@@ -42,6 +43,7 @@ function App() {
           <Route path="/error-page" element={<ErrorPage />} />
           <Route path="/headadmin" element={<HeadAdmin />} />
           <Route path="/course-members" element={<CourseMembers />} />
+          <Route path='/edit-deadlines' element={<EditDeadlines/>} />
           
           <Route path="/inactive-account" element={<InactiveAccount />} />
 

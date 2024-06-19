@@ -8,7 +8,6 @@ import '../../Styles/App.css';
 import TopBar from '../../Assets/TopBar/TopBar';
 import { userInfo } from '../Logging/LogIn';
 import { currentCourseInfo } from '../MainPage/MainPage';
-import ActiveStudents from './ActiveStudents';
 
 
 

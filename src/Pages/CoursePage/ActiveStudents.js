@@ -4,6 +4,7 @@ import StudentDropdown from './StudentDropdown';
 import { userInfo } from '../Logging/LogIn';
 import { currentCourseInfo } from '../MainPage/MainPage';
 
+
 const ActiveStudents = () => {
     const course_id = {course_id_ : currentCourseInfo.courseInfo.course_id, user_id_: userInfo.data.user_id}
   
@@ -25,7 +26,8 @@ const ActiveStudents = () => {
       <>
         {activeStudents.map((student) => (
           <StudentDropdown 
-            key={student.id} 
+            key={student.user_id} 
+            id={student.user_id}
             first_name={student.first_name} 
             last_name={student.last_name} 
           />
