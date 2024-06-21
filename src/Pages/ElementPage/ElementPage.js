@@ -84,7 +84,7 @@ function ElementPage() {
 
 
 
-      // pokazuje przycisk edycji elementu
+    // pokazuje przycisk edycji elementu
     function showEditElementButton(){
         if (isCourseOwner()) {
         return(
@@ -93,6 +93,30 @@ function ElementPage() {
             </div>
         )
         }
+    }
+    
+    
+    
+    
+    // pokazuje przycisk edycji elementu
+    function showSendSolutionButton(){
+        if (!isCourseOwner()) {
+            return(
+                <div className="Edit-element-button" onClick={() => sendSolution()}>
+                    <text className="Course-members-title">Prześlij</text>
+                </div>
+            )
+        }
+    }
+
+    async function sendSolution() {
+        await axios.post('http://localhost:3001/api/postsolution')
+        .then( response => {
+            console.log(response.data);
+        })
+        .catch(error => {
+            console.error('Error fetching data:', error);
+        });
     }
 
 
@@ -149,7 +173,7 @@ function ElementPage() {
                 currentElementInfo.elementUsersStatusVisualized.push(
                     <tr>
                         <td className='Table-separator' onClick={ () => navigateToMarkSolution(element.user_id, user_name) }>{ element.last_name } {element.first_name}</td>
-                        <td className='Table-separator'>{ status }</td>
+                        <td className='Table-separator' onClick={ () => navigateToMarkSolution(element.user_id, user_name) }>{ status }</td>
                     </tr>
                 )
             })
@@ -171,6 +195,7 @@ function ElementPage() {
             });
 
             if (solutionsGrade === "0") setUserStatusVisualized("przesłano")
+            else if (solutionsGrade === "") setUserStatusVisualized("nie przesłano")
             else {
                 setUserStatusVisualized("oceniono")
                 setGrade(solutionsGrade)
@@ -244,6 +269,7 @@ function ElementPage() {
                         </div>
                         
                         { showEditElementButton() }
+                        { showSendSolutionButton() }
                     </div>
 
                     { LoadThings() }

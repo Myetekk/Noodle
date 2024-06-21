@@ -71,7 +71,7 @@ function EditElementPage() {
         const elementData = { name_: name, description_: description, open_date_: dateFormat(new Date(openDate), "yyyy-mm-dd'T'HH:MM:00.000'Z'"), close_date_: dateFormat(new Date(closeDate), "yyyy-mm-dd'T'HH:MM:00.000'Z'"), element_id_: currentElementInfo.elementInfo.element_id }
 
         // ocenienie danego rozwiązania   
-        axios.post( 'http://localhost:3001/api/editelement', elementData )
+        await axios.post( 'http://localhost:3001/api/editelement', elementData )
         .then(response => {
             console.log(response.data);
         })
