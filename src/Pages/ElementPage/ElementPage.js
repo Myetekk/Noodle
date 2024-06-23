@@ -102,21 +102,11 @@ function ElementPage() {
     function showSendSolutionButton(){
         if (!isCourseOwner()) {
             return(
-                <div className="Edit-element-button" onClick={() => sendSolution()}>
+                <div className="Edit-element-button" onClick={() => navigate('/send-solution')}>
                     <text className="Course-members-title">Prześlij</text>
                 </div>
             )
         }
-    }
-
-    async function sendSolution() {
-        await axios.post('http://localhost:3001/api/postsolution')
-        .then( response => {
-            console.log(response.data);
-        })
-        .catch(error => {
-            console.error('Error fetching data:', error);
-        });
     }
 
 
@@ -133,6 +123,7 @@ function ElementPage() {
                                 <tr>
                                     <th className='Table-separator'>Imię</th>
                                     <th className='Table-separator'>Status</th>
+                                    <th className='Table-separator'>Ocena</th>
                                 </tr>
                             </thead>
 
@@ -173,6 +164,7 @@ function ElementPage() {
                 currentElementInfo.elementUsersStatusVisualized.push(
                     <tr>
                         <td className='Table-separator' onClick={ () => navigateToMarkSolution(element.user_id, user_name) }>{ element.last_name } {element.first_name}</td>
+                        <td className='Table-separator' onClick={ () => navigateToMarkSolution(element.user_id, user_name) }>{ sentSolution(element) }</td>
                         <td className='Table-separator' onClick={ () => navigateToMarkSolution(element.user_id, user_name) }>{ status }</td>
                     </tr>
                 )
@@ -194,7 +186,7 @@ function ElementPage() {
                 console.error('Error fetching data:', error);
             });
 
-            if (solutionsGrade === "0") setUserStatusVisualized("przesłano")
+            if (solutionsGrade === null) setUserStatusVisualized("przesłano")
             else if (solutionsGrade === "") setUserStatusVisualized("nie przesłano")
             else {
                 setUserStatusVisualized("oceniono")
@@ -202,6 +194,11 @@ function ElementPage() {
                 setGradeComment(solutionsGradeComment)
             }
         }
+    }
+
+    function sentSolution(element) {
+        if (element.sent_solution === 0) {return("nie przesłano")}
+        else {return("przesłano")}
     }
 
 

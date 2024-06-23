@@ -1,0 +1,22 @@
+.File-name {
+    font-size: 3vmin;
+    font-weight: 100;
+}
+
+.File-name-title {
+    font-size: 3vmin;
+    font-weight: bold;
+}
+
+
+
+.File-name-input {
+    background-color: #383c47;
+    color: white;
+    width: 23vmin;
+    font-size: 2vmin;
+    min-width: 23vmin;
+    max-width: 23vmin;
+    min-height: 5vmin;
+    max-height: 17vmin;
+}

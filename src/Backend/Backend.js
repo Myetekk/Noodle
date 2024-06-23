@@ -4,7 +4,11 @@ const cors = require('cors');
 const app = express();
 const port = 3001;
 
-
+require('dotenv').config();
+const { BlobServiceClient } = require("@azure/storage-blob");
+const storageAccountConnectionString = process.env.AZURE_STORAGE_CONNECTION_STRING;
+const multer = require('multer');
+const upload = multer({ dest: 'uploads' }); // Temporarily stores files locally
 
 
 
@@ -484,12 +488,12 @@ app.post('/api/usersincourse', (req, res) => {
 
 
 // pobranie info o przesłanych rozwiązaniach w danym kursie 
-// plik CoursePage.js
+// plik ElementPage.js
 app.post('/api/usersstatus', (req, res) => {
   const request = new sql.Request();
   const element_id = req.body.element_id_
 
-  let query = `SELECT user_course_connection.user_id,   (SELECT users.last_name FROM users WHERE users.user_id=user_course_connection.user_id) as last_name,   (SELECT users.first_name FROM users WHERE users.user_id=user_course_connection.user_id) as first_name,   solutions.grade   FROM   user_course_connection   LEFT JOIN   solutions ON (solutions.element_id=${element_id} AND solutions.user_id=user_course_connection.user_id)   WHERE   user_course_connection.course_id=(SELECT elements.course_id FROM elements WHERE elements.element_id=${element_id})   AND   user_course_connection.user_id!=(SELECT courses.course_owner FROM courses WHERE courses.course_id=user_course_connection.course_id)   ORDER BY last_name`;
+  let query = `SELECT user_course_connection.user_id,   (SELECT users.last_name FROM users WHERE users.user_id=user_course_connection.user_id) as last_name,   (SELECT users.first_name FROM users WHERE users.user_id=user_course_connection.user_id) as first_name,   solutions.grade,   (SELECT COUNT(1) FROM solutions WHERE user_id IN (SELECT user_id FROM users WHERE users.user_id=user_course_connection.user_id) AND element_id=${element_id}) as sent_solution   FROM   user_course_connection   LEFT JOIN   solutions ON (solutions.element_id=${element_id} AND solutions.user_id=user_course_connection.user_id)   WHERE   user_course_connection.course_id=(SELECT elements.course_id FROM elements WHERE elements.element_id=${element_id})   AND   user_course_connection.user_id!=(SELECT courses.course_owner FROM courses WHERE courses.course_id=user_course_connection.course_id)   ORDER BY last_name`;
 
   request.query(query, (err, result) => {
     if (err) {
@@ -636,6 +640,86 @@ app.post('/api/editelement', (req, res) => {
   console.log(name + ", " + description + ", " + open_date + ", " + close_date + ", " + element_id)
 
   let query = `UPDATE elements SET name='${name}', description='${description}', open_date='${open_date}', close_date='${close_date}' WHERE element_id=${element_id}`;
+
+  request.query(query, (err, result) => {
+    if (err) {
+      console.error('Error querying database:', err);
+      res.status(500).send('Error querying database');
+    } else {
+      res.json(result.recordset);
+    }
+  });
+});
+
+
+
+
+
+
+
+
+
+
+// wysłanie pliku do Azure Storage 
+// plik SendSolutionPage.js
+app.post('/api/postsolution', upload.array('files'), async (req, res) => {
+  const blobServiceClient = BlobServiceClient.fromConnectionString(storageAccountConnectionString);  // łączy się z Azure Storage
+  
+  const containerClient = blobServiceClient.getContainerClient('noodle-files');  // ustawia odpowiedni kontener
+  // const containerExists = await containerClient.exists()
+  // if ( !containerExists) { await containerClient.createIfNotExists(); }  // jeśli kontener nie istnieje, tworzy go
+
+  const blockBlobClient = containerClient.getBlockBlobClient(req.body.files);  // tu ustala lokalizacje i nazwę w serwerze
+  await blockBlobClient.uploadFile(req.files[0].path); // wybiera plik z urządzenia użytkownika
+});
+
+
+
+
+
+
+
+
+
+
+// wysłanie info  o rozwiązaniu do bazy danych 
+// plik SendSolutionPage.js
+app.post('/api/postsolutioninfo', async (req, res) => {
+  const request = new sql.Request();
+  const user_id = req.body.user_id_
+  const element_id = req.body.element_id_
+  const file_name = req.body.file_name_
+  const file_description = req.body.file_description_
+
+  let query = `INSERT INTO solutions (user_id, element_id, file_name, file_description) VALUES (${user_id}, ${element_id}, '${file_name}', '${file_description}')`;
+
+  request.query(query, (err, result) => {
+    if (err) {
+      console.error('Error querying database:', err);
+      res.status(500).send('Error querying database');
+    } else {
+      res.json(result.recordset);
+    }
+  });
+});
+
+
+
+
+
+
+
+
+
+
+// sprawdza czy użytkownik przesłał zadanie do danego elementu 
+// plik ElementPage.js
+app.post('/api/sentsolution', (req, res) => {
+  const request = new sql.Request();
+  const user_id = req.body.user_id_
+  const element_id = req.body.element_id_
+
+  let query = `SELECT COUNT(1) as sent_solution FROM solutions WHERE user_id=${user_id} AND element_id=${element_id}`;
 
   request.query(query, (err, result) => {
     if (err) {

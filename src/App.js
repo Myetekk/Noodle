@@ -10,6 +10,7 @@ import UserSettings from './Pages/UserSettings/UserSettings'
 import CreateCourse from './Pages/CreateCourse/CreateCourse'
 import CreateElement from './Pages/CreateElement/CreateElement'
 import EditElementPage from './Pages/EditElementPage/EditElementPage'
+import SendSolutionPage from './Pages/SendSolutionPage/SendSolutionPage'
 import ErrorPage from './Pages/ErrorPage/ErrorPage'
 import HeadAdmin from './Pages/HeadAdmin/HeadAdmin'
 import CourseMembers from './Pages/CourseMembers/CourseMembers'
@@ -40,6 +41,7 @@ function App() {
           <Route path="/create-course" element={<CreateCourse />} />
           <Route path="/create-element" element={<CreateElement />} />
           <Route path="/edit-element" element={<EditElementPage />} />
+          <Route path="/send-solution" element={<SendSolutionPage />} />
           <Route path="/error-page" element={<ErrorPage />} />
           <Route path="/headadmin" element={<HeadAdmin />} />
           <Route path="/course-members" element={<CourseMembers />} />
