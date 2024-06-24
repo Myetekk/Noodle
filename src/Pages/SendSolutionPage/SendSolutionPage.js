@@ -160,7 +160,8 @@ function SendSolutionPage() {
 
                         <div className="Logging-element" >
                             <button className='Main-button' 
-                                type='submit'>
+                                type='submit'
+                                onClick={() => navigate("/element")}>
                                     Prześlij
                             </button>
                         </div>
